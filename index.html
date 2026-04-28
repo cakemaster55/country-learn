@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a1612">
+<title>Atlas — Столицы мира</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg: #1a1612;
+    --bg-elev: #251f19;
+    --bg-card: #2d2620;
+    --paper: #f4ead5;
+    --paper-dim: #e8dcc0;
+    --ink: #1a1612;
+    --accent: #c8743a;
+    --accent-soft: #e8a060;
+    --gold: #d4a557;
+    --green: #6b8e4e;
+    --red: #b8453a;
+    --muted: #8a7a68;
+    --line: rgba(244,234,213,0.12);
+    --line-paper: rgba(26,22,18,0.15);
+  }
+
+  html, body {
+    overscroll-behavior: none;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--paper);
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    background-image:
+      radial-gradient(ellipse at top, rgba(200,116,58,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(107,142,78,0.08) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  .serif { font-family: 'Fraunces', serif; }
+
+  /* === HEADER === */
+  .header {
+    padding: 24px 20px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+  .logo span { color: var(--accent); }
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-elev);
+    padding: 4px;
+    border-radius: 100px;
+  }
+  .nav-tab {
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-tab.active {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  /* === SCREENS === */
+  .screen {
+    display: none;
+    padding: 20px;
+    padding-bottom: 100px;
+    animation: fadeIn 0.3s ease-out;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === COLLECTIONS PICKER === */
+  .collection-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+  .collection-icon {
+    font-size: 22px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  .collection-info { flex: 1; min-width: 0; cursor: pointer; }
+  .collection-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .collection-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .collection-name::after {
+    content: '⌄';
+    color: var(--accent);
+    font-size: 16px;
+  }
+  .collection-edit {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--paper);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .collection-edit:active { background: var(--bg-card); }
+
+  /* === HERO === */
+  .hero {
+    padding: 16px 0 20px;
+    text-align: center;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: 40px;
+    line-height: 0.95;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent-soft);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 280px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent-soft);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* === SEARCH / ADD === */
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .search-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 16px 20px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    background: var(--bg-card);
+  }
+  .search-input::placeholder { color: var(--muted); }
+
+  .suggestions {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    display: none;
+  }
+  .suggestions.show { display: block; }
+  .suggestion {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s;
+  }
+  .suggestion:last-child { border-bottom: none; }
+  .suggestion:active { background: var(--bg-elev); }
+  .suggestion-flag {
+    font-size: 22px;
+    margin-right: 12px;
+  }
+  .suggestion-info { flex: 1; }
+  .suggestion-country {
+    font-weight: 500;
+    font-size: 15px;
+  }
+  .suggestion-capital {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .suggestion-add {
+    color: var(--accent);
+    font-size: 22px;
+  }
+  .suggestion.added .suggestion-add { color: var(--green); }
+
+  /* === REGION CHIPS === */
+  .region-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .region-chip {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 12px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .region-chip:active {
+    background: var(--bg-card);
+    transform: scale(0.97);
+    border-color: var(--accent);
+  }
+  .region-chip-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .region-chip-text { flex: 1; min-width: 0; }
+  .region-chip-name {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .region-chip-count {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* === COUNTRY LIST === */
+  .country-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .country-item {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    animation: slideIn 0.3s ease-out;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .country-flag {
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border-radius: 12px;
+  }
+  .country-info { flex: 1; min-width: 0; }
+  .country-name {
+    font-weight: 500;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .country-cap {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .country-stat {
+    font-size: 11px;
+    color: var(--gold);
+    margin-top: 4px;
+    display: flex;
+    gap: 8px;
+  }
+  .remove-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .remove-btn:active { background: var(--red); color: var(--paper); border-color: var(--red); }
+
+  .empty-state {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--muted);
+    background: var(--bg-elev);
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+  }
+  .empty-emoji {
+    font-size: 44px;
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+  .empty-text {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-style: italic;
+  }
+
+  /* === BIG ACTION BUTTON === */
+  .start-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--accent) 0%, #a85a26 100%);
+    border: none;
+    border-radius: 18px;
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(200,116,58,0.3);
+    margin: 24px 0;
+    transition: transform 0.15s;
+    letter-spacing: -0.01em;
+  }
+  .start-btn:active { transform: scale(0.98); }
+  .start-btn:disabled {
+    opacity: 0.4;
+    box-shadow: none;
+  }
+  .start-btn .arrow {
+    display: inline-block;
+    margin-left: 8px;
+    transition: transform 0.2s;
+  }
+
+  /* === FLASHCARDS === */
+  .study-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .progress-text {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .progress-text b {
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .close-btn {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    color: var(--paper);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--bg-elev);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+  }
+
+  .card-stack {
+    perspective: 1000px;
+    height: 440px;
+    position: relative;
+    margin-bottom: 32px;
+  }
+  .card {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .card.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 24px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .card-front {
+    background: linear-gradient(160deg, var(--paper) 0%, var(--paper-dim) 100%);
+    color: var(--ink);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .card-back {
+    background: linear-gradient(160deg, #2d2620 0%, #1f1a15 100%);
+    color: var(--paper);
+    transform: rotateY(180deg);
+    border: 1px solid var(--line);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .card-front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(200,116,58,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(107,142,78,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .card-front::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(26,22,18,0.15);
+    border-radius: 16px;
+    pointer-events: none;
+  }
+
+  .card-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.6;
+    font-weight: 600;
+    z-index: 1;
+  }
+
+  .card-flag {
+    font-size: 80px;
+    margin-bottom: 8px;
+    z-index: 1;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+  }
+  .card-landmark {
+    font-size: 56px;
+    margin-bottom: 16px;
+    z-index: 1;
+    line-height: 1;
+  }
+  .card-country {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    z-index: 1;
+    padding: 0 12px;
+  }
+  .card-back .card-eyebrow { color: var(--accent-soft); opacity: 1; }
+  .card-capital {
+    font-family: 'Fraunces', serif;
+    font-size: 40px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--accent-soft);
+    line-height: 1.05;
+    margin-bottom: 12px;
+    z-index: 1;
+    padding: 0 12px;
+  }
+  .card-capital-of {
+    font-size: 14px;
+    color: var(--muted);
+    z-index: 1;
+  }
+  .card-tap-hint {
+    position: absolute;
+    bottom: 20px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+  .card-front .card-tap-hint { color: rgba(26,22,18,0.4); }
+
+  .card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .action-btn {
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: var(--bg-elev);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .action-btn:active { transform: scale(0.96); }
+  .action-btn.know {
+    background: linear-gradient(135deg, rgba(107,142,78,0.2), rgba(107,142,78,0.1));
+    border-color: var(--green);
+    color: #a8c585;
+  }
+  .action-btn.dont {
+    background: linear-gradient(135deg, rgba(184,69,58,0.2), rgba(184,69,58,0.1));
+    border-color: var(--red);
+    color: #d88a82;
+  }
+  .action-btn .icon { font-size: 22px; }
+  .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* === RESULTS === */
+  .results {
+    text-align: center;
+    padding: 40px 0;
+  }
+  .results-emoji { font-size: 72px; margin-bottom: 16px; }
+  .results-title {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .results-sub {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+  .results-stats {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .results-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .results-row:last-child { border-bottom: none; }
+  .results-row-label {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .results-row-val {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .results-row.know .results-row-val { color: #a8c585; }
+  .results-row.dont .results-row-val { color: #d88a82; }
+
+  /* === SETTINGS === */
+  .setting-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .setting-label {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .setting-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .toggle {
+    width: 48px;
+    height: 28px;
+    background: var(--bg-card);
+    border-radius: 100px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .toggle.on { background: var(--accent); border-color: var(--accent); }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background: var(--paper);
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle.on::after { transform: translateX(20px); }
+
+  .danger-btn {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--red);
+    color: var(--red);
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .danger-btn:active { background: var(--red); color: var(--paper); }
+
+  /* === MODAL / SHEET === */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 200;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeBg 0.25s ease-out;
+  }
+  .modal-overlay.show { display: flex; }
+  @keyframes fadeBg { from { opacity: 0; } to { opacity: 1; } }
+
+  .sheet {
+    width: 100%;
+    max-width: 430px;
+    max-height: 85vh;
+    background: var(--bg-elev);
+    border-radius: 24px 24px 0 0;
+    padding: 8px 20px 32px;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-top: 1px solid var(--line);
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--muted);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+    opacity: 0.4;
+  }
+  .sheet-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .sheet-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .collection-item {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .collection-item:active { transform: scale(0.98); }
+  .collection-item.active {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(200,116,58,0.15), rgba(200,116,58,0.05));
+  }
+  .collection-item-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-elev);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .collection-item-info { flex: 1; min-width: 0; }
+  .collection-item-name {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .collection-item-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .collection-item-actions {
+    display: flex;
+    gap: 6px;
+  }
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-btn:active { background: var(--bg-elev); color: var(--paper); }
+  .icon-btn.danger:active { background: var(--red); color: var(--paper); border-color: var(--red); }
+
+  .text-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    outline: none;
+    margin-bottom: 12px;
+  }
+  .text-input:focus { border-color: var(--accent); }
+
+  .icon-picker {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .icon-option {
+    aspect-ratio: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-option.selected {
+    border-color: var(--accent);
+    background: rgba(200,116,58,0.15);
+  }
+
+  .sheet-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    margin-top: 8px;
+  }
+  .sheet-btn.primary {
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .sheet-btn.secondary {
+    background: var(--bg-card);
+    color: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .sheet-btn:active { transform: scale(0.98); }
+  .sheet-btn.primary:disabled { opacity: 0.4; }
+
+  .new-collection-btn {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px dashed var(--accent);
+    color: var(--accent);
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .new-collection-btn:active { background: rgba(200,116,58,0.1); }
+
+  .ornament {
+    text-align: center;
+    color: var(--muted);
+    margin: 16px 0;
+    letter-spacing: 1em;
+    font-size: 12px;
+  }
+
+  .swipe-hint {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: -16px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  @media (min-width: 480px) {
+    body {
+      max-width: 430px;
+      margin: 0 auto;
+      box-shadow: 0 0 60px rgba(0,0,0,0.5);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Atlas<span>·</span></div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" data-tab="home">Список</button>
+    <button class="nav-tab" data-tab="study">Учить</button>
+    <button class="nav-tab" data-tab="settings">⚙</button>
+  </nav>
+</header>
+
+<!-- HOME / LIST SCREEN -->
+<main id="screen-home" class="screen active">
+
+  <!-- Active collection bar -->
+  <div class="collection-bar">
+    <div class="collection-icon" id="coll-icon">📚</div>
+    <div class="collection-info" id="coll-switcher">
+      <div class="collection-label">Текущая коллекция</div>
+      <div class="collection-name" id="coll-name">—</div>
+    </div>
+    <button class="collection-edit" id="coll-edit-btn" title="Управление">≡</button>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Изучай мир</div>
+    <h1 class="hero-title">Столицы, <em>которые</em> ты выбрал</h1>
+    <p class="hero-sub">Создавай свои списки или учи целые регионы</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat">
+      <span class="stat-num" id="stat-total">0</span>
+      <div class="stat-label">В списке</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-known">0</span>
+      <div class="stat-label">Знаю</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-streak">0</span>
+      <div class="stat-label">Серия</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Готовые регионы</h2>
+  <div class="region-grid" id="region-grid"></div>
+
+  <h2 class="section-title">Добавить вручную</h2>
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="search" placeholder="Начни печатать, например: домин..." autocomplete="off">
+    <div class="suggestions" id="suggestions"></div>
+  </div>
+
+  <div class="ornament">· · ·</div>
+
+  <h2 class="section-title">Мой список <span style="color:var(--muted);font-size:14px;font-weight:400;margin-left:auto" id="list-count"></span></h2>
+  <div class="country-list" id="country-list"></div>
+
+  <button class="start-btn" id="start-study-btn" disabled>
+    Начать изучение <span class="arrow">→</span>
+  </button>
+</main>
+
+<!-- STUDY SCREEN -->
+<main id="screen-study" class="screen">
+  <div class="study-header">
+    <div class="progress-text">Карточка <b id="card-current">1</b> из <b id="card-total">10</b></div>
+    <button class="close-btn" id="close-study">✕</button>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+  </div>
+
+  <div class="card-stack">
+    <div class="card" id="card">
+      <div class="card-face card-front">
+        <div class="card-eyebrow">Страна</div>
+        <div class="card-flag" id="card-flag">🌍</div>
+        <div class="card-country" id="card-country">—</div>
+        <div class="card-tap-hint">Нажми, чтобы увидеть столицу</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-eyebrow">Столица</div>
+        <div class="card-landmark" id="card-landmark">🏛️</div>
+        <div class="card-capital" id="card-capital">—</div>
+        <div class="card-capital-of" id="card-capital-of">столица —</div>
+        <div class="card-tap-hint">Нажми, чтобы вернуться</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="swipe-hint">Знаешь ответ?</p>
+
+  <div class="card-actions">
+    <button class="action-btn dont" id="btn-dont" disabled>
+      <span class="icon">↻</span>
+      Повторить
+    </button>
+    <button class="action-btn know" id="btn-know" disabled>
+      <span class="icon">✓</span>
+      Запомнил
+    </button>
+  </div>
+</main>
+
+<!-- RESULTS SCREEN -->
+<main id="screen-results" class="screen">
+  <div class="results">
+    <div class="results-emoji" id="results-emoji">🎉</div>
+    <h1 class="results-title" id="results-title">Отлично!</h1>
+    <p class="results-sub" id="results-sub">Сессия завершена</p>
+  </div>
+  <div class="results-stats">
+    <div class="results-row know">
+      <span class="results-row-label">Запомнил</span>
+      <span class="results-row-val" id="res-know">0</span>
+    </div>
+    <div class="results-row dont">
+      <span class="results-row-label">Нужно повторить</span>
+      <span class="results-row-val" id="res-dont">0</span>
+    </div>
+    <div class="results-row">
+      <span class="results-row-label">Точность</span>
+      <span class="results-row-val" id="res-acc">0%</span>
+    </div>
+  </div>
+  <button class="start-btn" id="study-again">
+    Учить ещё раз <span class="arrow">→</span>
+  </button>
+  <button class="action-btn" style="width:100%;margin-top:12px" id="back-home">Вернуться к списку</button>
+</main>
+
+<!-- SETTINGS SCREEN -->
+<main id="screen-settings" class="screen">
+  <h2 class="section-title">Настройки</h2>
+
+  <div class="setting-card">
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Перемешивать карточки</div>
+        <div class="setting-desc">Случайный порядок при изучении</div>
+      </div>
+      <div class="toggle on" id="toggle-shuffle"></div>
+    </div>
+  </div>
+
+  <div class="setting-card">
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Только незнакомые</div>
+        <div class="setting-desc">Показывать только те, что ещё не выучены</div>
+      </div>
+      <div class="toggle" id="toggle-unknown"></div>
+    </div>
+  </div>
+
+  <div class="setting-card">
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">От страны к столице</div>
+        <div class="setting-desc">Иначе наоборот: от столицы к стране</div>
+      </div>
+      <div class="toggle on" id="toggle-direction"></div>
+    </div>
+  </div>
+
+  <div class="ornament">· · ·</div>
+
+  <button class="danger-btn" id="reset-progress" style="margin-bottom:10px">
+    Сбросить прогресс текущей коллекции
+  </button>
+  <button class="danger-btn" id="reset-all">
+    Удалить все коллекции
+  </button>
+
+  <p class="swipe-hint" style="margin-top:24px">Atlas · v1.1 · Сделано с ☕</p>
+</main>
+
+<!-- ============================================================ -->
+<!-- MODAL: Collections Manager -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="modal-collections">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title">Мои коллекции</h3>
+    <p class="sheet-sub">Переключайся между списками или создавай новые</p>
+    <button class="new-collection-btn" id="new-collection-btn">+ Создать новую коллекцию</button>
+    <div id="collections-list"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: Create / Edit Collection -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="modal-edit">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title" id="edit-title">Новая коллекция</h3>
+    <p class="sheet-sub">Дай ей имя и выбери иконку</p>
+    <input type="text" class="text-input" id="edit-name" placeholder="Название (например: Экзамен по географии)" maxlength="40">
+    <div class="icon-picker" id="icon-picker"></div>
+    <button class="sheet-btn primary" id="edit-save">Сохранить</button>
+    <button class="sheet-btn secondary" id="edit-cancel">Отмена</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// COUNTRIES DATABASE — with regions
+// r = region: eu (Europe), as (Asia), af (Africa), na (N.America),
+// sa (S.America), oc (Oceania), me (Middle East), cis (CIS/post-Soviet)
+// Some countries belong to multiple — picked the most useful primary.
+// ============================================================
+const COUNTRIES = [
+  {n:"Австралия",c:"Канберра",f:"🇦🇺",l:"🦘",r:["oc"]},
+  {n:"Австрия",c:"Вена",f:"🇦🇹",l:"🎼",r:["eu"]},
+  {n:"Азербайджан",c:"Баку",f:"🇦🇿",l:"🔥",r:["as","cis"]},
+  {n:"Албания",c:"Тирана",f:"🇦🇱",l:"🦅",r:["eu"]},
+  {n:"Алжир",c:"Алжир",f:"🇩🇿",l:"🕌",r:["af"]},
+  {n:"Ангола",c:"Луанда",f:"🇦🇴",l:"🌅",r:["af"]},
+  {n:"Андорра",c:"Андорра-ла-Велья",f:"🇦🇩",l:"⛰️",r:["eu"]},
+  {n:"Антигуа и Барбуда",c:"Сент-Джонс",f:"🇦🇬",l:"🏝️",r:["na"]},
+  {n:"Аргентина",c:"Буэнос-Айрес",f:"🇦🇷",l:"💃",r:["sa"]},
+  {n:"Армения",c:"Ереван",f:"🇦🇲",l:"⛰️",r:["as","cis"]},
+  {n:"Афганистан",c:"Кабул",f:"🇦🇫",l:"🕌",r:["as"]},
+  {n:"Багамы",c:"Нассау",f:"🇧🇸",l:"🏖️",r:["na"]},
+  {n:"Бангладеш",c:"Дакка",f:"🇧🇩",l:"🛕",r:["as"]},
+  {n:"Барбадос",c:"Бриджтаун",f:"🇧🇧",l:"🏝️",r:["na"]},
+  {n:"Бахрейн",c:"Манама",f:"🇧🇭",l:"🕌",r:["me"]},
+  {n:"Беларусь",c:"Минск",f:"🇧🇾",l:"🏛️",r:["eu","cis"]},
+  {n:"Белиз",c:"Бельмопан",f:"🇧🇿",l:"🌴",r:["na"]},
+  {n:"Бельгия",c:"Брюссель",f:"🇧🇪",l:"🍫",r:["eu"]},
+  {n:"Бенин",c:"Порто-Ново",f:"🇧🇯",l:"🌴",r:["af"]},
+  {n:"Болгария",c:"София",f:"🇧🇬",l:"⛪",r:["eu"]},
+  {n:"Боливия",c:"Сукре",f:"🇧🇴",l:"🏔️",r:["sa"]},
+  {n:"Босния и Герцеговина",c:"Сараево",f:"🇧🇦",l:"🌉",r:["eu"]},
+  {n:"Ботсвана",c:"Габороне",f:"🇧🇼",l:"🦒",r:["af"]},
+  {n:"Бразилия",c:"Бразилиа",f:"🇧🇷",l:"⚽",r:["sa"]},
+  {n:"Бруней",c:"Бандар-Сери-Бегаван",f:"🇧🇳",l:"🕌",r:["as"]},
+  {n:"Буркина-Фасо",c:"Уагадугу",f:"🇧🇫",l:"🏜️",r:["af"]},
+  {n:"Бурунди",c:"Гитега",f:"🇧🇮",l:"🌳",r:["af"]},
+  {n:"Бутан",c:"Тхимпху",f:"🇧🇹",l:"🏔️",r:["as"]},
+  {n:"Вануату",c:"Порт-Вила",f:"🇻🇺",l:"🌋",r:["oc"]},
+  {n:"Ватикан",c:"Ватикан",f:"🇻🇦",l:"⛪",r:["eu"]},
+  {n:"Великобритания",c:"Лондон",f:"🇬🇧",l:"🎡",r:["eu"]},
+  {n:"Венгрия",c:"Будапешт",f:"🇭🇺",l:"♨️",r:["eu"]},
+  {n:"Венесуэла",c:"Каракас",f:"🇻🇪",l:"🏔️",r:["sa"]},
+  {n:"Восточный Тимор",c:"Дили",f:"🇹🇱",l:"🏝️",r:["as"]},
+  {n:"Вьетнам",c:"Ханой",f:"🇻🇳",l:"🍜",r:["as"]},
+  {n:"Габон",c:"Либревиль",f:"🇬🇦",l:"🌴",r:["af"]},
+  {n:"Гаити",c:"Порт-о-Пренс",f:"🇭🇹",l:"🏝️",r:["na"]},
+  {n:"Гайана",c:"Джорджтаун",f:"🇬🇾",l:"🌳",r:["sa"]},
+  {n:"Гамбия",c:"Банжул",f:"🇬🇲",l:"🏞️",r:["af"]},
+  {n:"Гана",c:"Аккра",f:"🇬🇭",l:"🥁",r:["af"]},
+  {n:"Гватемала",c:"Гватемала",f:"🇬🇹",l:"🌋",r:["na"]},
+  {n:"Гвинея",c:"Конакри",f:"🇬🇳",l:"🥁",r:["af"]},
+  {n:"Гвинея-Бисау",c:"Бисау",f:"🇬🇼",l:"🌴",r:["af"]},
+  {n:"Германия",c:"Берлин",f:"🇩🇪",l:"🏰",r:["eu"]},
+  {n:"Гондурас",c:"Тегусигальпа",f:"🇭🇳",l:"🌋",r:["na"]},
+  {n:"Гренада",c:"Сент-Джорджес",f:"🇬🇩",l:"🏝️",r:["na"]},
+  {n:"Греция",c:"Афины",f:"🇬🇷",l:"🏛️",r:["eu"]},
+  {n:"Грузия",c:"Тбилиси",f:"🇬🇪",l:"🍷",r:["as","cis"]},
+  {n:"Дания",c:"Копенгаген",f:"🇩🇰",l:"🧜‍♀️",r:["eu"]},
+  {n:"Джибути",c:"Джибути",f:"🇩🇯",l:"🐪",r:["af"]},
+  {n:"Доминика",c:"Розо",f:"🇩🇲",l:"🌋",r:["na"]},
+  {n:"Доминиканская Республика",c:"Санто-Доминго",f:"🇩🇴",l:"🌴",r:["na"]},
+  {n:"Египет",c:"Каир",f:"🇪🇬",l:"🔺",r:["af","me"]},
+  {n:"Замбия",c:"Лусака",f:"🇿🇲",l:"🦁",r:["af"]},
+  {n:"Зимбабве",c:"Хараре",f:"🇿🇼",l:"🦏",r:["af"]},
+  {n:"Израиль",c:"Иерусалим",f:"🇮🇱",l:"🕍",r:["me"]},
+  {n:"Индия",c:"Нью-Дели",f:"🇮🇳",l:"🕌",r:["as"]},
+  {n:"Индонезия",c:"Джакарта",f:"🇮🇩",l:"🌋",r:["as"]},
+  {n:"Иордания",c:"Амман",f:"🇯🇴",l:"🏜️",r:["me"]},
+  {n:"Ирак",c:"Багдад",f:"🇮🇶",l:"🕌",r:["me"]},
+  {n:"Иран",c:"Тегеран",f:"🇮🇷",l:"🕌",r:["me"]},
+  {n:"Ирландия",c:"Дублин",f:"🇮🇪",l:"🍀",r:["eu"]},
+  {n:"Исландия",c:"Рейкьявик",f:"🇮🇸",l:"🌋",r:["eu"]},
+  {n:"Испания",c:"Мадрид",f:"🇪🇸",l:"💃",r:["eu"]},
+  {n:"Италия",c:"Рим",f:"🇮🇹",l:"🏛️",r:["eu"]},
+  {n:"Йемен",c:"Сана",f:"🇾🇪",l:"🏜️",r:["me"]},
+  {n:"Кабо-Верде",c:"Прая",f:"🇨🇻",l:"🏝️",r:["af"]},
+  {n:"Казахстан",c:"Астана",f:"🇰🇿",l:"🏛️",r:["as","cis"]},
+  {n:"Камбоджа",c:"Пномпень",f:"🇰🇭",l:"🛕",r:["as"]},
+  {n:"Камерун",c:"Яунде",f:"🇨🇲",l:"🦁",r:["af"]},
+  {n:"Канада",c:"Оттава",f:"🇨🇦",l:"🍁",r:["na"]},
+  {n:"Катар",c:"Доха",f:"🇶🇦",l:"🏙️",r:["me"]},
+  {n:"Кения",c:"Найроби",f:"🇰🇪",l:"🦁",r:["af"]},
+  {n:"Кипр",c:"Никосия",f:"🇨🇾",l:"🏖️",r:["eu"]},
+  {n:"Киргизия",c:"Бишкек",f:"🇰🇬",l:"⛰️",r:["as","cis"]},
+  {n:"Кирибати",c:"Тарава",f:"🇰🇮",l:"🏝️",r:["oc"]},
+  {n:"Китай",c:"Пекин",f:"🇨🇳",l:"🏯",r:["as"]},
+  {n:"Колумбия",c:"Богота",f:"🇨🇴",l:"☕",r:["sa"]},
+  {n:"Коморы",c:"Морони",f:"🇰🇲",l:"🌋",r:["af"]},
+  {n:"Конго",c:"Браззавиль",f:"🇨🇬",l:"🌳",r:["af"]},
+  {n:"ДР Конго",c:"Киншаса",f:"🇨🇩",l:"🦍",r:["af"]},
+  {n:"Северная Корея",c:"Пхеньян",f:"🇰🇵",l:"🏛️",r:["as"]},
+  {n:"Южная Корея",c:"Сеул",f:"🇰🇷",l:"🌸",r:["as"]},
+  {n:"Косово",c:"Приштина",f:"🇽🇰",l:"⛪",r:["eu"]},
+  {n:"Коста-Рика",c:"Сан-Хосе",f:"🇨🇷",l:"🌋",r:["na"]},
+  {n:"Кот-д’Ивуар",c:"Ямусукро",f:"🇨🇮",l:"⛪",r:["af"]},
+  {n:"Куба",c:"Гавана",f:"🇨🇺",l:"🚗",r:["na"]},
+  {n:"Кувейт",c:"Эль-Кувейт",f:"🇰🇼",l:"🕌",r:["me"]},
+  {n:"Лаос",c:"Вьентьян",f:"🇱🇦",l:"🛕",r:["as"]},
+  {n:"Латвия",c:"Рига",f:"🇱🇻",l:"⛪",r:["eu"]},
+  {n:"Лесото",c:"Масеру",f:"🇱🇸",l:"⛰️",r:["af"]},
+  {n:"Либерия",c:"Монровия",f:"🇱🇷",l:"🌴",r:["af"]},
+  {n:"Ливан",c:"Бейрут",f:"🇱🇧",l:"🌲",r:["me"]},
+  {n:"Ливия",c:"Триполи",f:"🇱🇾",l:"🏜️",r:["af"]},
+  {n:"Литва",c:"Вильнюс",f:"🇱🇹",l:"⛪",r:["eu"]},
+  {n:"Лихтенштейн",c:"Вадуц",f:"🇱🇮",l:"🏰",r:["eu"]},
+  {n:"Люксембург",c:"Люксембург",f:"🇱🇺",l:"🏰",r:["eu"]},
+  {n:"Маврикий",c:"Порт-Луи",f:"🇲🇺",l:"🏝️",r:["af"]},
+  {n:"Мавритания",c:"Нуакшот",f:"🇲🇷",l:"🏜️",r:["af"]},
+  {n:"Мадагаскар",c:"Антананариву",f:"🇲🇬",l:"🦒",r:["af"]},
+  {n:"Малави",c:"Лилонгве",f:"🇲🇼",l:"🌳",r:["af"]},
+  {n:"Малайзия",c:"Куала-Лумпур",f:"🇲🇾",l:"🏙️",r:["as"]},
+  {n:"Мали",c:"Бамако",f:"🇲🇱",l:"🕌",r:["af"]},
+  {n:"Мальдивы",c:"Мале",f:"🇲🇻",l:"🏝️",r:["as"]},
+  {n:"Мальта",c:"Валлетта",f:"🇲🇹",l:"🏰",r:["eu"]},
+  {n:"Марокко",c:"Рабат",f:"🇲🇦",l:"🕌",r:["af"]},
+  {n:"Маршалловы Острова",c:"Маджуро",f:"🇲🇭",l:"🏝️",r:["oc"]},
+  {n:"Мексика",c:"Мехико",f:"🇲🇽",l:"🌵",r:["na"]},
+  {n:"Мозамбик",c:"Мапуту",f:"🇲🇿",l:"🏖️",r:["af"]},
+  {n:"Молдавия",c:"Кишинёв",f:"🇲🇩",l:"🍇",r:["eu","cis"]},
+  {n:"Монако",c:"Монако",f:"🇲🇨",l:"🎰",r:["eu"]},
+  {n:"Монголия",c:"Улан-Батор",f:"🇲🇳",l:"🐎",r:["as"]},
+  {n:"Мьянма",c:"Нейпьидо",f:"🇲🇲",l:"🛕",r:["as"]},
+  {n:"Намибия",c:"Виндхук",f:"🇳🇦",l:"🏜️",r:["af"]},
+  {n:"Науру",c:"Ярен",f:"🇳🇷",l:"🏝️",r:["oc"]},
+  {n:"Непал",c:"Катманду",f:"🇳🇵",l:"🏔️",r:["as"]},
+  {n:"Нигер",c:"Ниамей",f:"🇳🇪",l:"🏜️",r:["af"]},
+  {n:"Нигерия",c:"Абуджа",f:"🇳🇬",l:"🥁",r:["af"]},
+  {n:"Нидерланды",c:"Амстердам",f:"🇳🇱",l:"🌷",r:["eu"]},
+  {n:"Никарагуа",c:"Манагуа",f:"🇳🇮",l:"🌋",r:["na"]},
+  {n:"Новая Зеландия",c:"Веллингтон",f:"🇳🇿",l:"🥝",r:["oc"]},
+  {n:"Норвегия",c:"Осло",f:"🇳🇴",l:"⛵",r:["eu"]},
+  {n:"ОАЭ",c:"Абу-Даби",f:"🇦🇪",l:"🏙️",r:["me"]},
+  {n:"Оман",c:"Маскат",f:"🇴🇲",l:"🕌",r:["me"]},
+  {n:"Пакистан",c:"Исламабад",f:"🇵🇰",l:"🕌",r:["as"]},
+  {n:"Палау",c:"Нгерулмуд",f:"🇵🇼",l:"🏝️",r:["oc"]},
+  {n:"Панама",c:"Панама",f:"🇵🇦",l:"⛴️",r:["na"]},
+  {n:"Папуа — Новая Гвинея",c:"Порт-Морсби",f:"🇵🇬",l:"🌋",r:["oc"]},
+  {n:"Парагвай",c:"Асунсьон",f:"🇵🇾",l:"🌳",r:["sa"]},
+  {n:"Перу",c:"Лима",f:"🇵🇪",l:"🏔️",r:["sa"]},
+  {n:"Польша",c:"Варшава",f:"🇵🇱",l:"🏰",r:["eu"]},
+  {n:"Португалия",c:"Лиссабон",f:"🇵🇹",l:"🚋",r:["eu"]},
+  {n:"Россия",c:"Москва",f:"🇷🇺",l:"🏛️",r:["eu","cis"]},
+  {n:"Руанда",c:"Кигали",f:"🇷🇼",l:"🦍",r:["af"]},
+  {n:"Румыния",c:"Бухарест",f:"🇷🇴",l:"🏰",r:["eu"]},
+  {n:"Сальвадор",c:"Сан-Сальвадор",f:"🇸🇻",l:"🌋",r:["na"]},
+  {n:"Самоа",c:"Апиа",f:"🇼🇸",l:"🏝️",r:["oc"]},
+  {n:"Сан-Марино",c:"Сан-Марино",f:"🇸🇲",l:"🏰",r:["eu"]},
+  {n:"Сан-Томе и Принсипи",c:"Сан-Томе",f:"🇸🇹",l:"🏝️",r:["af"]},
+  {n:"Саудовская Аравия",c:"Эр-Рияд",f:"🇸🇦",l:"🕋",r:["me"]},
+  {n:"Северная Македония",c:"Скопье",f:"🇲🇰",l:"⛪",r:["eu"]},
+  {n:"Сейшельские Острова",c:"Виктория",f:"🇸🇨",l:"🏝️",r:["af"]},
+  {n:"Сенегал",c:"Дакар",f:"🇸🇳",l:"🥁",r:["af"]},
+  {n:"Сент-Винсент и Гренадины",c:"Кингстаун",f:"🇻🇨",l:"🌋",r:["na"]},
+  {n:"Сент-Китс и Невис",c:"Бастер",f:"🇰🇳",l:"🏝️",r:["na"]},
+  {n:"Сент-Люсия",c:"Кастри",f:"🇱🇨",l:"🏔️",r:["na"]},
+  {n:"Сербия",c:"Белград",f:"🇷🇸",l:"🏰",r:["eu"]},
+  {n:"Сингапур",c:"Сингапур",f:"🇸🇬",l:"🦁",r:["as"]},
+  {n:"Сирия",c:"Дамаск",f:"🇸🇾",l:"🕌",r:["me"]},
+  {n:"Словакия",c:"Братислава",f:"🇸🇰",l:"🏰",r:["eu"]},
+  {n:"Словения",c:"Любляна",f:"🇸🇮",l:"🐉",r:["eu"]},
+  {n:"Соломоновы Острова",c:"Хониара",f:"🇸🇧",l:"🏝️",r:["oc"]},
+  {n:"Сомали",c:"Могадишо",f:"🇸🇴",l:"🐪",r:["af"]},
+  {n:"Судан",c:"Хартум",f:"🇸🇩",l:"🏜️",r:["af"]},
+  {n:"Суринам",c:"Парамарибо",f:"🇸🇷",l:"🌳",r:["sa"]},
+  {n:"США",c:"Вашингтон",f:"🇺🇸",l:"🗽",r:["na"]},
+  {n:"Сьерра-Леоне",c:"Фритаун",f:"🇸🇱",l:"🌴",r:["af"]},
+  {n:"Таджикистан",c:"Душанбе",f:"🇹🇯",l:"⛰️",r:["as","cis"]},
+  {n:"Таиланд",c:"Бангкок",f:"🇹🇭",l:"🛕",r:["as"]},
+  {n:"Танзания",c:"Додома",f:"🇹🇿",l:"🦒",r:["af"]},
+  {n:"Того",c:"Ломе",f:"🇹🇬",l:"🌴",r:["af"]},
+  {n:"Тонга",c:"Нукуалофа",f:"🇹🇴",l:"🏝️",r:["oc"]},
+  {n:"Тринидад и Тобаго",c:"Порт-оф-Спейн",f:"🇹🇹",l:"🥁",r:["na"]},
+  {n:"Тувалу",c:"Фунафути",f:"🇹🇻",l:"🏝️",r:["oc"]},
+  {n:"Тунис",c:"Тунис",f:"🇹🇳",l:"🕌",r:["af"]},
+  {n:"Туркмения",c:"Ашхабад",f:"🇹🇲",l:"🏛️",r:["as","cis"]},
+  {n:"Турция",c:"Анкара",f:"🇹🇷",l:"🕌",r:["as","me"]},
+  {n:"Уганда",c:"Кампала",f:"🇺🇬",l:"🦍",r:["af"]},
+  {n:"Узбекистан",c:"Ташкент",f:"🇺🇿",l:"🕌",r:["as","cis"]},
+  {n:"Украина",c:"Киев",f:"🇺🇦",l:"⛪",r:["eu","cis"]},
+  {n:"Уругвай",c:"Монтевидео",f:"🇺🇾",l:"🏖️",r:["sa"]},
+  {n:"Микронезия",c:"Паликир",f:"🇫🇲",l:"🏝️",r:["oc"]},
+  {n:"Фиджи",c:"Сува",f:"🇫🇯",l:"🏝️",r:["oc"]},
+  {n:"Филиппины",c:"Манила",f:"🇵🇭",l:"🌴",r:["as"]},
+  {n:"Финляндия",c:"Хельсинки",f:"🇫🇮",l:"❄️",r:["eu"]},
+  {n:"Франция",c:"Париж",f:"🇫🇷",l:"🗼",r:["eu"]},
+  {n:"Хорватия",c:"Загреб",f:"🇭🇷",l:"⛪",r:["eu"]},
+  {n:"ЦАР",c:"Банги",f:"🇨🇫",l:"🌳",r:["af"]},
+  {n:"Чад",c:"Нджамена",f:"🇹🇩",l:"🏜️",r:["af"]},
+  {n:"Черногория",c:"Подгорица",f:"🇲🇪",l:"⛰️",r:["eu"]},
+  {n:"Чехия",c:"Прага",f:"🇨🇿",l:"🏰",r:["eu"]},
+  {n:"Чили",c:"Сантьяго",f:"🇨🇱",l:"🏔️",r:["sa"]},
+  {n:"Швейцария",c:"Берн",f:"🇨🇭",l:"⛰️",r:["eu"]},
+  {n:"Швеция",c:"Стокгольм",f:"🇸🇪",l:"🚢",r:["eu"]},
+  {n:"Шри-Ланка",c:"Коломбо",f:"🇱🇰",l:"🐘",r:["as"]},
+  {n:"Эквадор",c:"Кито",f:"🇪🇨",l:"🌋",r:["sa"]},
+  {n:"Экваториальная Гвинея",c:"Малабо",f:"🇬🇶",l:"🌴",r:["af"]},
+  {n:"Эритрея",c:"Асмэра",f:"🇪🇷",l:"🏜️",r:["af"]},
+  {n:"Эсватини",c:"Мбабане",f:"🇸🇿",l:"⛰️",r:["af"]},
+  {n:"Эстония",c:"Таллин",f:"🇪🇪",l:"🏰",r:["eu"]},
+  {n:"Эфиопия",c:"Аддис-Абеба",f:"🇪🇹",l:"☕",r:["af"]},
+  {n:"ЮАР",c:"Претория",f:"🇿🇦",l:"🦁",r:["af"]},
+  {n:"Южный Судан",c:"Джуба",f:"🇸🇸",l:"🏞️",r:["af"]},
+  {n:"Ямайка",c:"Кингстон",f:"🇯🇲",l:"🥁",r:["na"]},
+  {n:"Япония",c:"Токио",f:"🇯🇵",l:"🗾",r:["as"]}
+];
+
+// ============================================================
+// REGIONS DEFINITION
+// ============================================================
+const REGIONS = [
+  { id: "eu", name: "Европа", icon: "🏰" },
+  { id: "as", name: "Азия", icon: "🛕" },
+  { id: "af", name: "Африка", icon: "🦁" },
+  { id: "na", name: "Северная Америка", icon: "🗽" },
+  { id: "sa", name: "Южная Америка", icon: "🌋" },
+  { id: "oc", name: "Океания", icon: "🏝️" },
+  { id: "me", name: "Ближний Восток", icon: "🕌" },
+  { id: "cis", name: "СНГ", icon: "🐻" }
+];
+
+const ICON_OPTIONS = ["📚","🌍","🌎","🌏","🗺️","🧭","🏛️","🏰","🛕","🕌","⛪","🗼","🗽","🏯","🌋","🏔️","⛰️","🏝️","🏜️","🦁","🦒","🐪","🐘","🐎","☕","🍷","🌴","🌷","⭐","🔥","💎","🎯","📖","✏️","🎓","🧩"];
+
+// ============================================================
+// STATE & STORAGE
+// Multiple collections architecture
+// ============================================================
+const STORAGE_KEY_DATA = 'atlas:data:v2';
+const STORAGE_KEY_LEGACY_LIST = 'atlas:list';
+const STORAGE_KEY_LEGACY_PROGRESS = 'atlas:progress';
+
+// Each collection: { id, name, icon, list:[country names], progress:{name:{known,lastSeen}} }
+let state = {
+  collections: [],     // array of collection objects
+  activeId: null,      // id of active collection
+  settings: { shuffle: true, onlyUnknown: false, directionCountryToCapital: true },
+  streak: 0,
+  // study session
+  studyDeck: [],
+  studyIndex: 0,
+  studyResults: { know: 0, dont: 0 }
+};
+
+function genId() {
+  return 'c_' + Math.random().toString(36).slice(2, 10);
+}
+
+function getActiveCollection() {
+  return state.collections.find(c => c.id === state.activeId) || state.collections[0];
+}
+
+function activeList() {
+  const c = getActiveCollection();
+  return c ? c.list : [];
+}
+function activeProgress() {
+  const c = getActiveCollection();
+  return c ? c.progress : {};
+}
+
+async function loadState() {
+  try {
+    const data = await window.storage.get(STORAGE_KEY_DATA);
+    if (data) {
+      const parsed = JSON.parse(data.value);
+      state.collections = parsed.collections || [];
+      state.activeId = parsed.activeId;
+      state.settings = { ...state.settings, ...(parsed.settings || {}) };
+      state.streak = parsed.streak || 0;
+    }
+  } catch(e) {}
+
+  // Migrate from legacy v1 if needed
+  if (state.collections.length === 0) {
+    let legacyList = [];
+    let legacyProgress = {};
+    try {
+      const ll = await window.storage.get(STORAGE_KEY_LEGACY_LIST);
+      if (ll) legacyList = JSON.parse(ll.value);
+    } catch(e) {}
+    try {
+      const lp = await window.storage.get(STORAGE_KEY_LEGACY_PROGRESS);
+      if (lp) legacyProgress = JSON.parse(lp.value);
+    } catch(e) {}
+
+    if (legacyList.length > 0) {
+      state.collections = [{
+        id: genId(), name: "Мой список", icon: "📚",
+        list: legacyList, progress: legacyProgress
+      }];
+    } else {
+      // Create default empty collection
+      state.collections = [{
+        id: genId(), name: "Мой список", icon: "📚",
+        list: [], progress: {}
+      }];
+    }
+    state.activeId = state.collections[0].id;
+    await saveData();
+  }
+
+  if (!state.activeId || !state.collections.find(c => c.id === state.activeId)) {
+    state.activeId = state.collections[0]?.id;
+  }
+}
+
+async function saveData() {
+  try {
+    await window.storage.set(STORAGE_KEY_DATA, JSON.stringify({
+      collections: state.collections,
+      activeId: state.activeId,
+      settings: state.settings,
+      streak: state.streak
+    }));
+  } catch(e) { console.error('save failed', e); }
+}
+
+function getCountry(name) {
+  return COUNTRIES.find(c => c.n === name);
+}
+
+// ============================================================
+// SCREEN NAVIGATION
+// ============================================================
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const tabName = name === 'study' || name === 'results' ? 'study' : (name === 'settings' ? 'settings' : 'home');
+  const tab = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+  if (tab) tab.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    if (target === 'study') {
+      if (activeList().length > 0) startStudy();
+      else showScreen('home');
+    } else {
+      showScreen(target);
+    }
+  });
+});
+
+// ============================================================
+// COLLECTION BAR
+// ============================================================
+function renderCollectionBar() {
+  const c = getActiveCollection();
+  if (!c) return;
+  document.getElementById('coll-icon').textContent = c.icon || '📚';
+  document.getElementById('coll-name').textContent = c.name;
+}
+
+document.getElementById('coll-switcher').addEventListener('click', openCollectionsModal);
+document.getElementById('coll-edit-btn').addEventListener('click', openCollectionsModal);
+
+// ============================================================
+// REGIONS GRID
+// ============================================================
+function renderRegions() {
+  const grid = document.getElementById('region-grid');
+  grid.innerHTML = REGIONS.map(r => {
+    const count = COUNTRIES.filter(c => c.r.includes(r.id)).length;
+    return `
+      <button class="region-chip" data-region="${r.id}">
+        <span class="region-chip-icon">${r.icon}</span>
+        <span class="region-chip-text">
+          <div class="region-chip-name">${r.name}</div>
+          <div class="region-chip-count">${count} стран</div>
+        </span>
+      </button>
+    `;
+  }).join('');
+
+  grid.querySelectorAll('.region-chip').forEach(chip => {
+    chip.addEventListener('click', () => onRegionClick(chip.dataset.region));
+  });
+}
+
+async function onRegionClick(regionId) {
+  const region = REGIONS.find(r => r.id === regionId);
+  if (!region) return;
+  const countries = COUNTRIES.filter(c => c.r.includes(regionId)).map(c => c.n);
+  const choice = confirm(
+    `Регион: ${region.name} (${countries.length} стран)\n\n` +
+    `OK — заменить текущую коллекцию на этот регион\n` +
+    `Отмена — добавить страны региона к существующему списку`
+  );
+
+  const coll = getActiveCollection();
+  if (!coll) return;
+
+  if (choice) {
+    // Replace - create new collection or replace active
+    const replace = confirm('Заменить коллекцию "' + coll.name + '"?\n\nOK — заменить (прогресс будет сброшен)\nОтмена — создать новую коллекцию для этого региона');
+    if (replace) {
+      coll.list = [...countries];
+      coll.progress = {};
+      coll.name = region.name;
+      coll.icon = region.icon;
+    } else {
+      // Create new collection
+      const newColl = {
+        id: genId(),
+        name: region.name,
+        icon: region.icon,
+        list: [...countries],
+        progress: {}
+      };
+      state.collections.push(newColl);
+      state.activeId = newColl.id;
+    }
+  } else {
+    // Append unique
+    const set = new Set(coll.list);
+    countries.forEach(n => set.add(n));
+    coll.list = Array.from(set);
+  }
+  await saveData();
+  renderAll();
+}
+
+// ============================================================
+// HOME / SEARCH
+// ============================================================
+const searchInput = document.getElementById('search');
+const suggestionsEl = document.getElementById('suggestions');
+
+function normalize(s) {
+  return s.toLowerCase().replace(/ё/g, 'е').trim();
+}
+
+function renderSuggestions(query) {
+  if (!query || query.length < 1) {
+    suggestionsEl.classList.remove('show');
+    suggestionsEl.innerHTML = '';
+    return;
+  }
+  const q = normalize(query);
+  const matches = COUNTRIES
+    .filter(c => normalize(c.n).startsWith(q) || normalize(c.n).includes(q) || normalize(c.c).startsWith(q))
+    .sort((a, b) => {
+      const aStart = normalize(a.n).startsWith(q) ? 0 : 1;
+      const bStart = normalize(b.n).startsWith(q) ? 0 : 1;
+      return aStart - bStart;
+    })
+    .slice(0, 8);
+
+  if (matches.length === 0) {
+    suggestionsEl.innerHTML = `<div class="suggestion" style="justify-content:center;color:var(--muted)">Ничего не найдено</div>`;
+    suggestionsEl.classList.add('show');
+    return;
+  }
+
+  const list = activeList();
+  suggestionsEl.innerHTML = matches.map(c => {
+    const added = list.includes(c.n);
+    return `
+      <div class="suggestion ${added ? 'added' : ''}" data-name="${c.n}">
+        <span class="suggestion-flag">${c.f}</span>
+        <div class="suggestion-info">
+          <div class="suggestion-country">${c.n}</div>
+          <div class="suggestion-capital">${c.c}</div>
+        </div>
+        <span class="suggestion-add">${added ? '✓' : '+'}</span>
+      </div>
+    `;
+  }).join('');
+
+  suggestionsEl.querySelectorAll('.suggestion').forEach(el => {
+    el.addEventListener('click', () => {
+      const name = el.dataset.name;
+      if (!name) return;
+      toggleCountry(name);
+    });
+  });
+  suggestionsEl.classList.add('show');
+}
+
+searchInput.addEventListener('input', e => renderSuggestions(e.target.value));
+searchInput.addEventListener('focus', e => {
+  if (e.target.value) renderSuggestions(e.target.value);
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) {
+    suggestionsEl.classList.remove('show');
+  }
+});
+
+async function toggleCountry(name) {
+  const c = getActiveCollection();
+  if (!c) return;
+  if (c.list.includes(name)) {
+    c.list = c.list.filter(n => n !== name);
+    delete c.progress[name];
+  } else {
+    c.list.push(name);
+  }
+  await saveData();
+  renderList();
+  renderSuggestions(searchInput.value);
+  updateStats();
+}
+
+function renderList() {
+  const listEl = document.getElementById('country-list');
+  const countEl = document.getElementById('list-count');
+  const list = activeList();
+  const progress = activeProgress();
+  countEl.textContent = list.length > 0 ? `(${list.length})` : '';
+
+  if (list.length === 0) {
+    listEl.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-emoji">🌍</div>
+        <p class="empty-text">Список пока пуст</p>
+        <p style="font-size:13px;margin-top:8px">Выбери регион выше или добавь страны через поиск</p>
+      </div>
+    `;
+    document.getElementById('start-study-btn').disabled = true;
+    return;
+  }
+
+  listEl.innerHTML = list.map(name => {
+    const c = getCountry(name);
+    if (!c) return '';
+    const p = progress[name];
+    let statBadge = '';
+    if (p) {
+      if (p.known) statBadge = `<span style="color:#a8c585">✓ Запомнил</span>`;
+      else statBadge = `<span style="color:#d88a82">↻ Повторить</span>`;
+    }
+    return `
+      <div class="country-item">
+        <div class="country-flag">${c.f}</div>
+        <div class="country-info">
+          <div class="country-name">${c.n}</div>
+          <div class="country-cap">${c.c} ${c.l}</div>
+          ${statBadge ? `<div class="country-stat">${statBadge}</div>` : ''}
+        </div>
+        <button class="remove-btn" data-name="${c.n}">×</button>
+      </div>
+    `;
+  }).join('');
+
+  listEl.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleCountry(btn.dataset.name);
+    });
+  });
+
+  document.getElementById('start-study-btn').disabled = false;
+}
+
+function updateStats() {
+  const list = activeList();
+  const progress = activeProgress();
+  document.getElementById('stat-total').textContent = list.length;
+  const known = list.filter(n => progress[n] && progress[n].known).length;
+  document.getElementById('stat-known').textContent = known;
+  document.getElementById('stat-streak').textContent = state.streak;
+}
+
+function renderAll() {
+  renderCollectionBar();
+  renderList();
+  updateStats();
+  renderSuggestions(searchInput.value);
+}
+
+// ============================================================
+// COLLECTIONS MODAL
+// ============================================================
+const modalCollections = document.getElementById('modal-collections');
+const modalEdit = document.getElementById('modal-edit');
+
+function openCollectionsModal() {
+  renderCollectionsList();
+  modalCollections.classList.add('show');
+}
+function closeModal(modal) {
+  modal.classList.remove('show');
+}
+
+modalCollections.addEventListener('click', e => {
+  if (e.target === modalCollections) closeModal(modalCollections);
+});
+modalEdit.addEventListener('click', e => {
+  if (e.target === modalEdit) closeModal(modalEdit);
+});
+
+function renderCollectionsList() {
+  const wrap = document.getElementById('collections-list');
+  wrap.innerHTML = state.collections.map(c => {
+    const known = c.list.filter(n => c.progress[n] && c.progress[n].known).length;
+    const isActive = c.id === state.activeId;
+    return `
+      <div class="collection-item ${isActive ? 'active' : ''}" data-id="${c.id}">
+        <div class="collection-item-icon">${c.icon || '📚'}</div>
+        <div class="collection-item-info">
+          <div class="collection-item-name">${c.name}</div>
+          <div class="collection-item-meta">${c.list.length} стран · ${known} выучено${isActive ? ' · активна' : ''}</div>
+        </div>
+        <div class="collection-item-actions">
+          <button class="icon-btn" data-action="edit" data-id="${c.id}" title="Переименовать">✎</button>
+          <button class="icon-btn danger" data-action="delete" data-id="${c.id}" title="Удалить">🗑</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Click on item itself = make active
+  wrap.querySelectorAll('.collection-item').forEach(item => {
+    item.addEventListener('click', async (e) => {
+      if (e.target.closest('[data-action]')) return;
+      state.activeId = item.dataset.id;
+      await saveData();
+      renderAll();
+      closeModal(modalCollections);
+    });
+  });
+
+  // Action buttons
+  wrap.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      const coll = state.collections.find(c => c.id === id);
+      if (!coll) return;
+      if (action === 'edit') {
+        openEditModal(coll);
+      } else if (action === 'delete') {
+        if (state.collections.length === 1) {
+          alert('Нельзя удалить единственную коллекцию. Создай другую сначала.');
+          return;
+        }
+        if (confirm(`Удалить коллекцию "${coll.name}"?\nВсе страны и прогресс будут потеряны.`)) {
+          state.collections = state.collections.filter(c => c.id !== id);
+          if (state.activeId === id) state.activeId = state.collections[0].id;
+          await saveData();
+          renderCollectionsList();
+          renderAll();
+        }
+      }
+    });
+  });
+}
+
+document.getElementById('new-collection-btn').addEventListener('click', () => {
+  openEditModal(null);
+});
+
+// ============================================================
+// CREATE / EDIT COLLECTION MODAL
+// ============================================================
+let editingCollection = null;
+let selectedIcon = '📚';
+
+function openEditModal(coll) {
+  editingCollection = coll;
+  document.getElementById('edit-title').textContent = coll ? 'Редактировать' : 'Новая коллекция';
+  document.getElementById('edit-name').value = coll ? coll.name : '';
+  selectedIcon = coll ? (coll.icon || '📚') : '📚';
+  renderIconPicker();
+  modalEdit.classList.add('show');
+  setTimeout(() => document.getElementById('edit-name').focus(), 300);
+}
+
+function renderIconPicker() {
+  const picker = document.getElementById('icon-picker');
+  picker.innerHTML = ICON_OPTIONS.map(icon => `
+    <div class="icon-option ${icon === selectedIcon ? 'selected' : ''}" data-icon="${icon}">${icon}</div>
+  `).join('');
+  picker.querySelectorAll('.icon-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      selectedIcon = opt.dataset.icon;
+      renderIconPicker();
+    });
+  });
+}
+
+document.getElementById('edit-save').addEventListener('click', async () => {
+  const name = document.getElementById('edit-name').value.trim();
+  if (!name) {
+    alert('Введи название');
+    return;
+  }
+  if (editingCollection) {
+    editingCollection.name = name;
+    editingCollection.icon = selectedIcon;
+  } else {
+    const newColl = {
+      id: genId(),
+      name,
+      icon: selectedIcon,
+      list: [],
+      progress: {}
+    };
+    state.collections.push(newColl);
+    state.activeId = newColl.id;
+  }
+  await saveData();
+  closeModal(modalEdit);
+  closeModal(modalCollections);
+  renderAll();
+});
+
+document.getElementById('edit-cancel').addEventListener('click', () => {
+  closeModal(modalEdit);
+});
+
+// ============================================================
+// STUDY MODE
+// ============================================================
+function startStudy() {
+  const list = activeList();
+  const progress = activeProgress();
+  let deck = [...list];
+  if (state.settings.onlyUnknown) {
+    deck = deck.filter(n => !progress[n] || !progress[n].known);
+  }
+  if (deck.length === 0) {
+    alert(state.settings.onlyUnknown ? 'Все страны уже выучены! Сбрось прогресс или отключи "Только незнакомые".' : 'Список пуст');
+    return;
+  }
+  if (state.settings.shuffle) {
+    deck = deck.sort(() => Math.random() - 0.5);
+  }
+  state.studyDeck = deck;
+  state.studyIndex = 0;
+  state.studyResults = { know: 0, dont: 0 };
+  showScreen('study');
+  renderCurrentCard();
+}
+
+function renderCurrentCard() {
+  const card = document.getElementById('card');
+  card.classList.remove('flipped');
+  document.getElementById('btn-know').disabled = true;
+  document.getElementById('btn-dont').disabled = true;
+
+  const total = state.studyDeck.length;
+  const idx = state.studyIndex;
+  document.getElementById('card-current').textContent = idx + 1;
+  document.getElementById('card-total').textContent = total;
+  document.getElementById('progress-fill').style.width = `${(idx / total) * 100}%`;
+
+  const name = state.studyDeck[idx];
+  const c = getCountry(name);
+  if (!c) return;
+
+  if (state.settings.directionCountryToCapital) {
+    document.querySelector('.card-front .card-eyebrow').textContent = 'Страна';
+    document.getElementById('card-flag').textContent = c.f;
+    document.getElementById('card-flag').style.fontSize = '80px';
+    document.getElementById('card-country').textContent = c.n;
+
+    document.querySelector('.card-back .card-eyebrow').textContent = 'Столица';
+    document.getElementById('card-landmark').textContent = c.l;
+    document.getElementById('card-capital').textContent = c.c;
+    document.getElementById('card-capital-of').textContent = `столица — ${c.n}`;
+  } else {
+    document.querySelector('.card-front .card-eyebrow').textContent = 'Столица';
+    document.getElementById('card-flag').textContent = c.l;
+    document.getElementById('card-flag').style.fontSize = '64px';
+    document.getElementById('card-country').textContent = c.c;
+
+    document.querySelector('.card-back .card-eyebrow').textContent = 'Страна';
+    document.getElementById('card-landmark').textContent = c.f;
+    document.getElementById('card-capital').textContent = c.n;
+    document.getElementById('card-capital-of').textContent = `столица: ${c.c}`;
+  }
+}
+
+document.getElementById('card').addEventListener('click', () => {
+  const card = document.getElementById('card');
+  card.classList.toggle('flipped');
+  if (card.classList.contains('flipped')) {
+    setTimeout(() => {
+      document.getElementById('btn-know').disabled = false;
+      document.getElementById('btn-dont').disabled = false;
+    }, 300);
+  }
+});
+
+async function answerCard(known) {
+  const name = state.studyDeck[state.studyIndex];
+  const coll = getActiveCollection();
+  if (coll) {
+    coll.progress[name] = { known, lastSeen: Date.now() };
+  }
+  if (known) {
+    state.studyResults.know++;
+    state.streak++;
+  } else {
+    state.studyResults.dont++;
+    state.streak = 0;
+  }
+  await saveData();
+
+  state.studyIndex++;
+  if (state.studyIndex >= state.studyDeck.length) {
+    showResults();
+  } else {
+    const card = document.getElementById('card');
+    card.classList.remove('flipped');
+    setTimeout(renderCurrentCard, 350);
+  }
+}
+
+document.getElementById('btn-know').addEventListener('click', () => answerCard(true));
+document.getElementById('btn-dont').addEventListener('click', () => answerCard(false));
+
+document.getElementById('close-study').addEventListener('click', () => {
+  if (confirm('Прервать сессию? Прогресс будет сохранён.')) {
+    showScreen('home');
+    renderAll();
+  }
+});
+
+// ============================================================
+// RESULTS
+// ============================================================
+function showResults() {
+  document.getElementById('progress-fill').style.width = '100%';
+  setTimeout(() => {
+    showScreen('results');
+    const total = state.studyResults.know + state.studyResults.dont;
+    const accuracy = total > 0 ? Math.round((state.studyResults.know / total) * 100) : 0;
+    document.getElementById('res-know').textContent = state.studyResults.know;
+    document.getElementById('res-dont').textContent = state.studyResults.dont;
+    document.getElementById('res-acc').textContent = accuracy + '%';
+
+    const emojiEl = document.getElementById('results-emoji');
+    const titleEl = document.getElementById('results-title');
+    const subEl = document.getElementById('results-sub');
+    if (accuracy === 100) {
+      emojiEl.textContent = '🏆';
+      titleEl.textContent = 'Идеально!';
+      subEl.textContent = 'Все ответы верны';
+    } else if (accuracy >= 80) {
+      emojiEl.textContent = '🎉';
+      titleEl.textContent = 'Отлично!';
+      subEl.textContent = 'Так держать';
+    } else if (accuracy >= 50) {
+      emojiEl.textContent = '💪';
+      titleEl.textContent = 'Хорошо!';
+      subEl.textContent = 'Ещё немного практики';
+    } else {
+      emojiEl.textContent = '📚';
+      titleEl.textContent = 'Не сдавайся';
+      subEl.textContent = 'Повтори ещё разок';
+    }
+    updateStats();
+  }, 400);
+}
+
+document.getElementById('study-again').addEventListener('click', startStudy);
+document.getElementById('back-home').addEventListener('click', () => {
+  showScreen('home');
+  renderAll();
+});
+
+// ============================================================
+// SETTINGS
+// ============================================================
+function setupToggle(id, key) {
+  const el = document.getElementById(id);
+  if (state.settings[key]) el.classList.add('on');
+  el.addEventListener('click', async () => {
+    state.settings[key] = !state.settings[key];
+    el.classList.toggle('on');
+    await saveData();
+  });
+}
+
+document.getElementById('reset-progress').addEventListener('click', async () => {
+  const coll = getActiveCollection();
+  if (!coll) return;
+  if (confirm(`Сбросить прогресс коллекции "${coll.name}"?`)) {
+    coll.progress = {};
+    state.streak = 0;
+    await saveData();
+    renderAll();
+    alert('Прогресс сброшен');
+  }
+});
+document.getElementById('reset-all').addEventListener('click', async () => {
+  if (confirm('Удалить все коллекции и сбросить весь прогресс?')) {
+    state.collections = [{
+      id: genId(), name: "Мой список", icon: "📚",
+      list: [], progress: {}
+    }];
+    state.activeId = state.collections[0].id;
+    state.streak = 0;
+    await saveData();
+    renderAll();
+    showScreen('home');
+    alert('Все данные удалены');
+  }
+});
+
+document.getElementById('start-study-btn').addEventListener('click', startStudy);
+
+// ============================================================
+// INIT
+// ============================================================
+(async () => {
+  await loadState();
+  renderRegions();
+  setupToggle('toggle-shuffle', 'shuffle');
+  setupToggle('toggle-unknown', 'onlyUnknown');
+  setupToggle('toggle-direction', 'directionCountryToCapital');
+  renderAll();
+})();
+</script>
+</body>
+</html>
