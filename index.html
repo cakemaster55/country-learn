@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -9,987 +9,331 @@
 <title>Atlas — Столицы мира</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  :root {
-    --bg: #1a1612;
-    --bg-elev: #251f19;
-    --bg-card: #2d2620;
-    --paper: #f4ead5;
-    --paper-dim: #e8dcc0;
-    --ink: #1a1612;
-    --accent: #c8743a;
-    --accent-soft: #e8a060;
-    --gold: #d4a557;
-    --green: #6b8e4e;
-    --red: #b8453a;
-    --muted: #8a7a68;
-    --line: rgba(244,234,213,0.12);
-    --line-paper: rgba(26,22,18,0.15);
-  }
+/* ============ THEMES ============ */
+[data-theme="dark"] {
+  --bg: #1a1612;
+  --bg-elev: #251f19;
+  --bg-card: #2d2620;
+  --bg-card2: #352e27;
+  --paper: #f4ead5;
+  --paper-dim: #e8dcc0;
+  --ink: #1a1612;
+  --accent: #c8743a;
+  --accent-soft: #e8a060;
+  --gold: #d4a557;
+  --green: #6b8e4e;
+  --green-soft: #a8c585;
+  --red: #b8453a;
+  --red-soft: #d88a82;
+  --blue: #4a7fa5;
+  --blue-soft: #7aaecf;
+  --muted: #8a7a68;
+  --line: rgba(244,234,213,0.10);
+  --line-strong: rgba(244,234,213,0.20);
+  --shadow: rgba(0,0,0,0.5);
+  --card-front-bg: linear-gradient(160deg, #f4ead5 0%, #e8dcc0 100%);
+  --card-front-color: #1a1612;
+  --card-back-bg: linear-gradient(160deg, #2d2620 0%, #1f1a15 100%);
+  --overlay: rgba(0,0,0,0.65);
+  --bg-mesh1: rgba(200,116,58,0.12);
+  --bg-mesh2: rgba(107,142,78,0.08);
+}
+[data-theme="light"] {
+  --bg: #f7f0e4;
+  --bg-elev: #ede3cf;
+  --bg-card: #e5d9c2;
+  --bg-card2: #ddd0b5;
+  --paper: #1a1612;
+  --paper-dim: #3a2e24;
+  --ink: #1a1612;
+  --accent: #b85e28;
+  --accent-soft: #d47a40;
+  --gold: #a07830;
+  --green: #4a6e2e;
+  --green-soft: #5a8438;
+  --red: #8c2e25;
+  --red-soft: #b8453a;
+  --blue: #2a5f85;
+  --blue-soft: #4a7fa5;
+  --muted: #7a6a58;
+  --line: rgba(26,22,18,0.12);
+  --line-strong: rgba(26,22,18,0.22);
+  --shadow: rgba(0,0,0,0.15);
+  --card-front-bg: linear-gradient(160deg, #1a1612 0%, #2d2620 100%);
+  --card-front-color: #f4ead5;
+  --card-back-bg: linear-gradient(160deg, #ede3cf 0%, #ddd0b5 100%);
+  --overlay: rgba(0,0,0,0.45);
+  --bg-mesh1: rgba(200,116,58,0.08);
+  --bg-mesh2: rgba(107,142,78,0.06);
+}
 
-  html, body {
-    overscroll-behavior: none;
-    overflow-x: hidden;
-  }
+html, body { overscroll-behavior: none; overflow-x: hidden; }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--paper);
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-    background-image:
-      radial-gradient(ellipse at top, rgba(200,116,58,0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom, rgba(107,142,78,0.08) 0%, transparent 50%);
-    background-attachment: fixed;
-  }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--paper);
+  min-height: 100vh; min-height: 100dvh;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  background-image: radial-gradient(ellipse at top, var(--bg-mesh1) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom, var(--bg-mesh2) 0%, transparent 55%);
+  background-attachment: fixed;
+  transition: background-color 0.3s, color 0.3s;
+}
 
-  .serif { font-family: 'Fraunces', serif; }
+/* ============ HEADER ============ */
+.header {
+  padding: 18px 20px 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.logo { font-family:'Fraunces',serif; font-weight:900; font-size:24px; letter-spacing:-0.02em; font-style:italic; }
+.logo span { color:var(--accent); }
+.nav-tabs { display:flex; gap:3px; background:var(--bg-elev); padding:3px; border-radius:100px; border:1px solid var(--line); }
+.nav-tab { padding:7px 13px; border-radius:100px; font-size:12px; font-weight:700; color:var(--muted); border:none; background:transparent; cursor:pointer; transition:all 0.2s; font-family:'Nunito',sans-serif; }
+.nav-tab.active { background:var(--accent); color:#fff; }
 
-  /* === HEADER === */
-  .header {
-    padding: 24px 20px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--line);
-  }
-  .logo {
-    font-family: 'Fraunces', serif;
-    font-weight: 900;
-    font-size: 26px;
-    letter-spacing: -0.02em;
-    font-style: italic;
-  }
-  .logo span { color: var(--accent); }
-  .nav-tabs {
-    display: flex;
-    gap: 4px;
-    background: var(--bg-elev);
-    padding: 4px;
-    border-radius: 100px;
-  }
-  .nav-tab {
-    padding: 8px 14px;
-    border-radius: 100px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .nav-tab.active {
-    background: var(--accent);
-    color: var(--paper);
-  }
+/* ============ SCREENS ============ */
+.screen { display:none; padding:16px 20px; padding-bottom:120px; animation:fadeIn 0.25s ease-out; }
+.screen.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
-  /* === SCREENS === */
-  .screen {
-    display: none;
-    padding: 20px;
-    padding-bottom: 100px;
-    animation: fadeIn 0.3s ease-out;
-  }
-  .screen.active { display: block; }
+/* ============ HOME ============ */
+.collection-bar {
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:16px; padding:12px 14px;
+  background:var(--bg-elev); border:1px solid var(--line); border-radius:16px;
+  cursor:pointer; transition:background 0.15s;
+}
+.collection-bar:active { background:var(--bg-card); }
+.coll-icon { font-size:22px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; background:var(--bg-card); border-radius:10px; flex-shrink:0; }
+.coll-info { flex:1; min-width:0; }
+.coll-label { font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); font-weight:700; }
+.coll-name { font-family:'Fraunces',serif; font-size:17px; font-weight:600; display:flex; align-items:center; gap:6px; }
+.coll-name::after { content:'⌄'; color:var(--accent); font-size:14px; }
+.coll-manage { background:transparent; border:1px solid var(--line); color:var(--muted); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.mode-tabs { display:flex; gap:8px; margin-bottom:16px; }
+.mode-tab { flex:1; padding:10px 6px; background:var(--bg-elev); border:1px solid var(--line); border-radius:12px; text-align:center; cursor:pointer; font-size:13px; font-weight:700; color:var(--muted); font-family:'Nunito',sans-serif; transition:all 0.2s; }
+.mode-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.mode-tab .mode-icon { display:block; font-size:20px; margin-bottom:4px; }
 
-  /* === COLLECTIONS PICKER === */
-  .collection-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
-    padding: 14px 16px;
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-  }
-  .collection-icon {
-    font-size: 22px;
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-card);
-    border-radius: 10px;
-    flex-shrink: 0;
-  }
-  .collection-info { flex: 1; min-width: 0; cursor: pointer; }
-  .collection-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    font-weight: 600;
-  }
-  .collection-name {
-    font-family: 'Fraunces', serif;
-    font-size: 17px;
-    font-weight: 600;
-    margin-top: 2px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .collection-name::after {
-    content: '⌄';
-    color: var(--accent);
-    font-size: 16px;
-  }
-  .collection-edit {
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--paper);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .collection-edit:active { background: var(--bg-card); }
+.start-btn {
+  width:100%; padding:16px; margin-bottom:20px;
+  background:linear-gradient(135deg,var(--accent) 0%,#a85a26 100%);
+  border:none; border-radius:16px; color:#fff;
+  font-family:'Fraunces',serif; font-size:18px; font-weight:600;
+  cursor:pointer; box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 40%,transparent);
+  transition:transform 0.15s, opacity 0.2s; letter-spacing:-0.01em;
+}
+.start-btn:active { transform:scale(0.98); }
+.start-btn:disabled { opacity:0.35; box-shadow:none; }
 
-  /* === HERO === */
-  .hero {
-    padding: 16px 0 20px;
-    text-align: center;
-    position: relative;
-  }
-  .hero-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-  .hero-title {
-    font-family: 'Fraunces', serif;
-    font-size: 40px;
-    line-height: 0.95;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    margin-bottom: 12px;
-  }
-  .hero-title em {
-    font-style: italic;
-    color: var(--accent-soft);
-    font-weight: 400;
-  }
-  .hero-sub {
-    font-size: 14px;
-    color: var(--muted);
-    max-width: 280px;
-    margin: 0 auto;
-    line-height: 1.5;
-  }
+.section-title {
+  font-family:'Fraunces',serif; font-size:20px; font-weight:600;
+  margin-bottom:12px; display:flex; align-items:center; gap:8px; color:var(--paper);
+}
+.section-title::before { content:''; width:4px; height:18px; background:var(--accent); border-radius:2px; flex-shrink:0; }
 
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 24px 0;
-  }
-  .stat {
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 16px 12px;
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Fraunces', serif;
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--accent-soft);
-    display: block;
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-top: 6px;
-  }
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+.stat { background:var(--bg-elev); border:1px solid var(--line); border-radius:14px; padding:14px 10px; text-align:center; }
+.stat-num { font-family:'Fraunces',serif; font-size:28px; font-weight:600; color:var(--accent-soft); display:block; line-height:1; }
+.stat-label { font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-top:5px; font-weight:700; }
 
-  /* === SEARCH / ADD === */
-  .section-title {
-    font-family: 'Fraunces', serif;
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-title::before {
-    content: '';
-    width: 4px;
-    height: 20px;
-    background: var(--accent);
-    border-radius: 2px;
-  }
+/* ============ REGIONS ============ */
+.region-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:20px; }
+.region-chip { background:var(--bg-elev); border:1px solid var(--line); border-radius:14px; padding:12px 12px; cursor:pointer; text-align:left; color:var(--paper); font-family:'Nunito',sans-serif; transition:all 0.2s; display:flex; align-items:center; gap:10px; }
+.region-chip:active { transform:scale(0.97); border-color:var(--accent); background:var(--bg-card); }
+.region-chip-icon { font-size:22px; flex-shrink:0; }
+.region-chip-name { font-size:13px; font-weight:700; }
+.region-chip-count { font-size:11px; color:var(--muted); margin-top:2px; font-weight:600; }
 
-  .search-wrap {
-    position: relative;
-    margin-bottom: 16px;
-  }
-  .search-input {
-    width: 100%;
-    padding: 16px 20px;
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    color: var(--paper);
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.2s;
-  }
-  .search-input:focus {
-    border-color: var(--accent);
-    background: var(--bg-card);
-  }
-  .search-input::placeholder { color: var(--muted); }
+/* ============ SEARCH ============ */
+.search-wrap { position:relative; margin-bottom:16px; }
+.search-input { width:100%; padding:14px 18px; background:var(--bg-elev); border:1px solid var(--line); border-radius:14px; color:var(--paper); font-family:'Nunito',sans-serif; font-size:16px; outline:none; transition:all 0.2s; }
+.search-input:focus { border-color:var(--accent); background:var(--bg-card); }
+.search-input::placeholder { color:var(--muted); }
+.suggestions { position:absolute; top:calc(100%+8px); left:0; right:0; background:var(--bg-card); border:1px solid var(--line); border-radius:14px; max-height:300px; overflow-y:auto; z-index:100; box-shadow:0 12px 30px var(--shadow); display:none; }
+.suggestions.show { display:block; }
+.suggestion { padding:12px 14px; border-bottom:1px solid var(--line); cursor:pointer; display:flex; align-items:center; gap:10px; transition:background 0.12s; }
+.suggestion:last-child { border-bottom:none; }
+.suggestion:active { background:var(--bg-elev); }
+.sug-flag { font-size:20px; flex-shrink:0; }
+.sug-info { flex:1; min-width:0; }
+.sug-country { font-weight:700; font-size:14px; }
+.sug-cap { font-size:12px; color:var(--muted); margin-top:1px; }
+.sug-add { font-size:20px; flex-shrink:0; color:var(--accent); }
+.suggestion.added .sug-add { color:var(--green-soft); }
 
-  .suggestions {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    max-height: 320px;
-    overflow-y: auto;
-    z-index: 100;
-    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-    display: none;
-  }
-  .suggestions.show { display: block; }
-  .suggestion {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--line);
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.15s;
-  }
-  .suggestion:last-child { border-bottom: none; }
-  .suggestion:active { background: var(--bg-elev); }
-  .suggestion-flag {
-    font-size: 22px;
-    margin-right: 12px;
-  }
-  .suggestion-info { flex: 1; }
-  .suggestion-country {
-    font-weight: 500;
-    font-size: 15px;
-  }
-  .suggestion-capital {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .suggestion-add {
-    color: var(--accent);
-    font-size: 22px;
-  }
-  .suggestion.added .suggestion-add { color: var(--green); }
+/* ============ COUNTRY LIST ============ */
+.ornament { text-align:center; color:var(--muted); margin:14px 0; letter-spacing:1em; font-size:11px; }
+.country-list { display:flex; flex-direction:column; gap:7px; }
+.country-item { background:var(--bg-elev); border:1px solid var(--line); border-radius:13px; padding:12px 14px; display:flex; align-items:center; gap:12px; }
+.c-flag { font-size:26px; width:42px; height:42px; display:flex; align-items:center; justify-content:center; background:var(--bg-card); border-radius:11px; flex-shrink:0; }
+.c-info { flex:1; min-width:0; }
+.c-name { font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.c-cap { font-size:12px; color:var(--muted); margin-top:2px; font-weight:600; }
+.c-badge { font-size:11px; margin-top:3px; font-weight:700; }
+.c-badge.known { color:var(--green-soft); }
+.c-badge.repeat { color:var(--red-soft); }
+.remove-btn { background:transparent; border:1px solid var(--line); color:var(--muted); width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.remove-btn:active { background:var(--red); color:#fff; border-color:var(--red); }
+.empty-state { text-align:center; padding:28px 20px; color:var(--muted); background:var(--bg-elev); border:1px dashed var(--line); border-radius:14px; }
+.empty-emoji { font-size:40px; margin-bottom:10px; opacity:0.4; }
+.empty-text { font-family:'Fraunces',serif; font-size:16px; font-style:italic; }
 
-  /* === REGION CHIPS === */
-  .region-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .region-chip {
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 14px 12px;
-    cursor: pointer;
-    text-align: left;
-    color: var(--paper);
-    font-family: 'Inter', sans-serif;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .region-chip:active {
-    background: var(--bg-card);
-    transform: scale(0.97);
-    border-color: var(--accent);
-  }
-  .region-chip-icon {
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-  .region-chip-text { flex: 1; min-width: 0; }
-  .region-chip-name {
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .region-chip-count {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
+/* ============ STUDY / FLASHCARDS ============ */
+.study-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.progress-text { font-family:'Fraunces',serif; font-size:14px; color:var(--muted); }
+.progress-text b { color:var(--paper); }
+.close-btn { background:var(--bg-elev); border:1px solid var(--line); color:var(--paper); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; }
+.progress-bar { height:4px; background:var(--bg-elev); border-radius:2px; overflow:hidden; margin-bottom:24px; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-soft)); transition:width 0.4s cubic-bezier(0.4,0,0.2,1); border-radius:2px; }
 
-  /* === COUNTRY LIST === */
-  .country-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .country-item {
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    animation: slideIn 0.3s ease-out;
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-  .country-flag {
-    font-size: 28px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-card);
-    border-radius: 12px;
-  }
-  .country-info { flex: 1; min-width: 0; }
-  .country-name {
-    font-weight: 500;
-    font-size: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .country-cap {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .country-stat {
-    font-size: 11px;
-    color: var(--gold);
-    margin-top: 4px;
-    display: flex;
-    gap: 8px;
-  }
-  .remove-btn {
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .remove-btn:active { background: var(--red); color: var(--paper); border-color: var(--red); }
+/* Card flip fix - separate containers */
+.card-stack { height:420px; position:relative; margin-bottom:24px; }
+.card { width:100%; height:100%; position:relative; }
+.card-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.4,0,0.2,1); cursor:pointer; }
+.card.flipped .card-inner { transform:rotateY(180deg); }
+.card-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:22px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; overflow:hidden; padding:24px 28px; }
+.card-front { background:var(--card-front-bg); color:var(--card-front-color); box-shadow:0 10px 36px var(--shadow), 0 3px 10px rgba(0,0,0,0.2); }
+.card-back { background:var(--card-back-bg); color:var(--paper); transform:rotateY(180deg); border:1px solid var(--line); box-shadow:0 10px 36px var(--shadow); }
+[data-theme="light"] .card-back { color:var(--ink); }
 
-  .empty-state {
-    text-align: center;
-    padding: 32px 20px;
-    color: var(--muted);
-    background: var(--bg-elev);
-    border: 1px dashed var(--line);
-    border-radius: 16px;
-  }
-  .empty-emoji {
-    font-size: 44px;
-    margin-bottom: 12px;
-    opacity: 0.4;
-  }
-  .empty-text {
-    font-family: 'Fraunces', serif;
-    font-size: 17px;
-    font-style: italic;
-  }
+.card-front::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 80%,var(--bg-mesh1),transparent 55%),radial-gradient(circle at 80% 20%,var(--bg-mesh2),transparent 55%); pointer-events:none; }
+.card-front::after { content:''; position:absolute; inset:10px; border:1px solid currentColor; opacity:0.1; border-radius:14px; pointer-events:none; }
 
-  /* === BIG ACTION BUTTON === */
-  .start-btn {
-    width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, var(--accent) 0%, #a85a26 100%);
-    border: none;
-    border-radius: 18px;
-    color: var(--paper);
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(200,116,58,0.3);
-    margin: 24px 0;
-    transition: transform 0.15s;
-    letter-spacing: -0.01em;
-  }
-  .start-btn:active { transform: scale(0.98); }
-  .start-btn:disabled {
-    opacity: 0.4;
-    box-shadow: none;
-  }
-  .start-btn .arrow {
-    display: inline-block;
-    margin-left: 8px;
-    transition: transform 0.2s;
-  }
+.card-eyebrow { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:14px; opacity:0.55; font-weight:800; position:relative; z-index:1; }
+.card-main-emoji { font-size:76px; line-height:1; margin-bottom:10px; position:relative; z-index:1; filter:drop-shadow(0 3px 8px rgba(0,0,0,0.2)); }
+.card-main-text { font-family:'Fraunces',serif; font-size:30px; font-weight:600; line-height:1.05; letter-spacing:-0.02em; position:relative; z-index:1; word-break:break-word; }
+.card-back .card-eyebrow { opacity:1; color:var(--accent-soft); }
+.card-back .card-main-text { font-size:38px; font-style:italic; color:var(--accent-soft); }
+.card-back .card-sub { font-size:13px; color:var(--muted); margin-top:8px; position:relative; z-index:1; }
+.card-hint { position:absolute; bottom:18px; font-size:10px; color:currentColor; opacity:0.35; letter-spacing:0.15em; text-transform:uppercase; z-index:1; }
 
-  /* === FLASHCARDS === */
-  .study-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  .progress-text {
-    font-family: 'Fraunces', serif;
-    font-size: 14px;
-    color: var(--muted);
-  }
-  .progress-text b {
-    color: var(--paper);
-    font-weight: 600;
-  }
-  .close-btn {
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    color: var(--paper);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.card-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.action-btn { padding:14px; border-radius:14px; border:1px solid var(--line); background:var(--bg-elev); color:var(--paper); font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; flex-direction:column; align-items:center; gap:5px; }
+.action-btn:active { transform:scale(0.96); }
+.action-btn.know { background:linear-gradient(135deg,rgba(107,142,78,0.2),rgba(107,142,78,0.08)); border-color:var(--green); color:var(--green-soft); }
+.action-btn.dont { background:linear-gradient(135deg,rgba(184,69,58,0.2),rgba(184,69,58,0.08)); border-color:var(--red); color:var(--red-soft); }
+.action-btn .btn-icon { font-size:20px; }
+.action-btn:disabled { opacity:0.35; cursor:not-allowed; transform:none; }
+.swipe-hint { text-align:center; color:var(--muted); font-size:12px; margin-top:-14px; margin-bottom:14px; font-style:italic; font-weight:600; }
 
-  .progress-bar {
-    height: 4px;
-    background: var(--bg-elev);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 32px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 2px;
-  }
+/* ============ QUIZ MODE ============ */
+.quiz-question-card { background:var(--bg-elev); border:1px solid var(--line); border-radius:20px; padding:28px 24px; margin-bottom:20px; text-align:center; }
+.quiz-flag { font-size:72px; margin-bottom:12px; line-height:1; }
+.quiz-question { font-family:'Fraunces',serif; font-size:28px; font-weight:600; letter-spacing:-0.02em; margin-bottom:6px; }
+.quiz-prompt { font-size:13px; color:var(--muted); font-weight:600; }
+.quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.quiz-opt { padding:16px 12px; background:var(--bg-elev); border:2px solid var(--line); border-radius:14px; text-align:center; cursor:pointer; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; color:var(--paper); transition:all 0.2s; line-height:1.3; }
+.quiz-opt:active { transform:scale(0.97); }
+.quiz-opt.correct { background:linear-gradient(135deg,rgba(107,142,78,0.3),rgba(107,142,78,0.1)); border-color:var(--green); color:var(--green-soft); }
+.quiz-opt.wrong { background:linear-gradient(135deg,rgba(184,69,58,0.3),rgba(184,69,58,0.1)); border-color:var(--red); color:var(--red-soft); }
+.quiz-opt.reveal { background:linear-gradient(135deg,rgba(107,142,78,0.15),rgba(107,142,78,0.05)); border-color:var(--green); color:var(--green-soft); }
+.quiz-opt:disabled { cursor:not-allowed; }
 
-  .card-stack {
-    perspective: 1000px;
-    height: 440px;
-    position: relative;
-    margin-bottom: 32px;
-  }
-  .card {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-  }
-  .card.flipped { transform: rotateY(180deg); }
+/* ============ WRITE MODE (review mistakes) ============ */
+.write-question { background:var(--bg-elev); border:1px solid var(--line); border-radius:20px; padding:24px; margin-bottom:16px; text-align:center; }
+.write-flag { font-size:56px; margin-bottom:8px; }
+.write-country { font-family:'Fraunces',serif; font-size:26px; font-weight:600; margin-bottom:4px; }
+.write-prompt { font-size:13px; color:var(--muted); font-weight:600; }
+.write-input { width:100%; padding:14px 18px; background:var(--bg-elev); border:2px solid var(--line); border-radius:14px; color:var(--paper); font-family:'Nunito',sans-serif; font-size:18px; font-weight:700; outline:none; text-align:center; margin-bottom:12px; transition:border-color 0.2s; }
+.write-input:focus { border-color:var(--accent); }
+.write-input.ok { border-color:var(--green); background:linear-gradient(135deg,rgba(107,142,78,0.15),transparent); }
+.write-input.err { border-color:var(--red); background:linear-gradient(135deg,rgba(184,69,58,0.15),transparent); }
+.write-feedback { text-align:center; margin-bottom:14px; min-height:44px; font-size:14px; font-weight:700; }
+.write-feedback .corr { color:var(--green-soft); }
+.write-feedback .wrong { color:var(--red-soft); }
+.write-feedback .close { color:var(--accent-soft); }
+.write-submit { width:100%; padding:14px; background:var(--accent); color:#fff; border:none; border-radius:14px; font-family:'Nunito',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:transform 0.15s; }
+.write-submit:active { transform:scale(0.98); }
 
-  .card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 24px;
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-  }
+/* ============ RESULTS ============ */
+.results-hero { text-align:center; padding:32px 0 24px; }
+.results-emoji { font-size:64px; margin-bottom:14px; }
+.results-title { font-family:'Fraunces',serif; font-size:34px; font-weight:600; letter-spacing:-0.02em; margin-bottom:6px; }
+.results-sub { color:var(--muted); font-size:14px; font-weight:600; margin-bottom:28px; }
+.results-stats { background:var(--bg-elev); border:1px solid var(--line); border-radius:18px; padding:20px; margin-bottom:20px; }
+.results-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--line); }
+.results-row:last-child { border-bottom:none; }
+.r-label { font-size:14px; color:var(--muted); font-weight:600; }
+.r-val { font-family:'Fraunces',serif; font-size:22px; font-weight:600; }
+.results-row.know .r-val { color:var(--green-soft); }
+.results-row.dont .r-val { color:var(--red-soft); }
 
-  .card-front {
-    background: linear-gradient(160deg, var(--paper) 0%, var(--paper-dim) 100%);
-    color: var(--ink);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.2);
-  }
-  .card-back {
-    background: linear-gradient(160deg, #2d2620 0%, #1f1a15 100%);
-    color: var(--paper);
-    transform: rotateY(180deg);
-    border: 1px solid var(--line);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-  }
+/* ============ SETTINGS ============ */
+.setting-card { background:var(--bg-elev); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; }
+.setting-row { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.s-label { font-size:14px; font-weight:700; }
+.s-desc { font-size:12px; color:var(--muted); margin-top:3px; font-weight:600; }
+.toggle { width:46px; height:27px; background:var(--bg-card); border-radius:100px; position:relative; cursor:pointer; transition:background 0.2s; border:1px solid var(--line); flex-shrink:0; }
+.toggle.on { background:var(--accent); border-color:var(--accent); }
+.toggle::after { content:''; position:absolute; top:2px; left:2px; width:21px; height:21px; background:#fff; border-radius:50%; transition:transform 0.2s; }
+.toggle.on::after { transform:translateX(19px); }
+.danger-btn { width:100%; padding:13px; background:transparent; border:1px solid var(--red); color:var(--red-soft); border-radius:13px; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; cursor:pointer; margin-bottom:10px; }
+.danger-btn:active { background:var(--red); color:#fff; }
 
-  .card-front::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle at 20% 80%, rgba(200,116,58,0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(107,142,78,0.06) 0%, transparent 50%);
-    pointer-events: none;
-  }
-  .card-front::after {
-    content: '';
-    position: absolute;
-    inset: 12px;
-    border: 1px solid rgba(26,22,18,0.15);
-    border-radius: 16px;
-    pointer-events: none;
-  }
+/* ============ MODAL SHEET ============ */
+.modal-overlay { position:fixed; inset:0; background:var(--overlay); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:200; display:none; align-items:flex-end; justify-content:center; }
+.modal-overlay.show { display:flex; animation:fadeBg 0.22s ease-out; }
+@keyframes fadeBg { from{opacity:0} to{opacity:1} }
+.sheet { width:100%; max-width:430px; max-height:88vh; background:var(--bg-elev); border-radius:22px 22px 0 0; padding:8px 20px 24px; padding-bottom:calc(24px + env(safe-area-inset-bottom)); overflow-y:auto; animation:slideUp 0.28s cubic-bezier(0.4,0,0.2,1); border-top:1px solid var(--line); }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.sheet-handle { width:34px; height:4px; background:var(--muted); border-radius:2px; margin:0 auto 18px; opacity:0.35; }
+.sheet-title { font-family:'Fraunces',serif; font-size:21px; font-weight:600; margin-bottom:4px; }
+.sheet-sub { font-size:13px; color:var(--muted); margin-bottom:18px; font-weight:600; }
+.sheet-btn { width:100%; padding:13px; border-radius:13px; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; cursor:pointer; border:none; margin-top:8px; transition:transform 0.12s; }
+.sheet-btn:active { transform:scale(0.98); }
+.sheet-btn.primary { background:var(--accent); color:#fff; }
+.sheet-btn.secondary { background:var(--bg-card); color:var(--paper); border:1px solid var(--line); }
+.sheet-btn.primary:disabled { opacity:0.4; }
 
-  .card-eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    opacity: 0.6;
-    font-weight: 600;
-    z-index: 1;
-  }
+/* Confirm sheet */
+.confirm-message { font-size:15px; color:var(--paper); margin-bottom:20px; line-height:1.5; font-weight:600; }
+.confirm-row { display:flex; gap:10px; }
+.confirm-row .sheet-btn { margin-top:0; }
 
-  .card-flag {
-    font-size: 80px;
-    margin-bottom: 8px;
-    z-index: 1;
-    line-height: 1;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
-  }
-  .card-landmark {
-    font-size: 56px;
-    margin-bottom: 16px;
-    z-index: 1;
-    line-height: 1;
-  }
-  .card-country {
-    font-family: 'Fraunces', serif;
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    z-index: 1;
-    padding: 0 12px;
-  }
-  .card-back .card-eyebrow { color: var(--accent-soft); opacity: 1; }
-  .card-capital {
-    font-family: 'Fraunces', serif;
-    font-size: 40px;
-    font-weight: 600;
-    font-style: italic;
-    color: var(--accent-soft);
-    line-height: 1.05;
-    margin-bottom: 12px;
-    z-index: 1;
-    padding: 0 12px;
-  }
-  .card-capital-of {
-    font-size: 14px;
-    color: var(--muted);
-    z-index: 1;
-  }
-  .card-tap-hint {
-    position: absolute;
-    bottom: 20px;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    z-index: 1;
-  }
-  .card-front .card-tap-hint { color: rgba(26,22,18,0.4); }
+/* Region confirm special */
+.region-confirm-option { background:var(--bg-card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:12px; transition:all 0.15s; }
+.region-confirm-option:active { transform:scale(0.98); border-color:var(--accent); }
+.region-opt-icon { font-size:28px; flex-shrink:0; }
+.region-opt-text b { font-size:14px; font-weight:700; display:block; }
+.region-opt-text span { font-size:12px; color:var(--muted); font-weight:600; }
 
-  .card-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .action-btn {
-    padding: 16px;
-    border-radius: 16px;
-    border: 1px solid var(--line);
-    background: var(--bg-elev);
-    color: var(--paper);
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  .action-btn:active { transform: scale(0.96); }
-  .action-btn.know {
-    background: linear-gradient(135deg, rgba(107,142,78,0.2), rgba(107,142,78,0.1));
-    border-color: var(--green);
-    color: #a8c585;
-  }
-  .action-btn.dont {
-    background: linear-gradient(135deg, rgba(184,69,58,0.2), rgba(184,69,58,0.1));
-    border-color: var(--red);
-    color: #d88a82;
-  }
-  .action-btn .icon { font-size: 22px; }
-  .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+/* Collections */
+.new-coll-btn { width:100%; padding:13px; background:transparent; border:1.5px dashed var(--accent); color:var(--accent); border-radius:13px; font-size:14px; font-weight:700; cursor:pointer; margin-bottom:14px; font-family:'Nunito',sans-serif; }
+.new-coll-btn:active { background:rgba(200,116,58,0.1); }
+.coll-item { background:var(--bg-card); border:1px solid var(--line); border-radius:13px; padding:12px 14px; margin-bottom:8px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:all 0.15s; }
+.coll-item:active { transform:scale(0.98); }
+.coll-item.active-coll { border-color:var(--accent); background:linear-gradient(135deg,rgba(200,116,58,0.12),rgba(200,116,58,0.04)); }
+.ci-icon { width:38px; height:38px; background:var(--bg-elev); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.ci-info { flex:1; min-width:0; }
+.ci-name { font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ci-meta { font-size:11px; color:var(--muted); margin-top:2px; font-weight:600; }
+.ci-actions { display:flex; gap:5px; }
+.icon-btn { width:30px; height:30px; border-radius:8px; background:transparent; border:1px solid var(--line); color:var(--muted); cursor:pointer; font-size:13px; display:flex; align-items:center; justify-content:center; }
+.icon-btn:active { background:var(--bg-elev); color:var(--paper); }
+.icon-btn.danger:active { background:var(--red); color:#fff; border-color:var(--red); }
 
-  /* === RESULTS === */
-  .results {
-    text-align: center;
-    padding: 40px 0;
-  }
-  .results-emoji { font-size: 72px; margin-bottom: 16px; }
-  .results-title {
-    font-family: 'Fraunces', serif;
-    font-size: 36px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-  }
-  .results-sub {
-    color: var(--muted);
-    font-size: 15px;
-    margin-bottom: 32px;
-  }
-  .results-stats {
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 24px;
-  }
-  .results-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .results-row:last-child { border-bottom: none; }
-  .results-row-label {
-    font-size: 14px;
-    color: var(--muted);
-  }
-  .results-row-val {
-    font-family: 'Fraunces', serif;
-    font-size: 24px;
-    font-weight: 600;
-  }
-  .results-row.know .results-row-val { color: #a8c585; }
-  .results-row.dont .results-row-val { color: #d88a82; }
+/* Edit collection */
+.text-input { width:100%; padding:13px 15px; background:var(--bg-card); border:1px solid var(--line); border-radius:12px; color:var(--paper); font-family:'Nunito',sans-serif; font-size:15px; font-weight:600; outline:none; margin-bottom:12px; }
+.text-input:focus { border-color:var(--accent); }
+.icon-picker { display:grid; grid-template-columns:repeat(8,1fr); gap:5px; margin-bottom:14px; }
+.icon-opt { aspect-ratio:1; background:var(--bg-card); border:1.5px solid var(--line); border-radius:9px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.icon-opt.sel { border-color:var(--accent); background:rgba(200,116,58,0.15); }
 
-  /* === SETTINGS === */
-  .setting-card {
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-  .setting-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .setting-label {
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .setting-desc {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .toggle {
-    width: 48px;
-    height: 28px;
-    background: var(--bg-card);
-    border-radius: 100px;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.2s;
-    border: 1px solid var(--line);
-    flex-shrink: 0;
-  }
-  .toggle.on { background: var(--accent); border-color: var(--accent); }
-  .toggle::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 22px;
-    height: 22px;
-    background: var(--paper);
-    border-radius: 50%;
-    transition: transform 0.2s;
-  }
-  .toggle.on::after { transform: translateX(20px); }
-
-  .danger-btn {
-    width: 100%;
-    padding: 14px;
-    background: transparent;
-    border: 1px solid var(--red);
-    color: var(--red);
-    border-radius: 14px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .danger-btn:active { background: var(--red); color: var(--paper); }
-
-  /* === MODAL / SHEET === */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 200;
-    display: none;
-    align-items: flex-end;
-    justify-content: center;
-    animation: fadeBg 0.25s ease-out;
-  }
-  .modal-overlay.show { display: flex; }
-  @keyframes fadeBg { from { opacity: 0; } to { opacity: 1; } }
-
-  .sheet {
-    width: 100%;
-    max-width: 430px;
-    max-height: 85vh;
-    background: var(--bg-elev);
-    border-radius: 24px 24px 0 0;
-    padding: 8px 20px 32px;
-    padding-bottom: calc(32px + env(safe-area-inset-bottom));
-    overflow-y: auto;
-    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-top: 1px solid var(--line);
-  }
-  @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-  .sheet-handle {
-    width: 36px;
-    height: 4px;
-    background: var(--muted);
-    border-radius: 2px;
-    margin: 0 auto 20px;
-    opacity: 0.4;
-  }
-  .sheet-title {
-    font-family: 'Fraunces', serif;
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-  .sheet-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-
-  .collection-item {
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .collection-item:active { transform: scale(0.98); }
-  .collection-item.active {
-    border-color: var(--accent);
-    background: linear-gradient(135deg, rgba(200,116,58,0.15), rgba(200,116,58,0.05));
-  }
-  .collection-item-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--bg-elev);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .collection-item-info { flex: 1; min-width: 0; }
-  .collection-item-name {
-    font-weight: 600;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .collection-item-meta {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .collection-item-actions {
-    display: flex;
-    gap: 6px;
-  }
-  .icon-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .icon-btn:active { background: var(--bg-elev); color: var(--paper); }
-  .icon-btn.danger:active { background: var(--red); color: var(--paper); border-color: var(--red); }
-
-  .text-input {
-    width: 100%;
-    padding: 14px 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    color: var(--paper);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    outline: none;
-    margin-bottom: 12px;
-  }
-  .text-input:focus { border-color: var(--accent); }
-
-  .icon-picker {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
-    margin-bottom: 16px;
-  }
-  .icon-option {
-    aspect-ratio: 1;
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    font-size: 22px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .icon-option.selected {
-    border-color: var(--accent);
-    background: rgba(200,116,58,0.15);
-  }
-
-  .sheet-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 14px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    margin-top: 8px;
-  }
-  .sheet-btn.primary {
-    background: var(--accent);
-    color: var(--paper);
-  }
-  .sheet-btn.secondary {
-    background: var(--bg-card);
-    color: var(--paper);
-    border: 1px solid var(--line);
-  }
-  .sheet-btn:active { transform: scale(0.98); }
-  .sheet-btn.primary:disabled { opacity: 0.4; }
-
-  .new-collection-btn {
-    width: 100%;
-    padding: 14px;
-    background: transparent;
-    border: 1px dashed var(--accent);
-    color: var(--accent);
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 16px;
-  }
-  .new-collection-btn:active { background: rgba(200,116,58,0.1); }
-
-  .ornament {
-    text-align: center;
-    color: var(--muted);
-    margin: 16px 0;
-    letter-spacing: 1em;
-    font-size: 12px;
-  }
-
-  .swipe-hint {
-    text-align: center;
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: -16px;
-    margin-bottom: 16px;
-    font-style: italic;
-  }
-
-  @media (min-width: 480px) {
-    body {
-      max-width: 430px;
-      margin: 0 auto;
-      box-shadow: 0 0 60px rgba(0,0,0,0.5);
-    }
-  }
+@media(min-width:480px){
+  body{max-width:430px;margin:0 auto;box-shadow:0 0 60px var(--shadow)}
+}
 </style>
 </head>
 <body>
@@ -1003,209 +347,230 @@
   </nav>
 </header>
 
-<!-- HOME / LIST SCREEN -->
+<!-- ============ HOME ============ -->
 <main id="screen-home" class="screen active">
-
-  <!-- Active collection bar -->
-  <div class="collection-bar">
-    <div class="collection-icon" id="coll-icon">📚</div>
-    <div class="collection-info" id="coll-switcher">
-      <div class="collection-label">Текущая коллекция</div>
-      <div class="collection-name" id="coll-name">—</div>
+  <div class="collection-bar" id="coll-bar">
+    <div class="coll-icon" id="coll-icon">📚</div>
+    <div class="coll-info">
+      <div class="coll-label">Текущая коллекция</div>
+      <div class="coll-name" id="coll-name">—</div>
     </div>
-    <button class="collection-edit" id="coll-edit-btn" title="Управление">≡</button>
-  </div>
-
-  <div class="hero">
-    <div class="hero-eyebrow">Изучай мир</div>
-    <h1 class="hero-title">Столицы, <em>которые</em> ты выбрал</h1>
-    <p class="hero-sub">Создавай свои списки или учи целые регионы</p>
+    <button class="coll-manage" id="coll-manage-btn" onclick="event.stopPropagation()">≡</button>
   </div>
 
   <div class="stats-row">
-    <div class="stat">
-      <span class="stat-num" id="stat-total">0</span>
-      <div class="stat-label">В списке</div>
-    </div>
-    <div class="stat">
-      <span class="stat-num" id="stat-known">0</span>
-      <div class="stat-label">Знаю</div>
-    </div>
-    <div class="stat">
-      <span class="stat-num" id="stat-streak">0</span>
-      <div class="stat-label">Серия</div>
-    </div>
+    <div class="stat"><span class="stat-num" id="stat-total">0</span><div class="stat-label">В списке</div></div>
+    <div class="stat"><span class="stat-num" id="stat-known">0</span><div class="stat-label">Знаю</div></div>
+    <div class="stat"><span class="stat-num" id="stat-streak">0</span><div class="stat-label">Серия</div></div>
   </div>
+
+  <!-- Mode selector -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="cards">
+      <span class="mode-icon">🃏</span>Карточки
+    </button>
+    <button class="mode-tab" data-mode="quiz">
+      <span class="mode-icon">🔢</span>Тест
+    </button>
+  </div>
+
+  <button class="start-btn" id="start-btn" disabled>Начать изучение →</button>
 
   <h2 class="section-title">Готовые регионы</h2>
   <div class="region-grid" id="region-grid"></div>
 
   <h2 class="section-title">Добавить вручную</h2>
   <div class="search-wrap">
-    <input type="text" class="search-input" id="search" placeholder="Начни печатать, например: домин..." autocomplete="off">
+    <input class="search-input" id="search" type="text" placeholder="Начни печатать, например: домин..." autocomplete="off">
     <div class="suggestions" id="suggestions"></div>
   </div>
 
   <div class="ornament">· · ·</div>
-
-  <h2 class="section-title">Мой список <span style="color:var(--muted);font-size:14px;font-weight:400;margin-left:auto" id="list-count"></span></h2>
+  <h2 class="section-title">Мой список <span style="color:var(--muted);font-size:14px;font-weight:600;margin-left:auto" id="list-count"></span></h2>
   <div class="country-list" id="country-list"></div>
-
-  <button class="start-btn" id="start-study-btn" disabled>
-    Начать изучение <span class="arrow">→</span>
-  </button>
 </main>
 
-<!-- STUDY SCREEN -->
-<main id="screen-study" class="screen">
+<!-- ============ STUDY: CARDS ============ -->
+<main id="screen-cards" class="screen">
   <div class="study-header">
-    <div class="progress-text">Карточка <b id="card-current">1</b> из <b id="card-total">10</b></div>
-    <button class="close-btn" id="close-study">✕</button>
+    <div class="progress-text">Карточка <b id="card-cur">1</b> из <b id="card-tot">10</b></div>
+    <button class="close-btn" id="close-cards">✕</button>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-  </div>
-
+  <div class="progress-bar"><div class="progress-fill" id="cards-fill" style="width:0%"></div></div>
   <div class="card-stack">
     <div class="card" id="card">
-      <div class="card-face card-front">
-        <div class="card-eyebrow">Страна</div>
-        <div class="card-flag" id="card-flag">🌍</div>
-        <div class="card-country" id="card-country">—</div>
-        <div class="card-tap-hint">Нажми, чтобы увидеть столицу</div>
-      </div>
-      <div class="card-face card-back">
-        <div class="card-eyebrow">Столица</div>
-        <div class="card-landmark" id="card-landmark">🏛️</div>
-        <div class="card-capital" id="card-capital">—</div>
-        <div class="card-capital-of" id="card-capital-of">столица —</div>
-        <div class="card-tap-hint">Нажми, чтобы вернуться</div>
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="card-eyebrow" id="cf-eyebrow">Страна</div>
+          <div class="card-main-emoji" id="cf-emoji">🌍</div>
+          <div class="card-main-text" id="cf-text">—</div>
+          <div class="card-hint">Нажми, чтобы перевернуть</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-eyebrow" id="cb-eyebrow">Столица</div>
+          <div class="card-landmark" id="cb-landmark" style="font-size:52px;margin-bottom:12px;position:relative;z-index:1">🏛️</div>
+          <div class="card-main-text" id="cb-text">—</div>
+          <div class="card-sub" id="cb-sub">столица —</div>
+          <div class="card-hint">Нажми, чтобы вернуться</div>
+        </div>
       </div>
     </div>
   </div>
-
-  <p class="swipe-hint">Знаешь ответ?</p>
-
+  <p class="swipe-hint">Знаешь столицу?</p>
   <div class="card-actions">
-    <button class="action-btn dont" id="btn-dont" disabled>
-      <span class="icon">↻</span>
-      Повторить
-    </button>
-    <button class="action-btn know" id="btn-know" disabled>
-      <span class="icon">✓</span>
-      Запомнил
-    </button>
+    <button class="action-btn dont" id="btn-dont" disabled><span class="btn-icon">↻</span>Повторить</button>
+    <button class="action-btn know" id="btn-know" disabled><span class="btn-icon">✓</span>Запомнил</button>
   </div>
 </main>
 
-<!-- RESULTS SCREEN -->
+<!-- ============ STUDY: QUIZ ============ -->
+<main id="screen-quiz" class="screen">
+  <div class="study-header">
+    <div class="progress-text">Вопрос <b id="quiz-cur">1</b> из <b id="quiz-tot">10</b></div>
+    <button class="close-btn" id="close-quiz">✕</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="quiz-fill" style="width:0%"></div></div>
+  <div class="quiz-question-card">
+    <div class="quiz-flag" id="quiz-flag">🌍</div>
+    <div class="quiz-question" id="quiz-question">—</div>
+    <div class="quiz-prompt" id="quiz-prompt">Какая столица у этой страны?</div>
+  </div>
+  <div class="quiz-options" id="quiz-options"></div>
+</main>
+
+<!-- ============ WRITE (review mistakes) ============ -->
+<main id="screen-write" class="screen">
+  <div class="study-header">
+    <div class="progress-text">Пишем <b id="wr-cur">1</b> из <b id="wr-tot">5</b></div>
+    <button class="close-btn" id="close-write">✕</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="wr-fill" style="width:0%"></div></div>
+  <div class="write-question">
+    <div class="write-flag" id="wr-flag">🌍</div>
+    <div class="write-country" id="wr-country">—</div>
+    <div class="write-prompt">Напиши столицу</div>
+  </div>
+  <input class="write-input" id="wr-input" type="text" placeholder="Введи название столицы..." autocomplete="off" autocorrect="off" spellcheck="false">
+  <div class="write-feedback" id="wr-feedback"></div>
+  <button class="write-submit" id="wr-submit">Проверить →</button>
+</main>
+
+<!-- ============ RESULTS ============ -->
 <main id="screen-results" class="screen">
-  <div class="results">
-    <div class="results-emoji" id="results-emoji">🎉</div>
-    <h1 class="results-title" id="results-title">Отлично!</h1>
-    <p class="results-sub" id="results-sub">Сессия завершена</p>
+  <div class="results-hero">
+    <div class="results-emoji" id="res-emoji">🎉</div>
+    <h1 class="results-title" id="res-title">Отлично!</h1>
+    <p class="results-sub" id="res-sub">Сессия завершена</p>
   </div>
   <div class="results-stats">
-    <div class="results-row know">
-      <span class="results-row-label">Запомнил</span>
-      <span class="results-row-val" id="res-know">0</span>
-    </div>
-    <div class="results-row dont">
-      <span class="results-row-label">Нужно повторить</span>
-      <span class="results-row-val" id="res-dont">0</span>
-    </div>
-    <div class="results-row">
-      <span class="results-row-label">Точность</span>
-      <span class="results-row-val" id="res-acc">0%</span>
-    </div>
+    <div class="results-row know"><span class="r-label">Запомнил</span><span class="r-val" id="res-know">0</span></div>
+    <div class="results-row dont"><span class="r-label">Нужно повторить</span><span class="r-val" id="res-dont">0</span></div>
+    <div class="results-row"><span class="r-label">Точность</span><span class="r-val" id="res-acc">0%</span></div>
   </div>
-  <button class="start-btn" id="study-again">
-    Учить ещё раз <span class="arrow">→</span>
-  </button>
-  <button class="action-btn" style="width:100%;margin-top:12px" id="back-home">Вернуться к списку</button>
+  <button class="start-btn" id="study-again">Учить ещё раз →</button>
+  <button class="action-btn" style="width:100%;margin-top:10px" id="back-home">← Вернуться к списку</button>
 </main>
 
-<!-- SETTINGS SCREEN -->
+<!-- ============ SETTINGS ============ -->
 <main id="screen-settings" class="screen">
   <h2 class="section-title">Настройки</h2>
 
   <div class="setting-card">
     <div class="setting-row">
-      <div>
-        <div class="setting-label">Перемешивать карточки</div>
-        <div class="setting-desc">Случайный порядок при изучении</div>
-      </div>
+      <div><div class="s-label">Тёмная тема</div><div class="s-desc">Тёмный фон для глаз ночью</div></div>
+      <div class="toggle on" id="toggle-theme"></div>
+    </div>
+  </div>
+  <div class="setting-card">
+    <div class="setting-row">
+      <div><div class="s-label">Перемешивать карточки</div><div class="s-desc">Случайный порядок при изучении</div></div>
       <div class="toggle on" id="toggle-shuffle"></div>
     </div>
   </div>
-
   <div class="setting-card">
     <div class="setting-row">
-      <div>
-        <div class="setting-label">Только незнакомые</div>
-        <div class="setting-desc">Показывать только те, что ещё не выучены</div>
-      </div>
+      <div><div class="s-label">Только незнакомые</div><div class="s-desc">Пропускать уже выученные</div></div>
       <div class="toggle" id="toggle-unknown"></div>
     </div>
   </div>
-
   <div class="setting-card">
     <div class="setting-row">
-      <div>
-        <div class="setting-label">От страны к столице</div>
-        <div class="setting-desc">Иначе наоборот: от столицы к стране</div>
-      </div>
-      <div class="toggle on" id="toggle-direction"></div>
+      <div><div class="s-label">От страны к столице</div><div class="s-desc">Иначе: от столицы к стране</div></div>
+      <div class="toggle on" id="toggle-dir"></div>
     </div>
   </div>
 
   <div class="ornament">· · ·</div>
-
-  <button class="danger-btn" id="reset-progress" style="margin-bottom:10px">
-    Сбросить прогресс текущей коллекции
-  </button>
-  <button class="danger-btn" id="reset-all">
-    Удалить все коллекции
-  </button>
-
-  <p class="swipe-hint" style="margin-top:24px">Atlas · v1.1 · Сделано с ☕</p>
+  <button class="danger-btn" id="reset-progress">Сбросить прогресс текущей коллекции</button>
+  <button class="danger-btn" id="reset-all">Удалить все коллекции</button>
+  <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:20px;font-weight:600">Atlas · v2.0</p>
 </main>
 
-<!-- ============================================================ -->
-<!-- MODAL: Collections Manager -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="modal-collections">
+<!-- ============ MODALS ============ -->
+<!-- Collections list -->
+<div class="modal-overlay" id="modal-colls">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <h3 class="sheet-title">Мои коллекции</h3>
-    <p class="sheet-sub">Переключайся между списками или создавай новые</p>
-    <button class="new-collection-btn" id="new-collection-btn">+ Создать новую коллекцию</button>
-    <div id="collections-list"></div>
+    <p class="sheet-sub">Переключись или создай новую</p>
+    <button class="new-coll-btn" id="new-coll-btn">+ Создать коллекцию</button>
+    <div id="colls-list"></div>
+    <button class="sheet-btn secondary" id="close-colls-btn">Закрыть</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- MODAL: Create / Edit Collection -->
-<!-- ============================================================ -->
+<!-- Edit collection -->
 <div class="modal-overlay" id="modal-edit">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <h3 class="sheet-title" id="edit-title">Новая коллекция</h3>
-    <p class="sheet-sub">Дай ей имя и выбери иконку</p>
-    <input type="text" class="text-input" id="edit-name" placeholder="Название (например: Экзамен по географии)" maxlength="40">
+    <h3 class="sheet-title" id="edit-sheet-title">Новая коллекция</h3>
+    <p class="sheet-sub">Название и иконка</p>
+    <input class="text-input" id="edit-name" type="text" placeholder="Название..." maxlength="40">
     <div class="icon-picker" id="icon-picker"></div>
     <button class="sheet-btn primary" id="edit-save">Сохранить</button>
     <button class="sheet-btn secondary" id="edit-cancel">Отмена</button>
   </div>
 </div>
 
+<!-- Region action -->
+<div class="modal-overlay" id="modal-region">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title" id="region-sheet-title">Европа</h3>
+    <p class="sheet-sub" id="region-sheet-sub">45 стран</p>
+    <div class="region-confirm-option" id="region-opt-replace">
+      <span class="region-opt-icon">🔄</span>
+      <div class="region-opt-text"><b>Заменить текущий список</b><span>Страны региона станут новым содержимым коллекции</span></div>
+    </div>
+    <div class="region-confirm-option" id="region-opt-add">
+      <span class="region-opt-icon">➕</span>
+      <div class="region-opt-text"><b>Добавить к существующим</b><span>Страны региона добавятся к текущему списку</span></div>
+    </div>
+    <div class="region-confirm-option" id="region-opt-new">
+      <span class="region-opt-icon">📂</span>
+      <div class="region-opt-text"><b>Создать новую коллекцию</b><span>Регион откроется в отдельной коллекции</span></div>
+    </div>
+    <button class="sheet-btn secondary" id="region-cancel">Отмена</button>
+  </div>
+</div>
+
+<!-- Generic confirm -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title" id="confirm-title">Подтверди</h3>
+    <p class="confirm-message" id="confirm-msg"></p>
+    <div class="confirm-row">
+      <button class="sheet-btn secondary" id="confirm-cancel">Отмена</button>
+      <button class="sheet-btn primary" id="confirm-ok">OK</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ============================================================
-// COUNTRIES DATABASE — with regions
-// r = region: eu (Europe), as (Asia), af (Africa), na (N.America),
-// sa (S.America), oc (Oceania), me (Middle East), cis (CIS/post-Soviet)
-// Some countries belong to multiple — picked the most useful primary.
-// ============================================================
+// ==========================================================
+// DATA
+// ==========================================================
 const COUNTRIES = [
   {n:"Австралия",c:"Канберра",f:"🇦🇺",l:"🦘",r:["oc"]},
   {n:"Австрия",c:"Вена",f:"🇦🇹",l:"🎼",r:["eu"]},
@@ -1273,7 +638,6 @@ const COUNTRIES = [
   {n:"Испания",c:"Мадрид",f:"🇪🇸",l:"💃",r:["eu"]},
   {n:"Италия",c:"Рим",f:"🇮🇹",l:"🏛️",r:["eu"]},
   {n:"Йемен",c:"Сана",f:"🇾🇪",l:"🏜️",r:["me"]},
-  {n:"Кабо-Верде",c:"Прая",f:"🇨🇻",l:"🏝️",r:["af"]},
   {n:"Казахстан",c:"Астана",f:"🇰🇿",l:"🏛️",r:["as","cis"]},
   {n:"Камбоджа",c:"Пномпень",f:"🇰🇭",l:"🛕",r:["as"]},
   {n:"Камерун",c:"Яунде",f:"🇨🇲",l:"🦁",r:["af"]},
@@ -1292,7 +656,7 @@ const COUNTRIES = [
   {n:"Южная Корея",c:"Сеул",f:"🇰🇷",l:"🌸",r:["as"]},
   {n:"Косово",c:"Приштина",f:"🇽🇰",l:"⛪",r:["eu"]},
   {n:"Коста-Рика",c:"Сан-Хосе",f:"🇨🇷",l:"🌋",r:["na"]},
-  {n:"Кот-д’Ивуар",c:"Ямусукро",f:"🇨🇮",l:"⛪",r:["af"]},
+  {n:"Кот-д'Ивуар",c:"Ямусукро",f:"🇨🇮",l:"⛪",r:["af"]},
   {n:"Куба",c:"Гавана",f:"🇨🇺",l:"🚗",r:["na"]},
   {n:"Кувейт",c:"Эль-Кувейт",f:"🇰🇼",l:"🕌",r:["me"]},
   {n:"Лаос",c:"Вьентьян",f:"🇱🇦",l:"🛕",r:["as"]},
@@ -1345,14 +709,10 @@ const COUNTRIES = [
   {n:"Сальвадор",c:"Сан-Сальвадор",f:"🇸🇻",l:"🌋",r:["na"]},
   {n:"Самоа",c:"Апиа",f:"🇼🇸",l:"🏝️",r:["oc"]},
   {n:"Сан-Марино",c:"Сан-Марино",f:"🇸🇲",l:"🏰",r:["eu"]},
-  {n:"Сан-Томе и Принсипи",c:"Сан-Томе",f:"🇸🇹",l:"🏝️",r:["af"]},
   {n:"Саудовская Аравия",c:"Эр-Рияд",f:"🇸🇦",l:"🕋",r:["me"]},
   {n:"Северная Македония",c:"Скопье",f:"🇲🇰",l:"⛪",r:["eu"]},
   {n:"Сейшельские Острова",c:"Виктория",f:"🇸🇨",l:"🏝️",r:["af"]},
   {n:"Сенегал",c:"Дакар",f:"🇸🇳",l:"🥁",r:["af"]},
-  {n:"Сент-Винсент и Гренадины",c:"Кингстаун",f:"🇻🇨",l:"🌋",r:["na"]},
-  {n:"Сент-Китс и Невис",c:"Бастер",f:"🇰🇳",l:"🏝️",r:["na"]},
-  {n:"Сент-Люсия",c:"Кастри",f:"🇱🇨",l:"🏔️",r:["na"]},
   {n:"Сербия",c:"Белград",f:"🇷🇸",l:"🏰",r:["eu"]},
   {n:"Сингапур",c:"Сингапур",f:"🇸🇬",l:"🦁",r:["as"]},
   {n:"Сирия",c:"Дамаск",f:"🇸🇾",l:"🕌",r:["me"]},
@@ -1404,575 +764,314 @@ const COUNTRIES = [
   {n:"Япония",c:"Токио",f:"🇯🇵",l:"🗾",r:["as"]}
 ];
 
-// ============================================================
-// REGIONS DEFINITION
-// ============================================================
 const REGIONS = [
-  { id: "eu", name: "Европа", icon: "🏰" },
-  { id: "as", name: "Азия", icon: "🛕" },
-  { id: "af", name: "Африка", icon: "🦁" },
-  { id: "na", name: "Северная Америка", icon: "🗽" },
-  { id: "sa", name: "Южная Америка", icon: "🌋" },
-  { id: "oc", name: "Океания", icon: "🏝️" },
-  { id: "me", name: "Ближний Восток", icon: "🕌" },
-  { id: "cis", name: "СНГ", icon: "🐻" }
+  {id:"eu",name:"Европа",icon:"🏰"},
+  {id:"as",name:"Азия",icon:"🛕"},
+  {id:"af",name:"Африка",icon:"🦁"},
+  {id:"na",name:"Сев. Америка",icon:"🗽"},
+  {id:"sa",name:"Юж. Америка",icon:"🌋"},
+  {id:"oc",name:"Океания",icon:"🏝️"},
+  {id:"me",name:"Ближний Восток",icon:"🕌"},
+  {id:"cis",name:"СНГ",icon:"🐻"}
 ];
 
-const ICON_OPTIONS = ["📚","🌍","🌎","🌏","🗺️","🧭","🏛️","🏰","🛕","🕌","⛪","🗼","🗽","🏯","🌋","🏔️","⛰️","🏝️","🏜️","🦁","🦒","🐪","🐘","🐎","☕","🍷","🌴","🌷","⭐","🔥","💎","🎯","📖","✏️","🎓","🧩"];
+const ICONS = ["📚","🌍","🌎","🌏","🗺️","🧭","🏛️","🏰","🛕","🕌","⛪","🗼","🗽","🏯","🌋","🏔️","⛰️","🏝️","🏜️","🦁","🦒","🐪","🐘","🐎","☕","🍷","🌴","🌷","⭐","🔥","💎","🎯","📖","✏️","🎓","🧩"];
 
-// ============================================================
-// STATE & STORAGE
-// Multiple collections architecture
-// ============================================================
-const STORAGE_KEY_DATA = 'atlas:data:v2';
-const STORAGE_KEY_LEGACY_LIST = 'atlas:list';
-const STORAGE_KEY_LEGACY_PROGRESS = 'atlas:progress';
+// ==========================================================
+// STATE — localStorage
+// ==========================================================
+const LS_KEY = 'atlas_v3';
 
-// Each collection: { id, name, icon, list:[country names], progress:{name:{known,lastSeen}} }
 let state = {
-  collections: [],     // array of collection objects
-  activeId: null,      // id of active collection
-  settings: { shuffle: true, onlyUnknown: false, directionCountryToCapital: true },
-  streak: 0,
-  // study session
-  studyDeck: [],
-  studyIndex: 0,
-  studyResults: { know: 0, dont: 0 }
+  collections: [],
+  activeId: null,
+  settings: { dark: true, shuffle: true, onlyUnknown: false, dir: true },
+  streak: 0
 };
 
-function genId() {
-  return 'c_' + Math.random().toString(36).slice(2, 10);
+function save() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){}
 }
 
-function getActiveCollection() {
-  return state.collections.find(c => c.id === state.activeId) || state.collections[0];
-}
-
-function activeList() {
-  const c = getActiveCollection();
-  return c ? c.list : [];
-}
-function activeProgress() {
-  const c = getActiveCollection();
-  return c ? c.progress : {};
-}
-
-async function loadState() {
+function load() {
   try {
-    const data = await window.storage.get(STORAGE_KEY_DATA);
-    if (data) {
-      const parsed = JSON.parse(data.value);
-      state.collections = parsed.collections || [];
-      state.activeId = parsed.activeId;
-      state.settings = { ...state.settings, ...(parsed.settings || {}) };
-      state.streak = parsed.streak || 0;
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      state.collections = saved.collections || [];
+      state.activeId = saved.activeId;
+      state.settings = { ...state.settings, ...(saved.settings || {}) };
+      state.streak = saved.streak || 0;
     }
   } catch(e) {}
 
-  // Migrate from legacy v1 if needed
-  if (state.collections.length === 0) {
-    let legacyList = [];
-    let legacyProgress = {};
-    try {
-      const ll = await window.storage.get(STORAGE_KEY_LEGACY_LIST);
-      if (ll) legacyList = JSON.parse(ll.value);
-    } catch(e) {}
-    try {
-      const lp = await window.storage.get(STORAGE_KEY_LEGACY_PROGRESS);
-      if (lp) legacyProgress = JSON.parse(lp.value);
-    } catch(e) {}
-
-    if (legacyList.length > 0) {
-      state.collections = [{
-        id: genId(), name: "Мой список", icon: "📚",
-        list: legacyList, progress: legacyProgress
-      }];
-    } else {
-      // Create default empty collection
-      state.collections = [{
-        id: genId(), name: "Мой список", icon: "📚",
-        list: [], progress: {}
-      }];
-    }
-    state.activeId = state.collections[0].id;
-    await saveData();
+  if (!state.collections.length) {
+    const id = uid();
+    state.collections = [{ id, name: 'Мой список', icon: '📚', list: [], progress: {} }];
+    state.activeId = id;
+    save();
   }
-
   if (!state.activeId || !state.collections.find(c => c.id === state.activeId)) {
-    state.activeId = state.collections[0]?.id;
+    state.activeId = state.collections[0].id;
+    save();
   }
 }
 
-async function saveData() {
-  try {
-    await window.storage.set(STORAGE_KEY_DATA, JSON.stringify({
-      collections: state.collections,
-      activeId: state.activeId,
-      settings: state.settings,
-      streak: state.streak
-    }));
-  } catch(e) { console.error('save failed', e); }
+function uid() { return 'c_' + Math.random().toString(36).slice(2,10); }
+function activeColl() { return state.collections.find(c => c.id === state.activeId) || state.collections[0]; }
+function activeList() { return activeColl()?.list || []; }
+function activeProg() { return activeColl()?.progress || {}; }
+function getC(name) { return COUNTRIES.find(c => c.n === name); }
+
+// ==========================================================
+// THEME
+// ==========================================================
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', state.settings.dark ? 'dark' : 'light');
 }
 
-function getCountry(name) {
-  return COUNTRIES.find(c => c.n === name);
-}
+// ==========================================================
+// SCREEN NAV
+// ==========================================================
+let currentMode = 'cards'; // 'cards' | 'quiz'
 
-// ============================================================
-// SCREEN NAVIGATION
-// ============================================================
-function showScreen(name) {
+function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('screen-' + id).classList.add('active');
+  const tab = id === 'settings' ? 'settings' : (id === 'home' ? 'home' : 'study');
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  const tabName = name === 'study' || name === 'results' ? 'study' : (name === 'settings' ? 'settings' : 'home');
-  const tab = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
-  if (tab) tab.classList.add('active');
+  document.querySelector(`.nav-tab[data-tab="${tab}"]`)?.classList.add('active');
   window.scrollTo(0, 0);
 }
 
-document.querySelectorAll('.nav-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    const target = tab.dataset.tab;
-    if (target === 'study') {
-      if (activeList().length > 0) startStudy();
+document.querySelectorAll('.nav-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const tgt = t.dataset.tab;
+    if (tgt === 'study') {
+      if (activeList().length > 0) startSession();
       else showScreen('home');
-    } else {
-      showScreen(target);
-    }
+    } else showScreen(tgt);
   });
 });
 
-// ============================================================
+// Mode tabs
+document.querySelectorAll('.mode-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.mode-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    currentMode = t.dataset.mode;
+  });
+});
+
+// ==========================================================
 // COLLECTION BAR
-// ============================================================
-function renderCollectionBar() {
-  const c = getActiveCollection();
-  if (!c) return;
-  document.getElementById('coll-icon').textContent = c.icon || '📚';
-  document.getElementById('coll-name').textContent = c.name;
+// ==========================================================
+function renderBar() {
+  const c = activeColl();
+  document.getElementById('coll-icon').textContent = c?.icon || '📚';
+  document.getElementById('coll-name').textContent = c?.name || '—';
 }
 
-document.getElementById('coll-switcher').addEventListener('click', openCollectionsModal);
-document.getElementById('coll-edit-btn').addEventListener('click', openCollectionsModal);
+document.getElementById('coll-bar').addEventListener('click', openCollsModal);
+document.getElementById('coll-manage-btn').addEventListener('click', e => { e.stopPropagation(); openCollsModal(); });
 
-// ============================================================
+// ==========================================================
 // REGIONS GRID
-// ============================================================
+// ==========================================================
 function renderRegions() {
   const grid = document.getElementById('region-grid');
   grid.innerHTML = REGIONS.map(r => {
-    const count = COUNTRIES.filter(c => c.r.includes(r.id)).length;
-    return `
-      <button class="region-chip" data-region="${r.id}">
-        <span class="region-chip-icon">${r.icon}</span>
-        <span class="region-chip-text">
-          <div class="region-chip-name">${r.name}</div>
-          <div class="region-chip-count">${count} стран</div>
-        </span>
-      </button>
-    `;
+    const cnt = COUNTRIES.filter(c => c.r.includes(r.id)).length;
+    return `<button class="region-chip" data-rid="${r.id}">
+      <span class="region-chip-icon">${r.icon}</span>
+      <span><div class="region-chip-name">${r.name}</div><div class="region-chip-count">${cnt} стран</div></span>
+    </button>`;
   }).join('');
-
-  grid.querySelectorAll('.region-chip').forEach(chip => {
-    chip.addEventListener('click', () => onRegionClick(chip.dataset.region));
+  grid.querySelectorAll('.region-chip').forEach(ch => {
+    ch.addEventListener('click', () => onRegion(ch.dataset.rid));
   });
 }
 
-async function onRegionClick(regionId) {
-  const region = REGIONS.find(r => r.id === regionId);
-  if (!region) return;
-  const countries = COUNTRIES.filter(c => c.r.includes(regionId)).map(c => c.n);
-  const choice = confirm(
-    `Регион: ${region.name} (${countries.length} стран)\n\n` +
-    `OK — заменить текущую коллекцию на этот регион\n` +
-    `Отмена — добавить страны региона к существующему списку`
-  );
+let pendingRegionId = null;
 
-  const coll = getActiveCollection();
-  if (!coll) return;
-
-  if (choice) {
-    // Replace - create new collection or replace active
-    const replace = confirm('Заменить коллекцию "' + coll.name + '"?\n\nOK — заменить (прогресс будет сброшен)\nОтмена — создать новую коллекцию для этого региона');
-    if (replace) {
-      coll.list = [...countries];
-      coll.progress = {};
-      coll.name = region.name;
-      coll.icon = region.icon;
-    } else {
-      // Create new collection
-      const newColl = {
-        id: genId(),
-        name: region.name,
-        icon: region.icon,
-        list: [...countries],
-        progress: {}
-      };
-      state.collections.push(newColl);
-      state.activeId = newColl.id;
-    }
-  } else {
-    // Append unique
-    const set = new Set(coll.list);
-    countries.forEach(n => set.add(n));
-    coll.list = Array.from(set);
-  }
-  await saveData();
-  renderAll();
+function onRegion(rid) {
+  const r = REGIONS.find(x => x.id === rid);
+  pendingRegionId = rid;
+  const cnt = COUNTRIES.filter(c => c.r.includes(rid)).length;
+  document.getElementById('region-sheet-title').textContent = r.icon + ' ' + r.name;
+  document.getElementById('region-sheet-sub').textContent = cnt + ' стран';
+  openModal('modal-region');
 }
 
-// ============================================================
-// HOME / SEARCH
-// ============================================================
-const searchInput = document.getElementById('search');
-const suggestionsEl = document.getElementById('suggestions');
+document.getElementById('region-opt-replace').addEventListener('click', async () => {
+  const rid = pendingRegionId;
+  const r = REGIONS.find(x => x.id === rid);
+  const names = COUNTRIES.filter(c => c.r.includes(rid)).map(c => c.n);
+  const coll = activeColl();
+  coll.list = names;
+  coll.progress = {};
+  coll.name = r.name;
+  coll.icon = r.icon;
+  save(); closeModal('modal-region'); renderAll();
+});
+document.getElementById('region-opt-add').addEventListener('click', () => {
+  const rid = pendingRegionId;
+  const names = COUNTRIES.filter(c => c.r.includes(rid)).map(c => c.n);
+  const coll = activeColl();
+  const set = new Set(coll.list);
+  names.forEach(n => set.add(n));
+  coll.list = Array.from(set);
+  save(); closeModal('modal-region'); renderAll();
+});
+document.getElementById('region-opt-new').addEventListener('click', () => {
+  const rid = pendingRegionId;
+  const r = REGIONS.find(x => x.id === rid);
+  const names = COUNTRIES.filter(c => c.r.includes(rid)).map(c => c.n);
+  const id = uid();
+  state.collections.push({ id, name: r.name, icon: r.icon, list: names, progress: {} });
+  state.activeId = id;
+  save(); closeModal('modal-region'); renderAll();
+});
+document.getElementById('region-cancel').addEventListener('click', () => closeModal('modal-region'));
 
-function normalize(s) {
-  return s.toLowerCase().replace(/ё/g, 'е').trim();
-}
+// ==========================================================
+// SEARCH & LIST
+// ==========================================================
+const searchEl = document.getElementById('search');
+const sugsEl = document.getElementById('suggestions');
 
-function renderSuggestions(query) {
-  if (!query || query.length < 1) {
-    suggestionsEl.classList.remove('show');
-    suggestionsEl.innerHTML = '';
-    return;
-  }
-  const q = normalize(query);
-  const matches = COUNTRIES
-    .filter(c => normalize(c.n).startsWith(q) || normalize(c.n).includes(q) || normalize(c.c).startsWith(q))
-    .sort((a, b) => {
-      const aStart = normalize(a.n).startsWith(q) ? 0 : 1;
-      const bStart = normalize(b.n).startsWith(q) ? 0 : 1;
-      return aStart - bStart;
-    })
-    .slice(0, 8);
+function norm(s) { return s.toLowerCase().replace(/ё/g,'е').trim(); }
 
-  if (matches.length === 0) {
-    suggestionsEl.innerHTML = `<div class="suggestion" style="justify-content:center;color:var(--muted)">Ничего не найдено</div>`;
-    suggestionsEl.classList.add('show');
-    return;
-  }
-
+function renderSugs(q) {
+  if (!q) { sugsEl.classList.remove('show'); sugsEl.innerHTML=''; return; }
+  const nq = norm(q);
   const list = activeList();
-  suggestionsEl.innerHTML = matches.map(c => {
+  const hits = COUNTRIES
+    .filter(c => norm(c.n).startsWith(nq) || norm(c.n).includes(nq) || norm(c.c).startsWith(nq))
+    .sort((a,b) => (norm(a.n).startsWith(nq)?0:1) - (norm(b.n).startsWith(nq)?0:1))
+    .slice(0,8);
+  if (!hits.length) {
+    sugsEl.innerHTML = `<div class="suggestion" style="justify-content:center;color:var(--muted)">Ничего не найдено</div>`;
+    sugsEl.classList.add('show'); return;
+  }
+  sugsEl.innerHTML = hits.map(c => {
     const added = list.includes(c.n);
-    return `
-      <div class="suggestion ${added ? 'added' : ''}" data-name="${c.n}">
-        <span class="suggestion-flag">${c.f}</span>
-        <div class="suggestion-info">
-          <div class="suggestion-country">${c.n}</div>
-          <div class="suggestion-capital">${c.c}</div>
-        </div>
-        <span class="suggestion-add">${added ? '✓' : '+'}</span>
-      </div>
-    `;
+    return `<div class="suggestion ${added?'added':''}" data-name="${c.n}">
+      <span class="sug-flag">${c.f}</span>
+      <div class="sug-info"><div class="sug-country">${c.n}</div><div class="sug-cap">${c.c}</div></div>
+      <span class="sug-add">${added?'✓':'+'}</span>
+    </div>`;
   }).join('');
-
-  suggestionsEl.querySelectorAll('.suggestion').forEach(el => {
-    el.addEventListener('click', () => {
-      const name = el.dataset.name;
-      if (!name) return;
-      toggleCountry(name);
-    });
+  sugsEl.querySelectorAll('.suggestion').forEach(el => {
+    el.addEventListener('click', () => toggleCountry(el.dataset.name));
   });
-  suggestionsEl.classList.add('show');
+  sugsEl.classList.add('show');
 }
 
-searchInput.addEventListener('input', e => renderSuggestions(e.target.value));
-searchInput.addEventListener('focus', e => {
-  if (e.target.value) renderSuggestions(e.target.value);
-});
-document.addEventListener('click', e => {
-  if (!e.target.closest('.search-wrap')) {
-    suggestionsEl.classList.remove('show');
-  }
-});
+searchEl.addEventListener('input', e => renderSugs(e.target.value));
+searchEl.addEventListener('focus', e => { if(e.target.value) renderSugs(e.target.value); });
+document.addEventListener('click', e => { if(!e.target.closest('.search-wrap')) sugsEl.classList.remove('show'); });
 
-async function toggleCountry(name) {
-  const c = getActiveCollection();
-  if (!c) return;
-  if (c.list.includes(name)) {
-    c.list = c.list.filter(n => n !== name);
-    delete c.progress[name];
+function toggleCountry(name) {
+  const coll = activeColl();
+  if (coll.list.includes(name)) {
+    coll.list = coll.list.filter(n => n !== name);
+    delete coll.progress[name];
   } else {
-    c.list.push(name);
+    coll.list.push(name);
   }
-  await saveData();
-  renderList();
-  renderSuggestions(searchInput.value);
-  updateStats();
+  save(); renderList(); renderSugs(searchEl.value); updateStats();
 }
 
 function renderList() {
-  const listEl = document.getElementById('country-list');
-  const countEl = document.getElementById('list-count');
+  const el = document.getElementById('country-list');
+  const cnt = document.getElementById('list-count');
   const list = activeList();
-  const progress = activeProgress();
-  countEl.textContent = list.length > 0 ? `(${list.length})` : '';
+  const prog = activeProg();
+  cnt.textContent = list.length ? `(${list.length})` : '';
+  document.getElementById('start-btn').disabled = !list.length;
 
-  if (list.length === 0) {
-    listEl.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-emoji">🌍</div>
-        <p class="empty-text">Список пока пуст</p>
-        <p style="font-size:13px;margin-top:8px">Выбери регион выше или добавь страны через поиск</p>
-      </div>
-    `;
-    document.getElementById('start-study-btn').disabled = true;
+  if (!list.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-emoji">🌍</div><p class="empty-text">Список пока пуст</p><p style="font-size:13px;margin-top:8px;font-weight:600">Выбери регион или добавь страны через поиск</p></div>`;
     return;
   }
-
-  listEl.innerHTML = list.map(name => {
-    const c = getCountry(name);
-    if (!c) return '';
-    const p = progress[name];
-    let statBadge = '';
-    if (p) {
-      if (p.known) statBadge = `<span style="color:#a8c585">✓ Запомнил</span>`;
-      else statBadge = `<span style="color:#d88a82">↻ Повторить</span>`;
-    }
-    return `
-      <div class="country-item">
-        <div class="country-flag">${c.f}</div>
-        <div class="country-info">
-          <div class="country-name">${c.n}</div>
-          <div class="country-cap">${c.c} ${c.l}</div>
-          ${statBadge ? `<div class="country-stat">${statBadge}</div>` : ''}
-        </div>
-        <button class="remove-btn" data-name="${c.n}">×</button>
-      </div>
-    `;
+  el.innerHTML = list.map(name => {
+    const c = getC(name); if(!c) return '';
+    const p = prog[name];
+    const badge = p ? (p.known ? `<div class="c-badge known">✓ Запомнил</div>` : `<div class="c-badge repeat">↻ Повторить</div>`) : '';
+    return `<div class="country-item">
+      <div class="c-flag">${c.f}</div>
+      <div class="c-info"><div class="c-name">${c.n}</div><div class="c-cap">${c.c} ${c.l}</div>${badge}</div>
+      <button class="remove-btn" data-name="${c.n}">×</button>
+    </div>`;
   }).join('');
-
-  listEl.querySelectorAll('.remove-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      toggleCountry(btn.dataset.name);
-    });
+  el.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); toggleCountry(btn.dataset.name); });
   });
-
-  document.getElementById('start-study-btn').disabled = false;
 }
 
 function updateStats() {
-  const list = activeList();
-  const progress = activeProgress();
+  const list = activeList(); const prog = activeProg();
   document.getElementById('stat-total').textContent = list.length;
-  const known = list.filter(n => progress[n] && progress[n].known).length;
-  document.getElementById('stat-known').textContent = known;
+  document.getElementById('stat-known').textContent = list.filter(n => prog[n]?.known).length;
   document.getElementById('stat-streak').textContent = state.streak;
 }
 
-function renderAll() {
-  renderCollectionBar();
-  renderList();
-  updateStats();
-  renderSuggestions(searchInput.value);
+function renderAll() { renderBar(); renderList(); updateStats(); }
+
+// ==========================================================
+// START SESSION
+// ==========================================================
+document.getElementById('start-btn').addEventListener('click', startSession);
+
+function startSession() {
+  if (currentMode === 'cards') startCards();
+  else startQuiz();
 }
 
-// ============================================================
-// COLLECTIONS MODAL
-// ============================================================
-const modalCollections = document.getElementById('modal-collections');
-const modalEdit = document.getElementById('modal-edit');
+// ==========================================================
+// FLASHCARDS
+// ==========================================================
+let cardDeck = [], cardIdx = 0, cardResults = {know:0, dont:0};
 
-function openCollectionsModal() {
-  renderCollectionsList();
-  modalCollections.classList.add('show');
-}
-function closeModal(modal) {
-  modal.classList.remove('show');
-}
-
-modalCollections.addEventListener('click', e => {
-  if (e.target === modalCollections) closeModal(modalCollections);
-});
-modalEdit.addEventListener('click', e => {
-  if (e.target === modalEdit) closeModal(modalEdit);
-});
-
-function renderCollectionsList() {
-  const wrap = document.getElementById('collections-list');
-  wrap.innerHTML = state.collections.map(c => {
-    const known = c.list.filter(n => c.progress[n] && c.progress[n].known).length;
-    const isActive = c.id === state.activeId;
-    return `
-      <div class="collection-item ${isActive ? 'active' : ''}" data-id="${c.id}">
-        <div class="collection-item-icon">${c.icon || '📚'}</div>
-        <div class="collection-item-info">
-          <div class="collection-item-name">${c.name}</div>
-          <div class="collection-item-meta">${c.list.length} стран · ${known} выучено${isActive ? ' · активна' : ''}</div>
-        </div>
-        <div class="collection-item-actions">
-          <button class="icon-btn" data-action="edit" data-id="${c.id}" title="Переименовать">✎</button>
-          <button class="icon-btn danger" data-action="delete" data-id="${c.id}" title="Удалить">🗑</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // Click on item itself = make active
-  wrap.querySelectorAll('.collection-item').forEach(item => {
-    item.addEventListener('click', async (e) => {
-      if (e.target.closest('[data-action]')) return;
-      state.activeId = item.dataset.id;
-      await saveData();
-      renderAll();
-      closeModal(modalCollections);
-    });
-  });
-
-  // Action buttons
-  wrap.querySelectorAll('[data-action]').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      const action = btn.dataset.action;
-      const id = btn.dataset.id;
-      const coll = state.collections.find(c => c.id === id);
-      if (!coll) return;
-      if (action === 'edit') {
-        openEditModal(coll);
-      } else if (action === 'delete') {
-        if (state.collections.length === 1) {
-          alert('Нельзя удалить единственную коллекцию. Создай другую сначала.');
-          return;
-        }
-        if (confirm(`Удалить коллекцию "${coll.name}"?\nВсе страны и прогресс будут потеряны.`)) {
-          state.collections = state.collections.filter(c => c.id !== id);
-          if (state.activeId === id) state.activeId = state.collections[0].id;
-          await saveData();
-          renderCollectionsList();
-          renderAll();
-        }
-      }
-    });
-  });
-}
-
-document.getElementById('new-collection-btn').addEventListener('click', () => {
-  openEditModal(null);
-});
-
-// ============================================================
-// CREATE / EDIT COLLECTION MODAL
-// ============================================================
-let editingCollection = null;
-let selectedIcon = '📚';
-
-function openEditModal(coll) {
-  editingCollection = coll;
-  document.getElementById('edit-title').textContent = coll ? 'Редактировать' : 'Новая коллекция';
-  document.getElementById('edit-name').value = coll ? coll.name : '';
-  selectedIcon = coll ? (coll.icon || '📚') : '📚';
-  renderIconPicker();
-  modalEdit.classList.add('show');
-  setTimeout(() => document.getElementById('edit-name').focus(), 300);
-}
-
-function renderIconPicker() {
-  const picker = document.getElementById('icon-picker');
-  picker.innerHTML = ICON_OPTIONS.map(icon => `
-    <div class="icon-option ${icon === selectedIcon ? 'selected' : ''}" data-icon="${icon}">${icon}</div>
-  `).join('');
-  picker.querySelectorAll('.icon-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-      selectedIcon = opt.dataset.icon;
-      renderIconPicker();
-    });
-  });
-}
-
-document.getElementById('edit-save').addEventListener('click', async () => {
-  const name = document.getElementById('edit-name').value.trim();
-  if (!name) {
-    alert('Введи название');
-    return;
-  }
-  if (editingCollection) {
-    editingCollection.name = name;
-    editingCollection.icon = selectedIcon;
-  } else {
-    const newColl = {
-      id: genId(),
-      name,
-      icon: selectedIcon,
-      list: [],
-      progress: {}
-    };
-    state.collections.push(newColl);
-    state.activeId = newColl.id;
-  }
-  await saveData();
-  closeModal(modalEdit);
-  closeModal(modalCollections);
-  renderAll();
-});
-
-document.getElementById('edit-cancel').addEventListener('click', () => {
-  closeModal(modalEdit);
-});
-
-// ============================================================
-// STUDY MODE
-// ============================================================
-function startStudy() {
-  const list = activeList();
-  const progress = activeProgress();
+function startCards() {
+  const list = activeList(); const prog = activeProg();
   let deck = [...list];
-  if (state.settings.onlyUnknown) {
-    deck = deck.filter(n => !progress[n] || !progress[n].known);
-  }
-  if (deck.length === 0) {
-    alert(state.settings.onlyUnknown ? 'Все страны уже выучены! Сбрось прогресс или отключи "Только незнакомые".' : 'Список пуст');
-    return;
-  }
-  if (state.settings.shuffle) {
-    deck = deck.sort(() => Math.random() - 0.5);
-  }
-  state.studyDeck = deck;
-  state.studyIndex = 0;
-  state.studyResults = { know: 0, dont: 0 };
-  showScreen('study');
-  renderCurrentCard();
+  if (state.settings.onlyUnknown) deck = deck.filter(n => !prog[n]?.known);
+  if (!deck.length) { showAlert('Список пуст', state.settings.onlyUnknown ? 'Все страны выучены! Отключи «Только незнакомые» в настройках.' : 'Добавь хотя бы одну страну.'); return; }
+  if (state.settings.shuffle) deck.sort(() => Math.random() - 0.5);
+  cardDeck = deck; cardIdx = 0; cardResults = {know:0, dont:0};
+  showScreen('cards');
+  renderCard();
 }
 
-function renderCurrentCard() {
+function renderCard() {
   const card = document.getElementById('card');
   card.classList.remove('flipped');
   document.getElementById('btn-know').disabled = true;
   document.getElementById('btn-dont').disabled = true;
-
-  const total = state.studyDeck.length;
-  const idx = state.studyIndex;
-  document.getElementById('card-current').textContent = idx + 1;
-  document.getElementById('card-total').textContent = total;
-  document.getElementById('progress-fill').style.width = `${(idx / total) * 100}%`;
-
-  const name = state.studyDeck[idx];
-  const c = getCountry(name);
-  if (!c) return;
-
-  if (state.settings.directionCountryToCapital) {
-    document.querySelector('.card-front .card-eyebrow').textContent = 'Страна';
-    document.getElementById('card-flag').textContent = c.f;
-    document.getElementById('card-flag').style.fontSize = '80px';
-    document.getElementById('card-country').textContent = c.n;
-
-    document.querySelector('.card-back .card-eyebrow').textContent = 'Столица';
-    document.getElementById('card-landmark').textContent = c.l;
-    document.getElementById('card-capital').textContent = c.c;
-    document.getElementById('card-capital-of').textContent = `столица — ${c.n}`;
+  const n = cardDeck[cardIdx];
+  const c = getC(n); if(!c) return;
+  const tot = cardDeck.length;
+  document.getElementById('card-cur').textContent = cardIdx+1;
+  document.getElementById('card-tot').textContent = tot;
+  document.getElementById('cards-fill').style.width = `${(cardIdx/tot)*100}%`;
+  if (state.settings.dir) {
+    document.getElementById('cf-eyebrow').textContent = 'Страна';
+    document.getElementById('cf-emoji').textContent = c.f;
+    document.getElementById('cf-text').textContent = c.n;
+    document.getElementById('cb-eyebrow').textContent = 'Столица';
+    document.getElementById('cb-landmark').textContent = c.l;
+    document.getElementById('cb-text').textContent = c.c;
+    document.getElementById('cb-sub').textContent = `столица — ${c.n}`;
   } else {
-    document.querySelector('.card-front .card-eyebrow').textContent = 'Столица';
-    document.getElementById('card-flag').textContent = c.l;
-    document.getElementById('card-flag').style.fontSize = '64px';
-    document.getElementById('card-country').textContent = c.c;
-
-    document.querySelector('.card-back .card-eyebrow').textContent = 'Страна';
-    document.getElementById('card-landmark').textContent = c.f;
-    document.getElementById('card-capital').textContent = c.n;
-    document.getElementById('card-capital-of').textContent = `столица: ${c.c}`;
+    document.getElementById('cf-eyebrow').textContent = 'Столица';
+    document.getElementById('cf-emoji').textContent = c.l;
+    document.getElementById('cf-text').textContent = c.c;
+    document.getElementById('cb-eyebrow').textContent = 'Страна';
+    document.getElementById('cb-landmark').textContent = c.f;
+    document.getElementById('cb-text').textContent = c.n;
+    document.getElementById('cb-sub').textContent = `столица: ${c.c}`;
   }
 }
 
@@ -1983,140 +1082,429 @@ document.getElementById('card').addEventListener('click', () => {
     setTimeout(() => {
       document.getElementById('btn-know').disabled = false;
       document.getElementById('btn-dont').disabled = false;
-    }, 300);
+    }, 320);
   }
 });
 
-async function answerCard(known) {
-  const name = state.studyDeck[state.studyIndex];
-  const coll = getActiveCollection();
-  if (coll) {
-    coll.progress[name] = { known, lastSeen: Date.now() };
-  }
-  if (known) {
-    state.studyResults.know++;
-    state.streak++;
-  } else {
-    state.studyResults.dont++;
-    state.streak = 0;
-  }
-  await saveData();
-
-  state.studyIndex++;
-  if (state.studyIndex >= state.studyDeck.length) {
-    showResults();
-  } else {
-    const card = document.getElementById('card');
-    card.classList.remove('flipped');
-    setTimeout(renderCurrentCard, 350);
+function answerCard(known) {
+  const name = cardDeck[cardIdx];
+  const coll = activeColl();
+  coll.progress[name] = { known, lastSeen: Date.now() };
+  if (known) { cardResults.know++; state.streak++; }
+  else { cardResults.dont++; state.streak = 0; }
+  save();
+  cardIdx++;
+  if (cardIdx >= cardDeck.length) { showResultsScreen(cardResults); }
+  else {
+    document.getElementById('card').classList.remove('flipped');
+    setTimeout(renderCard, 300);
   }
 }
 
 document.getElementById('btn-know').addEventListener('click', () => answerCard(true));
 document.getElementById('btn-dont').addEventListener('click', () => answerCard(false));
-
-document.getElementById('close-study').addEventListener('click', () => {
-  if (confirm('Прервать сессию? Прогресс будет сохранён.')) {
-    showScreen('home');
-    renderAll();
-  }
+document.getElementById('close-cards').addEventListener('click', () => {
+  showConfirm('Прервать?', 'Текущий прогресс будет сохранён.', () => { showScreen('home'); renderAll(); });
 });
 
-// ============================================================
-// RESULTS
-// ============================================================
-function showResults() {
-  document.getElementById('progress-fill').style.width = '100%';
-  setTimeout(() => {
-    showScreen('results');
-    const total = state.studyResults.know + state.studyResults.dont;
-    const accuracy = total > 0 ? Math.round((state.studyResults.know / total) * 100) : 0;
-    document.getElementById('res-know').textContent = state.studyResults.know;
-    document.getElementById('res-dont').textContent = state.studyResults.dont;
-    document.getElementById('res-acc').textContent = accuracy + '%';
+// ==========================================================
+// QUIZ MODE
+// ==========================================================
+let quizDeck = [], quizIdx = 0, quizResults = {know:0, dont:0};
+let quizAnswered = false;
 
-    const emojiEl = document.getElementById('results-emoji');
-    const titleEl = document.getElementById('results-title');
-    const subEl = document.getElementById('results-sub');
-    if (accuracy === 100) {
-      emojiEl.textContent = '🏆';
-      titleEl.textContent = 'Идеально!';
-      subEl.textContent = 'Все ответы верны';
-    } else if (accuracy >= 80) {
-      emojiEl.textContent = '🎉';
-      titleEl.textContent = 'Отлично!';
-      subEl.textContent = 'Так держать';
-    } else if (accuracy >= 50) {
-      emojiEl.textContent = '💪';
-      titleEl.textContent = 'Хорошо!';
-      subEl.textContent = 'Ещё немного практики';
-    } else {
-      emojiEl.textContent = '📚';
-      titleEl.textContent = 'Не сдавайся';
-      subEl.textContent = 'Повтори ещё разок';
-    }
-    updateStats();
-  }, 400);
+function startQuiz() {
+  const list = activeList(); const prog = activeProg();
+  let deck = [...list];
+  if (state.settings.onlyUnknown) deck = deck.filter(n => !prog[n]?.known);
+  if (deck.length < 2) { showAlert('Мало стран', 'Для теста нужно минимум 2 страны в списке.'); return; }
+  if (state.settings.shuffle) deck.sort(() => Math.random() - 0.5);
+  quizDeck = deck; quizIdx = 0; quizResults = {know:0, dont:0};
+  showScreen('quiz');
+  renderQuiz();
 }
 
-document.getElementById('study-again').addEventListener('click', startStudy);
-document.getElementById('back-home').addEventListener('click', () => {
-  showScreen('home');
-  renderAll();
-});
+function getQuizOptions(correctName) {
+  const correct = getC(correctName);
+  // Prefer options from same regions
+  const sameRegion = COUNTRIES.filter(c => c.n !== correctName && c.r.some(r => correct.r.includes(r)));
+  const others = COUNTRIES.filter(c => c.n !== correctName && !c.r.some(r => correct.r.includes(r)));
+  const pool = [...shuffle(sameRegion).slice(0,6), ...shuffle(others)];
+  const picks = []; const seen = new Set([correctName]);
+  for (const c of pool) {
+    if (picks.length >= 3) break;
+    if (!seen.has(c.n)) { seen.add(c.n); picks.push(c.n); }
+  }
+  while (picks.length < 3) { picks.push(COUNTRIES.find(c => !seen.has(c.n))?.n || correctName); }
+  const all = [correctName, ...picks.slice(0,3)];
+  return shuffle(all);
+}
 
-// ============================================================
-// SETTINGS
-// ============================================================
-function setupToggle(id, key) {
-  const el = document.getElementById(id);
-  if (state.settings[key]) el.classList.add('on');
-  el.addEventListener('click', async () => {
-    state.settings[key] = !state.settings[key];
-    el.classList.toggle('on');
-    await saveData();
+function shuffle(arr) { return [...arr].sort(() => Math.random()-0.5); }
+
+function renderQuiz() {
+  quizAnswered = false;
+  const name = quizDeck[quizIdx];
+  const c = getC(name); if(!c) return;
+  const tot = quizDeck.length;
+  document.getElementById('quiz-cur').textContent = quizIdx+1;
+  document.getElementById('quiz-tot').textContent = tot;
+  document.getElementById('quiz-fill').style.width = `${(quizIdx/tot)*100}%`;
+
+  const dir = state.settings.dir;
+  document.getElementById('quiz-flag').textContent = dir ? c.f : c.l;
+  document.getElementById('quiz-question').textContent = dir ? c.n : c.c;
+  document.getElementById('quiz-prompt').textContent = dir ? 'Какая столица у этой страны?' : 'Чья это столица?';
+
+  const options = getQuizOptions(name);
+  const optsEl = document.getElementById('quiz-options');
+  optsEl.innerHTML = options.map(optName => {
+    const oc = getC(optName);
+    const label = dir ? oc.c : oc.n;
+    return `<button class="quiz-opt" data-name="${optName}">${label}</button>`;
+  }).join('');
+
+  optsEl.querySelectorAll('.quiz-opt').forEach(btn => {
+    btn.addEventListener('click', () => onQuizAnswer(btn.dataset.name, name, btn));
   });
 }
 
-document.getElementById('reset-progress').addEventListener('click', async () => {
-  const coll = getActiveCollection();
-  if (!coll) return;
-  if (confirm(`Сбросить прогресс коллекции "${coll.name}"?`)) {
-    coll.progress = {};
-    state.streak = 0;
-    await saveData();
-    renderAll();
-    alert('Прогресс сброшен');
-  }
-});
-document.getElementById('reset-all').addEventListener('click', async () => {
-  if (confirm('Удалить все коллекции и сбросить весь прогресс?')) {
-    state.collections = [{
-      id: genId(), name: "Мой список", icon: "📚",
-      list: [], progress: {}
-    }];
-    state.activeId = state.collections[0].id;
-    state.streak = 0;
-    await saveData();
-    renderAll();
-    showScreen('home');
-    alert('Все данные удалены');
-  }
+function onQuizAnswer(chosen, correct, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const isCorrect = chosen === correct;
+  const optsEl = document.getElementById('quiz-options');
+  optsEl.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.name === correct) b.classList.add('correct');
+    else if (b.dataset.name === chosen && !isCorrect) b.classList.add('wrong');
+  });
+
+  const coll = activeColl();
+  coll.progress[correct] = { known: isCorrect, lastSeen: Date.now() };
+  if (isCorrect) { quizResults.know++; state.streak++; }
+  else { quizResults.dont++; state.streak = 0; }
+  save();
+
+  setTimeout(() => {
+    quizIdx++;
+    if (quizIdx >= quizDeck.length) showResultsScreen(quizResults);
+    else renderQuiz();
+  }, isCorrect ? 900 : 1500);
+}
+
+document.getElementById('close-quiz').addEventListener('click', () => {
+  showConfirm('Прервать?', 'Текущий прогресс сохранён.', () => { showScreen('home'); renderAll(); });
 });
 
-document.getElementById('start-study-btn').addEventListener('click', startStudy);
+// ==========================================================
+// WRITE MODE (review mistakes after session)
+// ==========================================================
+let writeDeck = [], writeIdx = 0, writeSubmitted = false;
 
-// ============================================================
+function startWrite(mistakes) {
+  if (!mistakes.length) { showResultsFinal(); return; }
+  writeDeck = shuffle([...mistakes]);
+  writeIdx = 0;
+  showScreen('write');
+  renderWrite();
+}
+
+function renderWrite() {
+  writeSubmitted = false;
+  const name = writeDeck[writeIdx];
+  const c = getC(name); if(!c) return;
+  document.getElementById('wr-cur').textContent = writeIdx+1;
+  document.getElementById('wr-tot').textContent = writeDeck.length;
+  document.getElementById('wr-fill').style.width = `${(writeIdx/writeDeck.length)*100}%`;
+  document.getElementById('wr-flag').textContent = c.f;
+  document.getElementById('wr-country').textContent = c.n;
+  const inp = document.getElementById('wr-input');
+  inp.value = ''; inp.className = 'write-input';
+  document.getElementById('wr-feedback').innerHTML = '';
+  document.getElementById('wr-submit').textContent = 'Проверить →';
+  setTimeout(() => inp.focus(), 200);
+}
+
+// Fuzzy match — allow up to 2 typos for words 6+, 1 typo for 4-5
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({length:m+1}, (_,i) => Array.from({length:n+1}, (_,j) => j===0?i:0));
+  for(let j=1;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++)
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+function fuzzyMatch(input, target) {
+  const a = norm(input), b = norm(target);
+  if (a === b) return 'exact';
+  const maxErr = b.length >= 6 ? 2 : b.length >= 4 ? 1 : 0;
+  return levenshtein(a, b) <= maxErr ? 'close' : 'wrong';
+}
+
+document.getElementById('wr-submit').addEventListener('click', () => {
+  if (writeSubmitted) {
+    writeIdx++;
+    if (writeIdx >= writeDeck.length) showResultsFinal();
+    else renderWrite();
+    return;
+  }
+  const name = writeDeck[writeIdx];
+  const c = getC(name);
+  const inp = document.getElementById('wr-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  writeSubmitted = true;
+  const result = fuzzyMatch(val, c.c);
+  const fb = document.getElementById('wr-feedback');
+  if (result === 'exact') {
+    inp.classList.add('ok');
+    fb.innerHTML = `<span class="corr">✓ Верно! Молодец.</span>`;
+  } else if (result === 'close') {
+    inp.classList.add('ok');
+    fb.innerHTML = `<span class="close">≈ Почти! Правильно: <b>${c.c}</b></span>`;
+  } else {
+    inp.classList.add('err');
+    fb.innerHTML = `<span class="wrong">✗ Нет. Правильный ответ: <b>${c.c}</b></span>`;
+  }
+  document.getElementById('wr-submit').textContent = writeIdx < writeDeck.length-1 ? 'Следующий →' : 'К итогам →';
+});
+
+document.getElementById('wr-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('wr-submit').click();
+});
+
+document.getElementById('close-write').addEventListener('click', () => {
+  showConfirm('Выйти из повторения?', '', () => { showScreen('home'); renderAll(); });
+});
+
+// ==========================================================
+// RESULTS
+// ==========================================================
+let pendingMistakes = [];
+
+function showResultsScreen(results) {
+  // collect mistakes for write session
+  const prog = activeProg();
+  const deck = cardDeck.length ? cardDeck : quizDeck;
+  pendingMistakes = deck.filter(n => !prog[n]?.known);
+
+  const total = results.know + results.dont;
+  const acc = total ? Math.round(results.know/total*100) : 0;
+  document.getElementById('res-know').textContent = results.know;
+  document.getElementById('res-dont').textContent = results.dont;
+  document.getElementById('res-acc').textContent = acc + '%';
+
+  let emoji, title, sub;
+  if (acc===100){emoji='🏆';title='Идеально!';sub='Все ответы верны'}
+  else if(acc>=80){emoji='🎉';title='Отлично!';sub='Так держать'}
+  else if(acc>=50){emoji='💪';title='Хорошо!';sub='Ещё немного практики'}
+  else{emoji='📚';title='Не сдавайся';sub='Повтори ещё разок'}
+
+  document.getElementById('res-emoji').textContent = emoji;
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-sub').textContent = sub;
+
+  // Show "practice mistakes" button if any
+  const againBtn = document.getElementById('study-again');
+  if (pendingMistakes.length > 0) {
+    againBtn.textContent = `✏️ Написать ${pendingMistakes.length} ошибочных →`;
+    againBtn.onclick = () => startWrite(pendingMistakes);
+  } else {
+    againBtn.textContent = 'Учить ещё раз →';
+    againBtn.onclick = () => startSession();
+  }
+  updateStats();
+  showScreen('results');
+}
+
+function showResultsFinal() {
+  showScreen('results');
+  const againBtn = document.getElementById('study-again');
+  againBtn.textContent = 'Учить ещё раз →';
+  againBtn.onclick = () => startSession();
+  updateStats();
+}
+
+document.getElementById('back-home').addEventListener('click', () => { showScreen('home'); renderAll(); });
+
+// ==========================================================
+// SETTINGS
+// ==========================================================
+function setupToggle(id, key, onChange) {
+  const el = document.getElementById(id);
+  el.addEventListener('click', () => {
+    state.settings[key] = !state.settings[key];
+    el.classList.toggle('on', state.settings[key]);
+    save();
+    if (onChange) onChange(state.settings[key]);
+  });
+}
+
+document.getElementById('reset-progress').addEventListener('click', () => {
+  const coll = activeColl();
+  showConfirm(`Сбросить прогресс коллекции «${coll.name}»?`, 'Статистика будет обнулена, список стран останется.', () => {
+    coll.progress = {}; state.streak = 0; save(); renderAll();
+  });
+});
+document.getElementById('reset-all').addEventListener('click', () => {
+  showConfirm('Удалить всё?', 'Все коллекции, страны и прогресс будут удалены безвозвратно.', () => {
+    const id = uid();
+    state.collections = [{id, name:'Мой список', icon:'📚', list:[], progress:{}}];
+    state.activeId = id; state.streak = 0;
+    save(); renderAll(); showScreen('home');
+  });
+});
+
+// ==========================================================
+// COLLECTIONS MODAL
+// ==========================================================
+function openCollsModal() {
+  renderCollsList();
+  openModal('modal-colls');
+}
+
+function renderCollsList() {
+  const wrap = document.getElementById('colls-list');
+  wrap.innerHTML = state.collections.map(c => {
+    const known = c.list.filter(n => c.progress[n]?.known).length;
+    const active = c.id === state.activeId;
+    return `<div class="coll-item ${active?'active-coll':''}" data-id="${c.id}">
+      <div class="ci-icon">${c.icon||'📚'}</div>
+      <div class="ci-info">
+        <div class="ci-name">${c.name}</div>
+        <div class="ci-meta">${c.list.length} стран · ${known} выучено${active?' · активна':''}</div>
+      </div>
+      <div class="ci-actions">
+        <button class="icon-btn" data-action="edit" data-id="${c.id}">✎</button>
+        <button class="icon-btn danger" data-action="del" data-id="${c.id}">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  wrap.querySelectorAll('.coll-item').forEach(el => {
+    el.addEventListener('click', e => {
+      if (e.target.closest('[data-action]')) return;
+      state.activeId = el.dataset.id;
+      save(); renderAll(); closeModal('modal-colls');
+    });
+  });
+  wrap.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      const coll = state.collections.find(c => c.id === id);
+      if (btn.dataset.action === 'edit') { openEditModal(coll); }
+      else {
+        if (state.collections.length === 1) { showAlert('Нельзя удалить', 'Это единственная коллекция. Создай другую сначала.'); return; }
+        showConfirm(`Удалить «${coll.name}»?`, 'Все страны и прогресс будут потеряны.', () => {
+          state.collections = state.collections.filter(c => c.id !== id);
+          if (state.activeId === id) state.activeId = state.collections[0].id;
+          save(); renderCollsList(); renderAll();
+        });
+      }
+    });
+  });
+}
+
+document.getElementById('new-coll-btn').addEventListener('click', () => openEditModal(null));
+document.getElementById('close-colls-btn').addEventListener('click', () => closeModal('modal-colls'));
+
+// ==========================================================
+// EDIT COLLECTION MODAL
+// ==========================================================
+let editTarget = null, pickedIcon = '📚';
+
+function openEditModal(coll) {
+  editTarget = coll;
+  pickedIcon = coll?.icon || '📚';
+  document.getElementById('edit-sheet-title').textContent = coll ? 'Редактировать' : 'Новая коллекция';
+  document.getElementById('edit-name').value = coll?.name || '';
+  renderIconPicker();
+  openModal('modal-edit');
+  setTimeout(() => document.getElementById('edit-name').focus(), 300);
+}
+
+function renderIconPicker() {
+  const p = document.getElementById('icon-picker');
+  p.innerHTML = ICONS.map(ic => `<div class="icon-opt${ic===pickedIcon?' sel':''}" data-icon="${ic}">${ic}</div>`).join('');
+  p.querySelectorAll('.icon-opt').forEach(o => {
+    o.addEventListener('click', () => { pickedIcon = o.dataset.icon; renderIconPicker(); });
+  });
+}
+
+document.getElementById('edit-save').addEventListener('click', () => {
+  const name = document.getElementById('edit-name').value.trim();
+  if (!name) { document.getElementById('edit-name').focus(); return; }
+  if (editTarget) {
+    editTarget.name = name; editTarget.icon = pickedIcon;
+  } else {
+    const id = uid();
+    state.collections.push({id, name, icon: pickedIcon, list:[], progress:{}});
+    state.activeId = id;
+  }
+  save(); closeModal('modal-edit'); closeModal('modal-colls'); renderAll();
+});
+document.getElementById('edit-cancel').addEventListener('click', () => closeModal('modal-edit'));
+
+// ==========================================================
+// GENERIC CONFIRM / ALERT MODALS
+// ==========================================================
+let confirmCallback = null;
+
+function showConfirm(title, msg, onOk) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-msg').textContent = msg;
+  confirmCallback = onOk;
+  openModal('modal-confirm');
+}
+function showAlert(title, msg) {
+  showConfirm(title, msg, null);
+  document.getElementById('confirm-cancel').style.display = 'none';
+  document.getElementById('confirm-ok').textContent = 'Понятно';
+}
+document.getElementById('confirm-ok').addEventListener('click', () => {
+  closeModal('modal-confirm');
+  document.getElementById('confirm-cancel').style.display = '';
+  document.getElementById('confirm-ok').textContent = 'OK';
+  if (confirmCallback) { confirmCallback(); confirmCallback = null; }
+});
+document.getElementById('confirm-cancel').addEventListener('click', () => {
+  closeModal('modal-confirm');
+  confirmCallback = null;
+});
+
+// ==========================================================
+// MODAL HELPERS
+// ==========================================================
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('show');
+  });
+});
+
+// ==========================================================
 // INIT
-// ============================================================
-(async () => {
-  await loadState();
-  renderRegions();
-  setupToggle('toggle-shuffle', 'shuffle');
-  setupToggle('toggle-unknown', 'onlyUnknown');
-  setupToggle('toggle-direction', 'directionCountryToCapital');
-  renderAll();
-})();
+// ==========================================================
+load();
+applyTheme();
+renderRegions();
+setupToggle('toggle-theme','dark', () => applyTheme());
+setupToggle('toggle-shuffle','shuffle');
+setupToggle('toggle-unknown','onlyUnknown');
+setupToggle('toggle-dir','dir');
+
+// Sync toggle visual states from loaded settings
+document.getElementById('toggle-theme').classList.toggle('on', state.settings.dark);
+document.getElementById('toggle-shuffle').classList.toggle('on', state.settings.shuffle);
+document.getElementById('toggle-unknown').classList.toggle('on', state.settings.onlyUnknown);
+document.getElementById('toggle-dir').classList.toggle('on', state.settings.dir);
+
+renderAll();
 </script>
 </body>
 </html>
