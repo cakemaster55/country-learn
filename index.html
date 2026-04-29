@@ -2016,6 +2016,120 @@ renderAccentGrid();
 renderBlacklist();
 renderLevel();
 renderAll();
+
+// ==========================================================
+// SERVICE WORKER — встроен через Blob, не нужен отдельный файл
+// Меняй CACHE_VERSION при каждом деплое на GitHub Pages
+// ==========================================================
+const CACHE_VERSION = 'atlas-v2';
+
+const SW_CODE = `
+const CACHE = '${CACHE_VERSION}';
+
+self.addEventListener('install', e => {
+  // Активируемся немедленно, не ждём закрытия старых вкладок
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', e => {
+  // Удаляем старые кэши
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', e => {
+  // Только GET-запросы, только наш origin
+  if (e.request.method !== 'GET') return;
+  if (!e.request.url.startsWith(self.location.origin)) return;
+
+  e.respondWith(
+    caches.open(CACHE).then(async cache => {
+      // Stale-while-revalidate: отдаём кэш мгновенно,
+      // параллельно обновляем в фоне
+      const cached = await cache.match(e.request);
+
+      const fetchPromise = fetch(e.request).then(response => {
+        if (response && response.status === 200) {
+          cache.put(e.request, response.clone());
+        }
+        return response;
+      }).catch(() => null);
+
+      return cached || fetchPromise;
+    })
+  );
+});
+
+// Сообщаем клиентам когда появилась новая версия
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window' }).then(clients => {
+      clients.forEach(client => client.postMessage({ type: 'SW_UPDATED', version: CACHE }));
+    })
+  );
+});
+`;
+
+if ('serviceWorker' in navigator) {
+  // Регистрируем SW из Blob — работает на GitHub Pages без отдельного файла
+  const blob = new Blob([SW_CODE], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+
+  navigator.serviceWorker.register(swUrl, { scope: '/' })
+    .then(reg => {
+      console.log('[Atlas] SW зарегистрирован, scope:', reg.scope);
+
+      // Проверяем обновления при каждом запуске
+      reg.update();
+    })
+    .catch(err => {
+      // Blob SW может не работать в некоторых браузерах — тихо фейлим
+      console.log('[Atlas] SW недоступен:', err.message);
+    });
+
+  // Слушаем сообщение об обновлении от SW
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data?.type === 'SW_UPDATED') {
+      showUpdateBanner();
+    }
+  });
+
+  // Показываем баннер если SW обновился пока приложение было открыто
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    showUpdateBanner();
+  });
+}
+
+let updateBannerShown = false;
+function showUpdateBanner() {
+  if (updateBannerShown) return;
+  updateBannerShown = true;
+
+  const banner = document.createElement('div');
+  banner.style.cssText = `
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:430px;
+    background:var(--accent); color:#fff;
+    padding:14px 20px; padding-bottom:calc(14px + env(safe-area-inset-bottom));
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    z-index:999; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
+    box-shadow:0 -4px 20px rgba(0,0,0,0.3);
+    animation:slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+  `;
+  banner.innerHTML = `
+    <span>🔄 Доступно обновление!</span>
+    <button style="
+      background:rgba(255,255,255,0.25); border:none; color:#fff;
+      padding:8px 16px; border-radius:100px; font-family:'Nunito',sans-serif;
+      font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap;
+    ">Обновить</button>
+  `;
+  banner.querySelector('button').addEventListener('click', () => window.location.reload());
+  document.body.appendChild(banner);
+}
 </script>
 </body>
 </html>
