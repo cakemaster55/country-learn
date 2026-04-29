@@ -198,14 +198,35 @@ body {
 .progress-bar { height:4px; background:var(--bg-elev); border-radius:2px; overflow:hidden; margin-bottom:24px; }
 .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-soft)); transition:width 0.4s cubic-bezier(0.4,0,0.2,1); border-radius:2px; }
 
-/* Card flip fix - separate containers */
+/* Card flip — iOS Safari needs explicit translateZ for backface-visibility */
 .card-stack { height:420px; position:relative; margin-bottom:24px; }
 .card { width:100%; height:100%; position:relative; }
-.card-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.4,0,0.2,1); cursor:pointer; }
-.card.flipped .card-inner { transform:rotateY(180deg); }
-.card-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:22px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; overflow:hidden; padding:24px 28px; }
-.card-front { background:var(--card-front-bg); color:var(--card-front-color); box-shadow:0 10px 36px var(--shadow), 0 3px 10px rgba(0,0,0,0.2); }
-.card-back { background:var(--card-back-bg); color:var(--paper); transform:rotateY(180deg); border:1px solid var(--line); box-shadow:0 10px 36px var(--shadow); }
+.card-inner {
+  width:100%; height:100%; position:relative;
+  transform-style:preserve-3d; -webkit-transform-style:preserve-3d;
+  transition:-webkit-transform 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
+  cursor:pointer; will-change:transform;
+}
+.card.flipped .card-inner { -webkit-transform:rotateY(180deg); transform:rotateY(180deg); }
+.card-face {
+  position:absolute; inset:0;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border-radius:22px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; overflow:hidden; padding:24px 28px;
+}
+.card-front {
+  background:var(--card-front-bg); color:var(--card-front-color);
+  box-shadow:0 10px 36px var(--shadow), 0 3px 10px rgba(0,0,0,0.2);
+  -webkit-transform:rotateY(0deg) translateZ(2px);
+  transform:rotateY(0deg) translateZ(2px);
+}
+.card-back {
+  background:var(--card-back-bg); color:var(--paper);
+  -webkit-transform:rotateY(180deg) translateZ(2px);
+  transform:rotateY(180deg) translateZ(2px);
+  border:1px solid var(--line); box-shadow:0 10px 36px var(--shadow);
+}
 [data-theme="light"] .card-back { color:var(--ink); }
 
 .card-front::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 80%,var(--bg-mesh1),transparent 55%),radial-gradient(circle at 80% 20%,var(--bg-mesh2),transparent 55%); pointer-events:none; }
@@ -479,6 +500,12 @@ body {
     <div class="setting-row">
       <div><div class="s-label">Тёмная тема</div><div class="s-desc">Тёмный фон для глаз ночью</div></div>
       <div class="toggle on" id="toggle-theme"></div>
+    </div>
+  </div>
+  <div class="setting-card">
+    <div class="setting-row">
+      <div><div class="s-label">Звуки</div><div class="s-desc">Звук переворота, правильного и неправильного ответа</div></div>
+      <div class="toggle on" id="toggle-sound"></div>
     </div>
   </div>
   <div class="setting-card">
@@ -785,7 +812,7 @@ const LS_KEY = 'atlas_v3';
 let state = {
   collections: [],
   activeId: null,
-  settings: { dark: true, shuffle: true, onlyUnknown: false, dir: true },
+  settings: { dark: true, shuffle: true, onlyUnknown: false, dir: true, sound: true },
   streak: 0
 };
 
@@ -1078,6 +1105,7 @@ function renderCard() {
 document.getElementById('card').addEventListener('click', () => {
   const card = document.getElementById('card');
   card.classList.toggle('flipped');
+  playSound('flip');
   if (card.classList.contains('flipped')) {
     setTimeout(() => {
       document.getElementById('btn-know').disabled = false;
@@ -1090,11 +1118,11 @@ function answerCard(known) {
   const name = cardDeck[cardIdx];
   const coll = activeColl();
   coll.progress[name] = { known, lastSeen: Date.now() };
-  if (known) { cardResults.know++; state.streak++; }
-  else { cardResults.dont++; state.streak = 0; }
+  if (known) { cardResults.know++; state.streak++; playSound('correct'); }
+  else { cardResults.dont++; state.streak = 0; playSound('wrong'); }
   save();
   cardIdx++;
-  if (cardIdx >= cardDeck.length) { showResultsScreen(cardResults); }
+  if (cardIdx >= cardDeck.length) { playSound('complete'); showResultsScreen(cardResults); }
   else {
     document.getElementById('card').classList.remove('flipped');
     setTimeout(renderCard, 300);
@@ -1182,13 +1210,13 @@ function onQuizAnswer(chosen, correct, btn) {
 
   const coll = activeColl();
   coll.progress[correct] = { known: isCorrect, lastSeen: Date.now() };
-  if (isCorrect) { quizResults.know++; state.streak++; }
-  else { quizResults.dont++; state.streak = 0; }
+  if (isCorrect) { quizResults.know++; state.streak++; playSound('correct'); }
+  else { quizResults.dont++; state.streak = 0; playSound('wrong'); }
   save();
 
   setTimeout(() => {
     quizIdx++;
-    if (quizIdx >= quizDeck.length) showResultsScreen(quizResults);
+    if (quizIdx >= quizDeck.length) { playSound('complete'); showResultsScreen(quizResults); }
     else renderQuiz();
   }, isCorrect ? 900 : 1500);
 }
@@ -1261,12 +1289,15 @@ document.getElementById('wr-submit').addEventListener('click', () => {
   if (result === 'exact') {
     inp.classList.add('ok');
     fb.innerHTML = `<span class="corr">✓ Верно! Молодец.</span>`;
+    playSound('correct');
   } else if (result === 'close') {
     inp.classList.add('ok');
     fb.innerHTML = `<span class="close">≈ Почти! Правильно: <b>${c.c}</b></span>`;
+    playSound('correct');
   } else {
     inp.classList.add('err');
     fb.innerHTML = `<span class="wrong">✗ Нет. Правильный ответ: <b>${c.c}</b></span>`;
+    playSound('wrong');
   }
   document.getElementById('wr-submit').textContent = writeIdx < writeDeck.length-1 ? 'Следующий →' : 'К итогам →';
 });
@@ -1488,18 +1519,111 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 // ==========================================================
+// SOUNDS — Web Audio API (no external files)
+// ==========================================================
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playSound(type) {
+  if (!state.settings.sound) return;
+  try {
+    const ctx = getAudioCtx();
+    const t = ctx.currentTime;
+
+    if (type === 'flip') {
+      // Soft click: two gentle sine pulses, like a subtle UI tap
+      const freqs = [1080, 720];
+      freqs.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const d = i * 0.028;
+        g.gain.setValueAtTime(0, t + d);
+        g.gain.linearRampToValueAtTime(0.09, t + d + 0.008);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.09);
+        osc.connect(g); g.connect(ctx.destination);
+        osc.start(t + d); osc.stop(t + d + 0.1);
+      });
+    }
+
+    else if (type === 'correct') {
+      // Two-note chime: C5 → E5
+      [[523.25, 0], [659.25, 0.13]].forEach(([freq, delay]) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0, t + delay);
+        gain.gain.linearRampToValueAtTime(0.22, t + delay + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.35);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(t + delay); osc.stop(t + delay + 0.36);
+      });
+    }
+
+    else if (type === 'wrong') {
+      // Descending buzz: Bb4 → G4
+      [[466.16, 0], [392.00, 0.12]].forEach(([freq, delay]) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth'; osc.frequency.value = freq;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass'; filter.frequency.value = 900;
+        gain.gain.setValueAtTime(0.15, t + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.28);
+        osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+        osc.start(t + delay); osc.stop(t + delay + 0.3);
+      });
+    }
+
+    else if (type === 'complete') {
+      // Victory arpeggio: C5 E5 G5 C6
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq;
+        const d = i * 0.1;
+        gain.gain.setValueAtTime(0, t + d);
+        gain.gain.linearRampToValueAtTime(0.2, t + d + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + d + 0.5);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(t + d); osc.stop(t + d + 0.52);
+      });
+    }
+
+    else if (type === 'tap') {
+      // Subtle click
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine'; osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.08, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(t); osc.stop(t + 0.07);
+    }
+  } catch(e) {}
+}
+
+// ==========================================================
 // INIT
 // ==========================================================
 load();
 applyTheme();
 renderRegions();
 setupToggle('toggle-theme','dark', () => applyTheme());
+setupToggle('toggle-sound','sound');
 setupToggle('toggle-shuffle','shuffle');
 setupToggle('toggle-unknown','onlyUnknown');
 setupToggle('toggle-dir','dir');
 
 // Sync toggle visual states from loaded settings
 document.getElementById('toggle-theme').classList.toggle('on', state.settings.dark);
+document.getElementById('toggle-sound').classList.toggle('on', state.settings.sound);
 document.getElementById('toggle-shuffle').classList.toggle('on', state.settings.shuffle);
 document.getElementById('toggle-unknown').classList.toggle('on', state.settings.onlyUnknown);
 document.getElementById('toggle-dir').classList.toggle('on', state.settings.dir);
