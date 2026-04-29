@@ -429,91 +429,6 @@ body {
 .xp-bar-big { height:8px; background:var(--line); border-radius:4px; overflow:hidden; margin-bottom:8px; }
 .xp-bar-big-fill { height:100%; background:var(--accent); border-radius:4px; transition:width 0.6s cubic-bezier(0.4,0,0.2,1); }
 .xp-label { font-size:12px; color:var(--muted); font-weight:600; text-align:right; }
-
-/* ============ DESKTOP LAYOUT ============ */
-
-/* Враппер двух колонок на главном экране */
-.home-layout { display:flex; flex-direction:column; gap:0; }
-.home-left {}
-.home-right {}
-
-@media (min-width: 700px) {
-  /* Центрируем всё */
-  .header {
-    max-width: 1000px; margin: 0 auto;
-    padding-left: 40px; padding-right: 40px;
-    left:0; right:0; position:sticky;
-  }
-  .screen {
-    max-width: 1000px; margin: 0 auto;
-    padding: 28px 40px 80px;
-  }
-
-  /* Двухколоночный layout */
-  .home-layout {
-    flex-direction: row;
-    gap: 32px;
-    align-items: flex-start;
-  }
-  .home-left  { flex: 0 0 380px; position: sticky; top: 80px; }
-  .home-right { flex: 1; min-width: 0; }
-
-  /* Регионы в 2 колонки (уже есть) */
-  .region-grid { grid-template-columns: repeat(2, 1fr); }
-
-  /* Карточки крупнее */
-  .card-stack { height: 480px; }
-  .card-main-emoji { font-size: 88px; }
-  .card-main-text { font-size: 34px; }
-  .card-back .card-main-text { font-size: 44px; }
-
-  /* Квиз шире */
-  .quiz-question-card { padding: 32px; }
-  .quiz-flag { font-size: 84px; }
-  .quiz-question { font-size: 32px; }
-  .quiz-opt { padding: 18px 14px; font-size: 15px; }
-
-  /* Модалки по центру, не снизу */
-  .modal-overlay { align-items: center; }
-  .sheet {
-    border-radius: 20px;
-    max-width: 500px;
-    max-height: 80vh;
-    border: 1px solid var(--line);
-    border-top: 1px solid var(--line);
-  }
-
-  /* Хедер на всю ширину с ограничением содержимого */
-  .header {
-    max-width: 100%;
-    padding-left: max(40px, calc(50% - 460px));
-    padding-right: max(40px, calc(50% - 460px));
-  }
-  .screen {
-    max-width: 100%;
-    padding-left: max(40px, calc(50% - 460px));
-    padding-right: max(40px, calc(50% - 460px));
-  }
-
-  /* Настройки — 2 колонки */
-  #screen-settings {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 24px;
-    align-items: start;
-  }
-  #screen-settings > h2 { grid-column: 1/-1; }
-  #screen-settings > .ornament { grid-column: 1/-1; }
-  #screen-settings > p { grid-column: 1/-1; }
-  #screen-settings > .danger-btn { grid-column: auto; }
-
-  /* Уровень чуть крупнее */
-  .level-circle { width: 32px; height: 32px; font-size: 12px; }
-  .level-num { font-size: 12px; }
-  .level-bar-wrap { width: 60px; }
-
-  .logo { font-size: 26px; }
-}
 </style>
 </head>
 <body>
@@ -539,48 +454,45 @@ body {
 
 <!-- ============ HOME ============ -->
 <main id="screen-home" class="screen active">
-  <div class="home-layout">
-    <!-- Левая колонка: коллекция, статы, режим, кнопка -->
-    <div class="home-left">
-      <div class="collection-bar" id="coll-bar">
-        <div class="coll-icon" id="coll-icon">📚</div>
-        <div class="coll-info">
-          <div class="coll-label">Текущая коллекция</div>
-          <div class="coll-name" id="coll-name">—</div>
-        </div>
-        <button class="coll-manage" id="coll-manage-btn" onclick="event.stopPropagation()">≡</button>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat"><span class="stat-num" id="stat-total">0</span><div class="stat-label">В списке</div></div>
-        <div class="stat"><span class="stat-num" id="stat-known">0</span><div class="stat-label">Знаю</div></div>
-        <div class="stat"><span class="stat-num" id="stat-streak">0</span><div class="stat-label">Серия</div></div>
-      </div>
-
-      <div class="mode-tabs">
-        <button class="mode-tab active" data-mode="cards"><span class="mode-icon">🃏</span>Карточки</button>
-        <button class="mode-tab" data-mode="quiz"><span class="mode-icon">🔢</span>Тест</button>
-      </div>
-
-      <button class="start-btn" id="start-btn" disabled>Начать изучение →</button>
-
-      <div class="ornament">· · ·</div>
-      <h2 class="section-title">Мой список <span style="color:var(--muted);font-size:14px;font-weight:600;margin-left:auto" id="list-count"></span></h2>
-      <div class="country-list" id="country-list"></div>
+  <div class="collection-bar" id="coll-bar">
+    <div class="coll-icon" id="coll-icon">📚</div>
+    <div class="coll-info">
+      <div class="coll-label">Текущая коллекция</div>
+      <div class="coll-name" id="coll-name">—</div>
     </div>
-
-    <!-- Правая колонка: регионы и поиск -->
-    <div class="home-right">
-      <h2 class="section-title">Готовые регионы</h2>
-      <div class="region-grid" id="region-grid"></div>
-
-      <h2 class="section-title">Добавить вручную</h2>
-      <div class="search-wrap">
-        <input class="search-input" id="search" type="text" placeholder="Начни печатать, например: домин..." autocomplete="off">
-        <div class="suggestions" id="suggestions"></div>
-      </div>
-    </div>
+    <button class="coll-manage" id="coll-manage-btn" onclick="event.stopPropagation()">≡</button>
   </div>
+
+  <div class="stats-row">
+    <div class="stat"><span class="stat-num" id="stat-total">0</span><div class="stat-label">В списке</div></div>
+    <div class="stat"><span class="stat-num" id="stat-known">0</span><div class="stat-label">Знаю</div></div>
+    <div class="stat"><span class="stat-num" id="stat-streak">0</span><div class="stat-label">Серия</div></div>
+  </div>
+
+  <!-- Mode selector -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="cards">
+      <span class="mode-icon">🃏</span>Карточки
+    </button>
+    <button class="mode-tab" data-mode="quiz">
+      <span class="mode-icon">🔢</span>Тест
+    </button>
+  </div>
+
+  <button class="start-btn" id="start-btn" disabled>Начать изучение →</button>
+
+  <h2 class="section-title">Готовые регионы</h2>
+  <div class="region-grid" id="region-grid"></div>
+
+  <h2 class="section-title">Добавить вручную</h2>
+  <div class="search-wrap">
+    <input class="search-input" id="search" type="text" placeholder="Начни печатать, например: домин..." autocomplete="off">
+    <div class="suggestions" id="suggestions"></div>
+  </div>
+
+  <div class="ornament">· · ·</div>
+  <h2 class="section-title">Мой список <span style="color:var(--muted);font-size:14px;font-weight:600;margin-left:auto" id="list-count"></span></h2>
+  <div class="country-list" id="country-list"></div>
 </main>
 
 <!-- ============ STUDY: CARDS ============ -->
@@ -802,6 +714,32 @@ body {
       <button class="sheet-btn secondary" id="confirm-cancel">Отмена</button>
       <button class="sheet-btn primary" id="confirm-ok">OK</button>
     </div>
+  </div>
+</div>
+
+<!-- Modal: Add Custom Country -->
+<div class="modal-overlay" id="modal-add-custom">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title">Своя страна</h3>
+    <p class="sheet-sub" style="margin-bottom:15px">Добавьте страну, которой нет в атласе</p>
+    
+    <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+      <div style="flex: 1;">
+        <label style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; display:block; margin-bottom:4px">Флаг</label>
+        <input class="text-input" id="cust-flag" type="text" value="🏳️" style="text-align: center; font-size: 24px; padding: 8px;">
+      </div>
+      <div style="flex: 1;">
+        <label style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; display:block; margin-bottom:4px">Символ</label>
+        <input class="text-input" id="cust-landmark" type="text" value="📍" style="text-align: center; font-size: 24px; padding: 8px;">
+      </div>
+    </div>
+
+    <input class="text-input" id="cust-name" type="text" placeholder="Название (напр. Нарния)" maxlength="40">
+    <input class="text-input" id="cust-cap" type="text" placeholder="Столица" maxlength="40">
+    
+    <button class="sheet-btn primary" id="cust-save">Добавить в список</button>
+    <button class="sheet-btn secondary" style="margin-top:8px" onclick="closeModal('modal-add-custom')">Отмена</button>
   </div>
 </div>
 
@@ -1028,7 +966,7 @@ let state = {
   collections: [],
   activeId: null,
   settings: { dark: true, shuffle: true, onlyUnknown: false, dir: true, sound: true, accent: 0 },
-  blacklist: [],  // array of country names
+  blacklist: [],
   streak: 0,
   xp: 0
 };
@@ -1067,7 +1005,10 @@ function uid() { return 'c_' + Math.random().toString(36).slice(2,10); }
 function activeColl() { return state.collections.find(c => c.id === state.activeId) || state.collections[0]; }
 function activeList() { return activeColl()?.list || []; }
 function activeProg() { return activeColl()?.progress || {}; }
-function getC(name) { return COUNTRIES.find(c => c.n === name); }
+function getC(name) {
+  // Сначала ищем в стандартных, потом в своих
+  return COUNTRIES.find(c => c.n === name) || state.customCountries.find(c => c.n === name);
+}
 
 // ==========================================================
 // THEME
@@ -1239,6 +1180,16 @@ function renderSugs(q) {
     .slice(0,8);
   if (!hits.length) {
     sugsEl.innerHTML = `<div class="suggestion" style="justify-content:center;color:var(--muted)">Ничего не найдено</div>`;
+    // Кнопка создания своей страны в поиске
+  const customOpt = document.createElement('div');
+  customOpt.className = 'suggestion';
+  customOpt.style.borderTop = '1px dashed var(--line)';
+  customOpt.innerHTML = `<span class="sug-flag">➕</span><div class="sug-info"><div class="sug-country">Добавить «${q}»</div><div class="sug-cap">Создать карточку вручную</div></div>`;
+  customOpt.onclick = () => {
+    document.getElementById('cust-name').value = q;
+    openModal('modal-add-custom');
+  };
+  sugsEl.appendChild(customOpt);
     sugsEl.classList.add('show'); return;
   }
   sugsEl.innerHTML = hits.map(c => {
@@ -2322,6 +2273,27 @@ function showUpdateBanner() {
   banner.querySelector('button').addEventListener('click', () => window.location.reload());
   document.body.appendChild(banner);
 }
+document.getElementById('cust-save').addEventListener('click', () => {
+  const name = document.getElementById('cust-name').value.trim();
+  const cap = document.getElementById('cust-cap').value.trim();
+  const flag = document.getElementById('cust-flag').value.trim() || "🏳️";
+  const landmark = document.getElementById('cust-landmark').value.trim() || "📍";
+
+  if (!name || !cap) return;
+  if (getC(name)) { alert("Уже есть!"); return; }
+
+  const newCountry = { n: name, c: cap, f: flag, l: landmark, r: ["user"] };
+  state.customCountries.push(newCountry);
+  
+  const coll = activeColl();
+  if (!coll.list.includes(name)) coll.list.push(name);
+
+  save();
+  closeModal('modal-add-custom');
+  document.getElementById('search').value = '';
+  document.getElementById('suggestions').classList.remove('show');
+  renderAll();
+});
 </script>
 </body>
 </html>
