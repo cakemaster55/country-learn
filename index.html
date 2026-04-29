@@ -634,7 +634,7 @@ body {
   <div class="ornament">· · ·</div>
   <button class="danger-btn" id="reset-progress">Сбросить прогресс текущей коллекции</button>
   <button class="danger-btn" id="reset-all">Удалить все коллекции</button>
-  <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:20px;font-weight:600">Atlas · v2.1</p>
+  <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:20px;font-weight:600">Atlas · v2.0</p>
 </main>
 
 <!-- ============ MODALS ============ -->
@@ -1226,10 +1226,13 @@ function startCards() {
 }
 
 function renderCard() {
-  const card = document.getElementById('card');
-  card.classList.remove('flipped');
+  document.getElementById('card').classList.remove('flipped');
   document.getElementById('btn-know').disabled = true;
   document.getElementById('btn-dont').disabled = true;
+  renderCardContent();
+}
+
+function renderCardContent() {
   const n = cardDeck[cardIdx];
   const c = getC(n); if(!c) return;
   const tot = cardDeck.length;
@@ -1280,8 +1283,14 @@ function answerCard(known) {
   cardIdx++;
   if (cardIdx >= cardDeck.length) { playSound('complete'); showResultsScreen(cardResults); }
   else {
-    document.getElementById('card').classList.remove('flipped');
-    setTimeout(renderCard, 300);
+    // Обновляем контент пока карточка ещё перевёрнута (виден бэк с Вильнюсом),
+    // потом в следующем кадре запускаем анимацию разворота — фронт уже с новой страной
+    renderCardContent();
+    document.getElementById('btn-know').disabled = true;
+    document.getElementById('btn-dont').disabled = true;
+    requestAnimationFrame(() => {
+      document.getElementById('card').classList.remove('flipped');
+    });
   }
 }
 
@@ -2058,7 +2067,7 @@ renderAll();
 // SERVICE WORKER — встроен через Blob, не нужен отдельный файл
 // Меняй CACHE_VERSION при каждом деплое на GitHub Pages
 // ==========================================================
-const CACHE_VERSION = 'atlas-v2';
+const CACHE_VERSION = 'atlas-v2.1';
 
 const SW_CODE = `
 const CACHE = '${CACHE_VERSION}';
