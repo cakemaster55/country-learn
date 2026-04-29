@@ -1283,13 +1283,16 @@ function answerCard(known) {
   cardIdx++;
   if (cardIdx >= cardDeck.length) { playSound('complete'); showResultsScreen(cardResults); }
   else {
-    // Обновляем контент пока карточка ещё перевёрнута (виден бэк с Вильнюсом),
-    // потом в следующем кадре запускаем анимацию разворота — фронт уже с новой страной
+    // Скрываем бэк, обновляем контент, потом разворачиваем
+    const back = document.querySelector('.card-back');
+    back.style.visibility = 'hidden';
     renderCardContent();
     document.getElementById('btn-know').disabled = true;
     document.getElementById('btn-dont').disabled = true;
     requestAnimationFrame(() => {
       document.getElementById('card').classList.remove('flipped');
+      // Показываем бэк после завершения анимации
+      setTimeout(() => { back.style.visibility = ''; }, 560);
     });
   }
 }
