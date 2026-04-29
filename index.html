@@ -1006,11 +1006,26 @@ document.querySelectorAll('.nav-tab').forEach(t => {
   t.addEventListener('click', () => {
     const tgt = t.dataset.tab;
     if (tgt === 'study') {
-      if (activeList().length > 0) startSession();
-      else showScreen('home');
+      // Если сессия уже идёт — просто вернуться к ней, не начинать заново
+      const activeSession = getActiveSession();
+      if (activeSession) {
+        showScreen(activeSession);
+      } else if (activeList().length > 0) {
+        startSession();
+      } else {
+        showScreen('home');
+      }
     } else showScreen(tgt);
   });
 });
+
+// Возвращает экран активной сессии если она в процессе, иначе null
+function getActiveSession() {
+  if (cardDeck.length > 0 && cardIdx < cardDeck.length) return 'cards';
+  if (quizDeck.length > 0 && quizIdx < quizDeck.length) return 'quiz';
+  if (writeDeck.length > 0 && writeIdx < writeDeck.length) return 'write';
+  return null;
+}
 
 // Mode tabs
 document.querySelectorAll('.mode-tab').forEach(t => {
@@ -1270,10 +1285,21 @@ function answerCard(known) {
   }
 }
 
-document.getElementById('btn-know').addEventListener('click', () => answerCard(true));
-document.getElementById('btn-dont').addEventListener('click', () => answerCard(false));
+document.getElementById('btn-know').addEventListener('click', () => {
+  document.getElementById('btn-know').disabled = true;
+  document.getElementById('btn-dont').disabled = true;
+  answerCard(true);
+});
+document.getElementById('btn-dont').addEventListener('click', () => {
+  document.getElementById('btn-know').disabled = true;
+  document.getElementById('btn-dont').disabled = true;
+  answerCard(false);
+});
 document.getElementById('close-cards').addEventListener('click', () => {
-  showConfirm('Прервать?', 'Текущий прогресс будет сохранён.', () => { showScreen('home'); renderAll(); });
+  showConfirm('Прервать?', 'Текущий прогресс будет сохранён.', () => {
+    cardDeck = []; cardIdx = 0;
+    showScreen('home'); renderAll();
+  });
 });
 
 // ==========================================================
@@ -1366,7 +1392,10 @@ function onQuizAnswer(chosen, correct, btn) {
 }
 
 document.getElementById('close-quiz').addEventListener('click', () => {
-  showConfirm('Прервать?', 'Текущий прогресс сохранён.', () => { showScreen('home'); renderAll(); });
+  showConfirm('Прервать?', 'Текущий прогресс сохранён.', () => {
+    quizDeck = []; quizIdx = 0;
+    showScreen('home'); renderAll();
+  });
 });
 
 // ==========================================================
@@ -1451,7 +1480,10 @@ document.getElementById('wr-input').addEventListener('keydown', e => {
 });
 
 document.getElementById('close-write').addEventListener('click', () => {
-  showConfirm('Выйти из повторения?', '', () => { showScreen('home'); renderAll(); });
+  showConfirm('Выйти из повторения?', '', () => {
+    writeDeck = []; writeIdx = 0;
+    showScreen('home'); renderAll();
+  });
 });
 
 // ==========================================================
@@ -1464,6 +1496,10 @@ function showResultsScreen(results) {
   const prog = activeProg();
   const deck = cardDeck.length ? cardDeck : quizDeck;
   pendingMistakes = deck.filter(n => !prog[n]?.known);
+
+  // Сессия завершена — сбрасываем деки чтобы таб "Учить" не возвращал к ней
+  cardDeck = []; cardIdx = 0;
+  quizDeck = []; quizIdx = 0;
 
   const total = results.know + results.dont;
   const acc = total ? Math.round(results.know/total*100) : 0;
@@ -1974,7 +2010,7 @@ function playSound(type) {
         osc.type = 'sine'; osc.frequency.value = freq;
         const d = i * 0.1;
         gain.gain.setValueAtTime(0, t + d);
-        gain.gain.linearRampToValueAtTime(0.2, t + d + 0.03);
+        gain.gain.linearRampToValueAtTime(0.07, t + d + 0.03);
         gain.gain.exponentialRampToValueAtTime(0.001, t + d + 0.5);
         osc.connect(gain); gain.connect(ctx.destination);
         osc.start(t + d); osc.stop(t + d + 0.52);
