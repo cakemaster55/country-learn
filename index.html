@@ -153,7 +153,7 @@ body {
 .region-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:20px; }
 .region-chip { background:var(--bg-elev); border:1px solid var(--line); border-radius:14px; padding:12px 12px; cursor:pointer; text-align:left; color:var(--paper); font-family:'Nunito',sans-serif; transition:all 0.2s; display:flex; align-items:center; gap:10px; }
 .region-chip:active { transform:scale(0.97); border-color:var(--accent); background:var(--bg-card); }
-.region-chip-icon { font-size:22px; flex-shrink:0; }
+.region-chip-icon { font-size:22px; flex-shrink:0; width:28px; text-align:center; }
 .region-chip-name { font-size:13px; font-weight:700; }
 .region-chip-count { font-size:11px; color:var(--muted); margin-top:2px; font-weight:600; }
 
@@ -1063,11 +1063,12 @@ function renderRegions() {
       <span><div class="region-chip-name">${r.name}</div><div class="region-chip-count">${sub}</div></span>
     </button>`;
   });
-  // Кнопка "Весь мир" на всю ширину последней
+  // 7 регионов + Весь мир = 8 чипов, делится на 2 ровно
+  // Кнопка "Весь мир"
   const worldCnt = COUNTRIES.filter(c => !isBlocked(c.n)).length;
   const worldBlocked = COUNTRIES.length - worldCnt;
   const worldSub = worldBlocked ? `${worldCnt} стран (${worldBlocked} скрыто)` : `${worldCnt} стран`;
-  chips.push(`<button class="region-chip" data-rid="world" style="grid-column:1/-1">
+  chips.push(`<button class="region-chip" data-rid="world">
     <span class="region-chip-icon">🌐</span>
     <span><div class="region-chip-name">Весь мир</div><div class="region-chip-count">${worldSub}</div></span>
   </button>`);
