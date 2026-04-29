@@ -1213,6 +1213,7 @@ function startSession() {
 // FLASHCARDS
 // ==========================================================
 let cardDeck = [], cardIdx = 0, cardResults = {know:0, dont:0};
+let cardAnimating = false; // блокировка на время анимации перехода
 
 function startCards() {
   const list = activeList(); const prog = activeProg();
@@ -1220,7 +1221,7 @@ function startCards() {
   if (state.settings.onlyUnknown) deck = deck.filter(n => !prog[n]?.known);
   if (!deck.length) { showAlert('Список пуст', state.settings.onlyUnknown ? 'Все страны выучены! Отключи «Только незнакомые» в настройках.' : 'Добавь хотя бы одну страну.'); return; }
   if (state.settings.shuffle) deck.sort(() => Math.random() - 0.5);
-  cardDeck = deck; cardIdx = 0; cardResults = {know:0, dont:0};
+  cardDeck = deck; cardIdx = 0; cardResults = {know:0, dont:0}; cardAnimating = false;
   showScreen('cards');
   renderCard();
 }
@@ -1259,6 +1260,7 @@ function renderCardContent() {
 }
 
 document.getElementById('card').addEventListener('click', () => {
+  if (cardAnimating) return;
   const card = document.getElementById('card');
   card.classList.toggle('flipped');
   playSound('flip');
@@ -1271,6 +1273,9 @@ document.getElementById('card').addEventListener('click', () => {
 });
 
 function answerCard(known) {
+  if (cardAnimating) return;
+  cardAnimating = true;
+
   const name = cardDeck[cardIdx];
   const coll = activeColl();
   coll.progress[name] = { known, lastSeen: Date.now() };
@@ -1281,28 +1286,45 @@ function answerCard(known) {
   } else { cardResults.dont++; state.streak = 0; playSound('wrong'); }
   save();
   cardIdx++;
-  if (cardIdx >= cardDeck.length) { playSound('complete'); showResultsScreen(cardResults); }
-  else {
-    // Скрываем бэк, обновляем контент, потом разворачиваем
-    const back = document.querySelector('.card-back');
-    back.style.visibility = 'hidden';
-    renderCardContent();
+  if (cardIdx >= cardDeck.length) {
+    cardAnimating = false;
+    playSound('complete'); showResultsScreen(cardResults);
+  } else {
+    // Фронт (страна/флаг) — сразу, чтобы не мелькало
+    const n = cardDeck[cardIdx];
+    const c = getC(n);
+    if (c) {
+      if (state.settings.dir) {
+        document.getElementById('cf-eyebrow').textContent = 'Страна';
+        document.getElementById('cf-emoji').textContent = c.f;
+        document.getElementById('cf-text').textContent = c.n;
+      } else {
+        document.getElementById('cf-eyebrow').textContent = 'Столица';
+        document.getElementById('cf-emoji').textContent = c.l;
+        document.getElementById('cf-text').textContent = c.c;
+      }
+    }
+    document.getElementById('card-cur').textContent = cardIdx + 1;
+    document.getElementById('cards-fill').style.width = `${(cardIdx / cardDeck.length) * 100}%`;
     document.getElementById('btn-know').disabled = true;
     document.getElementById('btn-dont').disabled = true;
-    requestAnimationFrame(() => {
-      document.getElementById('card').classList.remove('flipped');
-      // Показываем бэк после завершения анимации
-      setTimeout(() => { back.style.visibility = ''; }, 560);
-    });
+    document.getElementById('card').classList.remove('flipped');
+    // Бэк (столица) — после завершения анимации, потом снимаем блокировку
+    setTimeout(() => {
+      renderCard();
+      cardAnimating = false;
+    }, 580);
   }
 }
 
 document.getElementById('btn-know').addEventListener('click', () => {
+  if (cardAnimating) return;
   document.getElementById('btn-know').disabled = true;
   document.getElementById('btn-dont').disabled = true;
   answerCard(true);
 });
 document.getElementById('btn-dont').addEventListener('click', () => {
+  if (cardAnimating) return;
   document.getElementById('btn-know').disabled = true;
   document.getElementById('btn-dont').disabled = true;
   answerCard(false);
