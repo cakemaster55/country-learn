@@ -967,6 +967,7 @@ let state = {
   activeId: null,
   settings: { dark: true, shuffle: true, onlyUnknown: false, dir: true, sound: true, accent: 0 },
   blacklist: [],
+  customCountries: [], // <--- Вставьте это
   streak: 0,
   xp: 0
 };
@@ -986,6 +987,7 @@ function load() {
       state.streak = saved.streak || 0;
       state.xp = saved.xp || 0;
       state.blacklist = saved.blacklist || [];
+      state.customCountries = saved.customCountries || []; // <--- Вставьте это
     }
   } catch(e) {}
 
