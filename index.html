@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1a1612">
-<title>Atlas</title>
+<title>Atlas · Learn</title>
 <meta name="apple-mobile-web-app-title" content="Atlas">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -251,7 +251,7 @@ body {
 .swipe-hint { text-align:center; color:var(--muted); font-size:12px; margin-top:-14px; margin-bottom:14px; font-style:italic; font-weight:600; }
 
 /* ============ QUIZ MODE ============ */
-.quiz-question-card { background:var(--bg-elev); border:1px solid var(--line); border-radius:20px; padding:28px 24px; margin-bottom:20px; text-align:center; }
+.quiz-question-card { background:var(--bg-elev); border:1px solid var(--line); border-radius:20px; padding:28px 24px; margin-bottom:20px; text-align:center; position:relative; }
 .quiz-flag { font-size:72px; margin-bottom:12px; line-height:1; }
 .quiz-question { font-family:'Fraunces',serif; font-size:28px; font-weight:600; letter-spacing:-0.02em; margin-bottom:6px; }
 .quiz-prompt { font-size:13px; color:var(--muted); font-weight:600; }
@@ -429,6 +429,110 @@ body {
 .xp-bar-big { height:8px; background:var(--line); border-radius:4px; overflow:hidden; margin-bottom:8px; }
 .xp-bar-big-fill { height:100%; background:var(--accent); border-radius:4px; transition:width 0.6s cubic-bezier(0.4,0,0.2,1); }
 .xp-label { font-size:12px; color:var(--muted); font-weight:600; text-align:right; }
+
+/* ============ MODULE SWITCHER ============ */
+.module-switcher {
+  display:flex; gap:6px; padding:14px 20px 0;
+  background:var(--bg);
+}
+.module-btn {
+  flex:1; padding:11px 12px; border-radius:14px;
+  background:var(--bg-elev); border:1px solid var(--line);
+  color:var(--muted); font-family:'Nunito',sans-serif;
+  font-size:13px; font-weight:700; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  transition:all 0.2s;
+}
+.module-btn .module-ico { font-size:18px; line-height:1; }
+.module-btn.active {
+  background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 22%,transparent), color-mix(in srgb,var(--accent) 6%,transparent));
+  border-color:var(--accent); color:var(--paper);
+}
+
+/* ============ RANDOM WORDS PANEL (English module) ============ */
+.random-panel {
+  background:var(--bg-elev); border:1px solid var(--line);
+  border-radius:18px; padding:16px;
+}
+.random-row { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.random-label {
+  font-size:11px; font-weight:800; color:var(--muted);
+  text-transform:uppercase; letter-spacing:0.05em;
+  min-width:90px; padding-top:8px; flex-shrink:0;
+}
+.random-chips { display:flex; gap:6px; flex-wrap:wrap; flex:1; }
+.random-chip {
+  padding:7px 13px; border-radius:100px;
+  border:1px solid var(--line); background:transparent;
+  color:var(--paper); font-size:13px; font-weight:700;
+  cursor:pointer; font-family:'Nunito',sans-serif;
+  transition:all 0.15s;
+}
+.random-chip:active { transform:scale(0.94); }
+.random-chip.active {
+  background:var(--accent); color:var(--accent-text,#fff);
+  border-color:var(--accent);
+}
+.random-add-btn {
+  width:100%; padding:14px; margin-top:6px;
+  background:var(--accent); color:var(--accent-text,#fff);
+  border:none; border-radius:14px;
+  font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
+  cursor:pointer; transition:all 0.2s;
+}
+.random-add-btn:active { transform:scale(0.98); }
+.random-add-btn:disabled { opacity:0.6; cursor:default; }
+.random-hint {
+  font-size:11px; color:var(--muted); margin-top:10px; text-align:center;
+  font-weight:600;
+}
+
+/* ============ CEFR BADGES ============ */
+.cefr-badge {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:30px; height:20px; padding:0 7px;
+  border-radius:6px; font-size:10px; font-weight:800;
+  letter-spacing:0.04em; font-family:'Nunito',sans-serif;
+  color:#fff; vertical-align:middle;
+}
+.cefr-A1 { background:#4a8c5c; }
+.cefr-A2 { background:#6ba33e; }
+.cefr-B1 { background:#c8a030; color:#1a1612; }
+.cefr-B2 { background:#c8743a; }
+.cefr-B2.solid, .cefr-B2 { background:#c8743a; }
+.cefr-C1 { background:#a03030; }
+.cefr-C2 { background:#6848a8; }
+.cefr-NA { background:var(--muted); }
+
+/* Bigger CEFR badge for cards */
+.cefr-badge.lg { min-width:48px; height:28px; font-size:13px; border-radius:8px; padding:0 10px; }
+
+/* Word item with definition trigger */
+.c-item-def { font-size:11px; color:var(--muted); margin-top:3px; font-weight:600; font-style:italic; max-height:32px; overflow:hidden; line-height:1.3; }
+.info-btn { background:transparent; border:1px solid var(--line); color:var(--muted); width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-right:4px; }
+.info-btn:active { background:var(--accent); color:var(--accent-text, #fff); border-color:var(--accent); }
+
+/* Word definition modal */
+.def-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.def-word-main { font-family:'Fraunces',serif; font-size:28px; font-weight:600; letter-spacing:-0.02em; }
+.def-ipa { font-family:'Fraunces',serif; font-size:14px; color:var(--muted); font-style:italic; margin-top:2px; }
+.def-trans { font-family:'Fraunces',serif; font-size:18px; color:var(--accent-soft); font-style:italic; margin-bottom:14px; }
+.def-section { background:var(--bg-card); border:1px solid var(--line); border-radius:13px; padding:12px 14px; margin-bottom:10px; }
+.def-section-label { font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); font-weight:800; margin-bottom:6px; }
+.def-section-text { font-size:14px; line-height:1.5; font-weight:500; }
+.def-loading { text-align:center; padding:18px; color:var(--muted); font-style:italic; font-size:13px; }
+.def-speak-btn { background:transparent; border:1px solid var(--line); color:var(--accent-soft); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-left:auto; }
+.def-speak-btn:active { background:var(--accent); color:var(--accent-text, #fff); }
+
+/* Card extras for English */
+.card-cefr-pill { position:absolute; top:14px; right:14px; z-index:2; }
+.card-ipa { font-family:'Fraunces',serif; font-size:14px; font-style:italic; opacity:0.6; margin-top:4px; position:relative; z-index:1; }
+.card-back-def { font-size:12px; line-height:1.45; color:var(--muted); margin-top:10px; position:relative; z-index:1; max-width:90%; max-height:64px; overflow:hidden; font-style:italic; }
+
+/* Sug item with CEFR */
+.suggestion .sug-cefr { margin-left:auto; margin-right:6px; flex-shrink:0; }
+.sug-loading { display:inline-block; width:14px; height:14px; border:2px solid var(--line); border-top-color:var(--accent); border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:middle; }
+@keyframes spin { to { transform:rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -451,6 +555,12 @@ body {
     <button class="nav-tab" data-tab="settings">⚙</button>
   </nav>
 </header>
+
+<!-- Module switcher -->
+<div class="module-switcher">
+  <button class="module-btn active" data-module="countries"><span class="module-ico">🌍</span>Страны</button>
+  <button class="module-btn" data-module="english"><span class="module-ico">🇬🇧</span>Английский</button>
+</div>
 
 <!-- ============ HOME ============ -->
 <main id="screen-home" class="screen active">
@@ -481,10 +591,10 @@ body {
 
   <button class="start-btn" id="start-btn" disabled>Начать изучение →</button>
 
-  <h2 class="section-title">Готовые регионы</h2>
+  <h2 class="section-title" id="regions-title">Готовые регионы</h2>
   <div class="region-grid" id="region-grid"></div>
 
-  <h2 class="section-title">Добавить вручную</h2>
+  <h2 class="section-title" id="add-title">Добавить вручную</h2>
   <div class="search-wrap">
     <input class="search-input" id="search" type="text" placeholder="Начни печатать, например: домин..." autocomplete="off">
     <div class="suggestions" id="suggestions"></div>
@@ -506,22 +616,26 @@ body {
     <div class="card" id="card">
       <div class="card-inner">
         <div class="card-face card-front">
+          <span class="cefr-badge lg card-cefr-pill" id="cf-cefr" style="display:none">A1</span>
           <div class="card-eyebrow" id="cf-eyebrow">Страна</div>
           <div class="card-main-emoji" id="cf-emoji">🌍</div>
           <div class="card-main-text" id="cf-text">—</div>
+          <div class="card-ipa" id="cf-ipa" style="display:none"></div>
           <div class="card-hint">Нажми, чтобы перевернуть</div>
         </div>
         <div class="card-face card-back">
+          <span class="cefr-badge lg card-cefr-pill" id="cb-cefr" style="display:none">A1</span>
           <div class="card-eyebrow" id="cb-eyebrow">Столица</div>
           <div class="card-landmark" id="cb-landmark" style="font-size:52px;margin-bottom:12px;position:relative;z-index:1">🏛️</div>
           <div class="card-main-text" id="cb-text">—</div>
           <div class="card-sub" id="cb-sub">столица —</div>
+          <div class="card-back-def" id="cb-def" style="display:none"></div>
           <div class="card-hint">Нажми, чтобы вернуться</div>
         </div>
       </div>
     </div>
   </div>
-  <p class="swipe-hint">Знаешь столицу?</p>
+  <p class="swipe-hint" id="card-prompt">Знаешь столицу?</p>
   <div class="card-actions">
     <button class="action-btn dont" id="btn-dont" disabled><span class="btn-icon">↻</span>Повторить</button>
     <button class="action-btn know" id="btn-know" disabled><span class="btn-icon">✓</span>Запомнил</button>
@@ -536,6 +650,7 @@ body {
   </div>
   <div class="progress-bar"><div class="progress-fill" id="quiz-fill" style="width:0%"></div></div>
   <div class="quiz-question-card">
+    <span class="cefr-badge lg card-cefr-pill" id="quiz-cefr" style="display:none">A1</span>
     <div class="quiz-flag" id="quiz-flag">🌍</div>
     <div class="quiz-question" id="quiz-question">—</div>
     <div class="quiz-prompt" id="quiz-prompt">Какая столица у этой страны?</div>
@@ -543,7 +658,7 @@ body {
   <div class="quiz-options" id="quiz-options"></div>
 </main>
 
-<!-- ============ WRITE (review mistakes) ============ -->
+<!-- ============ WRITE (typing test for known items) ============ -->
 <main id="screen-write" class="screen">
   <div class="study-header">
     <div class="progress-text">Пишем <b id="wr-cur">1</b> из <b id="wr-tot">5</b></div>
@@ -553,7 +668,7 @@ body {
   <div class="write-question">
     <div class="write-flag" id="wr-flag">🌍</div>
     <div class="write-country" id="wr-country">—</div>
-    <div class="write-prompt">Напиши столицу</div>
+    <div class="write-prompt" id="wr-prompt">Напиши столицу</div>
   </div>
   <input class="write-input" id="wr-input" type="text" placeholder="Введи название столицы..." autocomplete="off" autocorrect="off" spellcheck="false">
   <div class="write-feedback" id="wr-feedback"></div>
@@ -606,7 +721,7 @@ body {
   </div>
   <div class="setting-card">
     <div class="setting-row">
-      <div><div class="s-label">От страны к столице</div><div class="s-desc">Иначе: от столицы к стране</div></div>
+      <div><div class="s-label" id="dir-label">От страны к столице</div><div class="s-desc" id="dir-desc">Иначе: от столицы к стране</div></div>
       <div class="toggle on" id="toggle-dir"></div>
     </div>
   </div>
@@ -634,7 +749,7 @@ body {
   <div class="ornament">· · ·</div>
   <button class="danger-btn" id="reset-progress">Сбросить прогресс текущей коллекции</button>
   <button class="danger-btn" id="reset-all">Удалить все коллекции</button>
-  <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:20px;font-weight:600">Atlas · v2.0</p>
+  <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:20px;font-weight:600">Atlas · v3.0</p>
 </main>
 
 <!-- ============ MODALS ============ -->
@@ -717,14 +832,45 @@ body {
   </div>
 </div>
 
-<!-- Modal: Add Custom Country -->
+<!-- Word definition viewer -->
+<div class="modal-overlay" id="modal-def">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="def-header">
+      <div>
+        <div class="def-word-main" id="def-word">word</div>
+        <div class="def-ipa" id="def-ipa"></div>
+      </div>
+      <span class="cefr-badge lg" id="def-cefr">—</span>
+      <button class="def-speak-btn" id="def-speak" title="Произнести">🔊</button>
+    </div>
+    <div class="def-trans" id="def-trans">—</div>
+    <div id="def-body">
+      <div class="def-section">
+        <div class="def-section-label">📖 Значение (English)</div>
+        <div class="def-section-text" id="def-en">—</div>
+      </div>
+      <div class="def-section" id="def-ru-section">
+        <div class="def-section-label">🇷🇺 Дополнительный перевод</div>
+        <div class="def-section-text" id="def-ru">—</div>
+      </div>
+      <div class="def-section" id="def-ex-section" style="display:none">
+        <div class="def-section-label">💡 Пример</div>
+        <div class="def-section-text" id="def-ex" style="font-style:italic">—</div>
+      </div>
+    </div>
+    <button class="sheet-btn secondary" id="def-close" style="margin-top:14px">Закрыть</button>
+  </div>
+</div>
+
+<!-- Modal: Add Custom Item (country or word) -->
 <div class="modal-overlay" id="modal-add-custom">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <h3 class="sheet-title">Своя страна</h3>
-    <p class="sheet-sub" style="margin-bottom:15px">Добавьте страну, которой нет в атласе</p>
+    <h3 class="sheet-title" id="cust-title">Своя страна</h3>
+    <p class="sheet-sub" id="cust-sub" style="margin-bottom:15px">Добавьте страну, которой нет в атласе</p>
     
-    <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+    <div id="cust-icons-row" style="display: flex; gap: 10px; margin-bottom: 12px;">
       <div style="flex: 1;">
         <label style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; display:block; margin-bottom:4px">Флаг</label>
         <input class="text-input" id="cust-flag" type="text" value="🏳️" style="text-align: center; font-size: 24px; padding: 8px;">
@@ -735,8 +881,22 @@ body {
       </div>
     </div>
 
-    <input class="text-input" id="cust-name" type="text" placeholder="Название (напр. Нарния)" maxlength="40">
-    <input class="text-input" id="cust-cap" type="text" placeholder="Столица" maxlength="40">
+    <div id="cust-cefr-row" style="display:none; margin-bottom:12px;">
+      <label style="font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; display:block; margin-bottom:4px">Уровень CEFR</label>
+      <select class="text-input" id="cust-level" style="margin-bottom:0">
+        <option value="">— Не указан —</option>
+        <option value="A1">A1 — Начинающий</option>
+        <option value="A2">A2 — Элементарный</option>
+        <option value="B1">B1 — Средний</option>
+        <option value="B2">B2 — Выше среднего</option>
+        <option value="C1">C1 — Продвинутый</option>
+        <option value="C2">C2 — Профессиональный</option>
+      </select>
+    </div>
+
+    <input class="text-input" id="cust-name" type="text" placeholder="Название (напр. Нарния)" maxlength="60">
+    <input class="text-input" id="cust-cap" type="text" placeholder="Столица" maxlength="80">
+    <textarea class="text-input" id="cust-def" placeholder="Определение на английском (для слов)" style="min-height:60px; display:none; font-family:'Nunito',sans-serif; resize:vertical;"></textarea>
     
     <button class="sheet-btn primary" id="cust-save">Добавить в список</button>
     <button class="sheet-btn secondary" style="margin-top:8px" onclick="closeModal('modal-add-custom')">Отмена</button>
@@ -955,6 +1115,93 @@ const REGIONS = [
   {id:"me",name:"Ближний Восток",icon:"🕌"},
 ];
 
+// ==========================================================
+// ENGLISH WORDS — стартовый словарь по уровням CEFR
+// Поля: n = слово, c = перевод (RU), f = бейдж-флаг (lang),
+// l = уровень CEFR, def = определение по-английски, ipa = транскрипция, r = массив уровней
+// ==========================================================
+// Встроенного словаря нет — слова подгружаются из Datamuse API на лету.
+const ENGLISH_WORDS = []; // всегда пусто, оставлено для совместимости
+
+
+// ==========================================================
+// MODULES — конфигурация двух режимов работы
+// ==========================================================
+const MODULES = {
+  countries: {
+    id: 'countries',
+    name: 'Страны',
+    icon: '🌍',
+    dataset: COUNTRIES,
+    regions: REGIONS,
+    customsKey: 'customCountries',
+    showCEFR: false,
+    labels: {
+      regionsTitle: 'Готовые регионы',
+      addTitle: 'Добавить вручную',
+      searchPlaceholder: 'Начни печатать, например: домин...',
+      cardEyebrowPrim: 'Страна',
+      cardEyebrowSec: 'Столица',
+      promptPrimToSec: 'Какая столица у этой страны?',
+      promptSecToPrim: 'Чья это столица?',
+      cardPromptKnow: 'Знаешь столицу?',
+      writePromptPrim: 'Напиши столицу',
+      writePromptSec: 'Напиши страну',
+      writeInputPrim: 'Введи название столицы...',
+      writeInputSec: 'Введи название страны...',
+      dirLabel: 'От страны к столице',
+      dirDesc: 'Иначе: от столицы к стране',
+      custTitle: 'Своя страна',
+      custSub: 'Добавьте страну, которой нет в атласе',
+      custNamePh: 'Название (напр. Нарния)',
+      custCapPh: 'Столица',
+      emptyText: 'Список пока пуст',
+      emptyHint: 'Выбери регион или добавь страны через поиск',
+      addToList: '+ Создать карточку вручную',
+      itemNounPlural: 'стран',
+    }
+  },
+  english: {
+    id: 'english',
+    name: 'Английский',
+    icon: '🇬🇧',
+    dataset: ENGLISH_WORDS,
+    regions: [], // нет готовых уровней — слова черпаются из API
+    customsKey: 'customWords',
+    showCEFR: true,
+    labels: {
+      regionsTitle: 'Добавить слова в коллекцию',
+      addTitle: 'Найти конкретное слово',
+      searchPlaceholder: 'Начни печатать английское слово...',
+      cardEyebrowPrim: 'Слово',
+      cardEyebrowSec: 'Перевод',
+      promptPrimToSec: 'Как перевести на русский?',
+      promptSecToPrim: 'Как это по-английски?',
+      cardPromptKnow: 'Знаешь перевод?',
+      writePromptPrim: 'Напиши слово по-английски',
+      writePromptSec: 'Напиши перевод',
+      writeInputPrim: 'Введи слово...',
+      writeInputSec: 'Введи перевод...',
+      dirLabel: 'От слова к переводу',
+      dirDesc: 'Иначе: от перевода к слову',
+      custTitle: 'Своё слово',
+      custSub: 'Добавьте слово вручную, если автодополнение не нашло его',
+      custNamePh: 'Слово по-английски',
+      custCapPh: 'Перевод на русский',
+      emptyText: 'Слов пока нет',
+      emptyHint: 'Выбери уровень или начни печатать слово для добавления',
+      addToList: '+ Добавить слово вручную',
+      itemNounPlural: 'слов',
+    }
+  }
+};
+
+function getModule() { return MODULES[state.module] || MODULES.countries; }
+function getDataset() { return getModule().dataset; }
+function getRegions() { return getModule().regions; }
+function getModuleCustoms() { return state[getModule().customsKey] || []; }
+function getModuleLabels() { return getModule().labels; }
+
 const ICONS = ["📚","🌍","🌎","🌏","🗺️","🧭","🏛️","🏰","🛕","🕌","⛪","🗼","🗽","🏯","🌋","🏔️","⛰️","🏝️","🏜️","🦁","🦒","🐪","🐘","🐎","☕","🍷","🌴","🌷","⭐","🔥","💎","🎯","📖","✏️","🎓","🧩"];
 
 // ==========================================================
@@ -963,11 +1210,15 @@ const ICONS = ["📚","🌍","🌎","🌏","🗺️","🧭","🏛️","🏰","�
 const LS_KEY = 'atlas_v3';
 
 let state = {
-  collections: [],
-  activeId: null,
+  module: 'countries', // активный модуль: 'countries' | 'english'
+  // Каждый модуль имеет свои коллекции / прогресс / blacklist
+  modules: {
+    countries: { collections: [], activeId: null, blacklist: [] },
+    english:   { collections: [], activeId: null, blacklist: [] },
+  },
   settings: { dark: true, shuffle: true, onlyUnknown: false, dir: true, sound: true, accent: 0 },
-  blacklist: [],
-  customCountries: [], // <--- Вставьте это
+  customCountries: [], // справочник пользовательских стран
+  customWords: [],     // справочник пользовательских слов
   streak: 0,
   xp: 0
 };
@@ -981,35 +1232,65 @@ function load() {
     const raw = localStorage.getItem(LS_KEY);
     if (raw) {
       const saved = JSON.parse(raw);
-      state.collections = saved.collections || [];
-      state.activeId = saved.activeId;
+      // ---- Миграция со старого формата ----
+      if (saved.collections && !saved.modules) {
+        // Старая структура: всё лежало на верхнем уровне, считаем модулем "countries"
+        state.modules.countries = {
+          collections: saved.collections || [],
+          activeId: saved.activeId || null,
+          blacklist: saved.blacklist || [],
+        };
+        state.module = 'countries';
+      } else if (saved.modules) {
+        state.modules = {
+          countries: {
+            collections: saved.modules.countries?.collections || [],
+            activeId: saved.modules.countries?.activeId || null,
+            blacklist: saved.modules.countries?.blacklist || [],
+          },
+          english: {
+            collections: saved.modules.english?.collections || [],
+            activeId: saved.modules.english?.activeId || null,
+            blacklist: saved.modules.english?.blacklist || [],
+          },
+        };
+        state.module = saved.module || 'countries';
+      }
       state.settings = { ...state.settings, ...(saved.settings || {}) };
       state.streak = saved.streak || 0;
       state.xp = saved.xp || 0;
-      state.blacklist = saved.blacklist || [];
-      state.customCountries = saved.customCountries || []; // <--- Вставьте это
+      state.customCountries = saved.customCountries || [];
+      state.customWords = saved.customWords || [];
     }
   } catch(e) {}
 
-  if (!state.collections.length) {
+  // Обеспечиваем хотя бы по одной коллекции в каждом модуле
+  ensureModule('countries', 'Мой список', '📚');
+  ensureModule('english', 'Мои слова', '📖');
+}
+
+function ensureModule(modId, defaultName, defaultIcon) {
+  const m = state.modules[modId];
+  if (!m.collections.length) {
     const id = uid();
-    state.collections = [{ id, name: 'Мой список', icon: '📚', list: [], progress: {} }];
-    state.activeId = id;
+    m.collections = [{ id, name: defaultName, icon: defaultIcon, list: [], progress: {} }];
+    m.activeId = id;
     save();
   }
-  if (!state.activeId || !state.collections.find(c => c.id === state.activeId)) {
-    state.activeId = state.collections[0].id;
+  if (!m.activeId || !m.collections.find(c => c.id === m.activeId)) {
+    m.activeId = m.collections[0].id;
     save();
   }
 }
 
 function uid() { return 'c_' + Math.random().toString(36).slice(2,10); }
-function activeColl() { return state.collections.find(c => c.id === state.activeId) || state.collections[0]; }
+function activeModule() { return state.modules[state.module]; }
+function activeColl() { const m = activeModule(); return m.collections.find(c => c.id === m.activeId) || m.collections[0]; }
 function activeList() { return activeColl()?.list || []; }
 function activeProg() { return activeColl()?.progress || {}; }
 function getC(name) {
-  // Сначала ищем в стандартных, потом в своих
-  return COUNTRIES.find(c => c.n === name) || state.customCountries.find(c => c.n === name);
+  // Ищем сначала в стандартном датасете активного модуля, потом в кастомных
+  return getDataset().find(c => c.n === name) || getModuleCustoms().find(c => c.n === name);
 }
 
 // ==========================================================
@@ -1074,34 +1355,89 @@ function renderBar() {
   const c = activeColl();
   document.getElementById('coll-icon').textContent = c?.icon || '📚';
   document.getElementById('coll-name').textContent = c?.name || '—';
+  // Обновляем заголовок статистики "Знаю/Слов"
+  const knownLabel = document.querySelector('#stat-known + .stat-label');
+  if (knownLabel) knownLabel.textContent = state.module === 'english' ? 'Изучено' : 'Знаю';
 }
 
 document.getElementById('coll-bar').addEventListener('click', openCollsModal);
 document.getElementById('coll-manage-btn').addEventListener('click', e => { e.stopPropagation(); openCollsModal(); });
 
 // ==========================================================
-// REGIONS GRID
+// REGIONS GRID (универсально для модуля: регионы стран ИЛИ уровни CEFR)
 // ==========================================================
 function renderRegions() {
   const grid = document.getElementById('region-grid');
-  const chips = REGIONS.map(r => {
-    const cnt = COUNTRIES.filter(c => c.r.includes(r.id) && !isBlocked(c.n)).length;
-    const total = COUNTRIES.filter(c => c.r.includes(r.id)).length;
+
+  // --- Английский: показываем рандом-пикер вместо чипов уровней ---
+  if (state.module === 'english') {
+    grid.style.display = 'block';
+    grid.innerHTML = `
+      <div class="random-panel">
+        <div class="random-row">
+          <span class="random-label">Уровень</span>
+          <div class="random-chips" id="random-level-chips">
+            <button class="random-chip active" data-level="any">Любой</button>
+            <button class="random-chip" data-level="A1">A1</button>
+            <button class="random-chip" data-level="A2">A2</button>
+            <button class="random-chip" data-level="B1">B1</button>
+            <button class="random-chip" data-level="B2">B2</button>
+            <button class="random-chip" data-level="C1">C1</button>
+            <button class="random-chip" data-level="C2">C2</button>
+          </div>
+        </div>
+        <div class="random-row">
+          <span class="random-label">Сколько</span>
+          <div class="random-chips" id="random-count-chips">
+            <button class="random-chip" data-count="5">5</button>
+            <button class="random-chip active" data-count="10">10</button>
+            <button class="random-chip" data-count="20">20</button>
+            <button class="random-chip" data-count="30">30</button>
+            <button class="random-chip" data-count="50">50</button>
+            <button class="random-chip" data-count="100">100</button>
+          </div>
+        </div>
+        <button class="random-add-btn" id="random-add-btn">+ Добавить случайные слова</button>
+        <div class="random-hint" id="random-hint"></div>
+      </div>
+    `;
+    // Сразу показать сколько доступно
+    updateRandomHint();
+    grid.querySelectorAll('.random-chip').forEach(c => {
+      c.addEventListener('click', () => {
+        c.parentElement.querySelectorAll('.random-chip').forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+        updateRandomHint();
+      });
+    });
+    document.getElementById('random-add-btn').addEventListener('click', handleRandomAdd);
+    return;
+  }
+
+  // --- Страны: обычные региональные чипы ---
+  grid.style.display = '';
+  const ds = getDataset();
+  const regions = getRegions();
+  const labels = getModuleLabels();
+  const chips = regions.map(r => {
+    const cnt = ds.filter(c => c.r.includes(r.id) && !isBlocked(c.n)).length;
+    const total = ds.filter(c => c.r.includes(r.id)).length;
     const blockedCnt = total - cnt;
-    const sub = blockedCnt ? `${cnt} стран (${blockedCnt} скрыто)` : `${cnt} стран`;
+    const sub = blockedCnt ? `${cnt} ${labels.itemNounPlural} (${blockedCnt} скрыто)` : `${cnt} ${labels.itemNounPlural}`;
     return `<button class="region-chip" data-rid="${r.id}">
       <span class="region-chip-icon">${r.icon}</span>
       <span><div class="region-chip-name">${r.name}</div><div class="region-chip-count">${sub}</div></span>
     </button>`;
   });
-  // 7 регионов + Весь мир = 8 чипов, делится на 2 ровно
-  // Кнопка "Весь мир"
-  const worldCnt = COUNTRIES.filter(c => !isBlocked(c.n)).length;
-  const worldBlocked = COUNTRIES.length - worldCnt;
-  const worldSub = worldBlocked ? `${worldCnt} стран (${worldBlocked} скрыто)` : `${worldCnt} стран`;
+  // Кнопка "Всё"
+  const allCnt = ds.filter(c => !isBlocked(c.n)).length;
+  const allBlocked = ds.length - allCnt;
+  const allSub = allBlocked ? `${allCnt} ${labels.itemNounPlural} (${allBlocked} скрыто)` : `${allCnt} ${labels.itemNounPlural}`;
+  const allLabel = state.module === 'countries' ? 'Весь мир' : 'Все слова';
+  const allIcon = state.module === 'countries' ? '🌐' : '🌐';
   chips.push(`<button class="region-chip" data-rid="world">
-    <span class="region-chip-icon">🌐</span>
-    <span><div class="region-chip-name">Весь мир</div><div class="region-chip-count">${worldSub}</div></span>
+    <span class="region-chip-icon">${allIcon}</span>
+    <span><div class="region-chip-name">${allLabel}</div><div class="region-chip-count">${allSub}</div></span>
   </button>`);
   grid.innerHTML = chips.join('');
   grid.querySelectorAll('.region-chip').forEach(ch => {
@@ -1109,30 +1445,311 @@ function renderRegions() {
   });
 }
 
+// ----- Рандом-пикер: подгрузка слов из интернета -----
+
+// Диапазоны частотности Datamuse → CEFR
+const CEFR_FREQ = {
+  A1: [300, Infinity],
+  A2: [80,  300],
+  B1: [20,  80],
+  B2: [5,   20],
+  C1: [1.5, 5],
+  C2: [0,   1.5],
+};
+
+// Однобуквенные префиксы — каждый даёт до 100 слов за 1 запрос
+const LETTERS = 'abcdefghijklmnoprstw'.split('');
+
+function shuffle(arr) { return arr.slice().sort(() => Math.random() - 0.5); }
+
+// Определение CEFR из freq-тега или из позиции в результатах
+function wordLevel(freq, positionScore) {
+  if (freq != null && freq > 0) {
+    // Есть реальный тег частоты — используем его
+    for (const [lvl, [lo, hi]] of Object.entries(CEFR_FREQ)) {
+      if (freq >= lo && freq < hi) return lvl;
+    }
+    return 'C2';
+  }
+  // Нет тега частоты = редкое слово → C1 или C2
+  // (частые слова вроде "and", "have" всегда имеют тег f:)
+  return 'C2';
+}
+
+// Сессионный кэш слов по букве (не перезапрашиваем в рамках одной сессии)
+const wordPoolByLetter = {};
+
+async function fetchLetterPool(letter) {
+  if (wordPoolByLetter[letter]) return wordPoolByLetter[letter];
+  try {
+    const r = await fetch(`https://api.datamuse.com/words?sp=${letter}*&md=f&max=100`);
+    if (!r.ok) { wordPoolByLetter[letter] = []; return []; }
+    const words = await r.json();
+    const pool = words
+      .filter(w => w.word && /^[a-z]{3,14}$/.test(w.word))
+      .map(w => {
+        const tags = w.tags || [];
+        const freqTag = tags.find(t => t.startsWith('f:'));
+        const freq = freqTag ? parseFloat(freqTag.slice(2)) : null;
+        return { word: w.word, freq, level: wordLevel(freq, 0), score: w.score || 0 };
+      });
+    wordPoolByLetter[letter] = pool;
+    return pool;
+  } catch(e) { wordPoolByLetter[letter] = []; return []; }
+}
+
+async function fetchRandomWords(targetLevel, count, alreadyHave) {
+  const inColl = new Set(alreadyHave);
+
+  // Для конкретного уровня качаем все буквы (больше кандидатов)
+  // Для "any" достаточно 8 случайных
+  const lettersToFetch = targetLevel === 'any'
+    ? shuffle(LETTERS).slice(0, 8)
+    : [...LETTERS]; // все 20 букв параллельно
+
+  const results = await Promise.allSettled(lettersToFetch.map(l => fetchLetterPool(l)));
+
+  const seen = new Set(inColl);
+  const collected = [];
+
+  for (const r of results) {
+    if (r.status !== 'fulfilled') continue;
+    for (const item of r.value) {
+      if (seen.has(item.word)) continue;
+      if (targetLevel !== 'any') {
+        // Строгая фильтрация: только точное совпадение уровня
+        if (item.level !== targetLevel) continue;
+        // A1-B2 должны иметь тег частоты
+        if (!['C1','C2'].includes(targetLevel) && item.freq == null) continue;
+      }
+      seen.add(item.word);
+      collected.push(item);
+    }
+  }
+
+  return shuffle(collected).slice(0, count);
+}
+
+// ==========================================================
+// CAMBRIDGE DICTIONARY — CEFR + перевод + IPA + определение
+// ==========================================================
+const cambCache = {}; // кэш ответов Cambridge
+
+async function fetchCambridge(word) {
+  const w = word.toLowerCase().trim();
+  if (cambCache[w]) return cambCache[w];
+
+  // Пробуем несколько CORS-прокси по очереди
+  const dictUrl = `https://dictionary.cambridge.org/dictionary/english-russian/${encodeURIComponent(w)}`;
+  const proxies = [
+    `https://corsproxy.io/?${encodeURIComponent(dictUrl)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(dictUrl)}`,
+  ];
+
+  for (const proxy of proxies) {
+    try {
+      const r = await fetch(proxy, { signal: AbortSignal.timeout(6000) });
+      if (!r.ok) continue;
+      const html = await r.text();
+      if (!html || html.length < 500) continue;
+
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+
+      // CEFR уровень
+      let cefr = null;
+      for (const el of doc.querySelectorAll('.epp-xref, [class*="epp-xref"]')) {
+        const m = el.textContent.trim().match(/^[A-C][12]$/);
+        if (m) { cefr = m[0]; break; }
+      }
+
+      // IPA транскрипция
+      let ipa = '';
+      const ipaEl = doc.querySelector('.ipa');
+      if (ipaEl) ipa = ipaEl.textContent.trim();
+
+      // Английское определение
+      let def = '';
+      const defEl = doc.querySelector('.def');
+      if (defEl) def = defEl.textContent.trim().replace(/\s+/g, ' ');
+
+      // Русские переводы — из секций перевода
+      const transSet = new Set();
+      for (const el of doc.querySelectorAll('.trans, .dtrans, [class*="trans"]')) {
+        const t = el.textContent.trim().replace(/\s+/g, ' ');
+        if (t && /[а-яёА-ЯЁ]/.test(t) && isSaneTranslation(w, t) && !transSet.has(t.toLowerCase())) {
+          transSet.add(t.toLowerCase());
+          if (transSet.size >= 3) break;
+        }
+      }
+      const translation = [...transSet].join(' / ');
+
+      const result = { cefr, ipa, def, translation, ok: true };
+      cambCache[w] = result;
+      return result;
+    } catch(e) { /* следующий прокси */ }
+  }
+
+  cambCache[w] = null;
+  return null;
+}
+
+// Полное обогащение слова: Cambridge первый, Google Translate как фоллбек
+async function enrichWords(wordItems) {
+  return Promise.all(wordItems.map(async item => {
+    const w = item.word;
+    let cefr = item.level || '';
+    let ipa = '', def = '', trans = '';
+
+    // 1. Пробуем Cambridge (даёт всё сразу)
+    const camb = await fetchCambridge(w);
+    if (camb) {
+      if (camb.cefr) cefr = camb.cefr;
+      ipa  = camb.ipa  || '';
+      def  = camb.def  || '';
+      trans = camb.translation || '';
+    }
+
+    // 2. Если нет перевода — Google Translate
+    if (!trans) {
+      trans = await fetchTranslation(w) || '';
+    }
+
+    // 3. Если нет определения — Free Dictionary
+    if (!def) {
+      try {
+        const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(w)}`);
+        if (r.ok) {
+          const d = await r.json();
+          def = d[0]?.meanings?.[0]?.definitions?.[0]?.definition || '';
+          if (!ipa) ipa = d[0]?.phonetics?.find(p => p.text)?.text || '';
+        }
+      } catch(e) {}
+    }
+
+    return { n: w, c: trans, f: '🇬🇧', l: cefr, r: ['random'], ipa, def, example: '' };
+  }));
+}
+
+function getSelectedRandomLevel() {
+  const el = document.querySelector('#random-level-chips .random-chip.active');
+  return el?.dataset.level || 'any';
+}
+function getSelectedRandomCount() {
+  const el = document.querySelector('#random-count-chips .random-chip.active');
+  return parseInt(el?.dataset.count || '10', 10);
+}
+
+function updateRandomHint() {
+  const hint = document.getElementById('random-hint');
+  if (!hint) return;
+  const level = getSelectedRandomLevel();
+  const lvlLabel = level === 'any' ? 'любого уровня' : `уровня ${level}`;
+  hint.textContent = `Слова загружаются из интернета — ${lvlLabel}`;
+}
+
+function pluralWords(n) {
+  const m = n % 10, h = n % 100;
+  if (m === 1 && h !== 11) return 'слово';
+  if ([2,3,4].includes(m) && ![12,13,14].includes(h)) return 'слова';
+  return 'слов';
+}
+
+async function handleRandomAdd() {
+  const level = getSelectedRandomLevel();
+  const count = getSelectedRandomCount();
+  const btn = document.getElementById('random-add-btn');
+  const hint = document.getElementById('random-hint');
+  if (!btn) return;
+
+  const inColl = activeColl()?.list || [];
+  const lvlLabel = level === 'any' ? 'любого уровня' : `уровня ${level}`;
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Запрашиваем из словаря…';
+  if (hint) hint.textContent = `Ищем слова ${lvlLabel} через Datamuse API…`;
+
+  let candidates = [];
+  try {
+    candidates = await fetchRandomWords(level, count, inColl);
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = '+ Добавить случайные слова';
+    if (hint) hint.textContent = '⚠️ Ошибка сети — нужен интернет';
+    return;
+  }
+
+  if (candidates.length === 0) {
+    btn.disabled = false;
+    btn.textContent = '+ Добавить случайные слова';
+    if (hint) hint.textContent = `⚠️ API не вернул слов — попробуйте «Любой» уровень`;
+    return;
+  }
+
+  if (hint) hint.textContent = `Нашли ${candidates.length} слов, подгружаем переводы…`;
+  btn.textContent = `⏳ Переводим ${candidates.length} слов…`;
+
+  let enriched = [];
+  try {
+    enriched = await enrichWords(candidates);
+  } catch (e) {
+    // Добавим без переводов если API упал
+    enriched = candidates.map(c => ({
+      n: c.word, c: '', f: '🇬🇧', l: c.level, r: ['random'],
+      ipa: '', def: '', example: '',
+    }));
+  }
+
+  if (!Array.isArray(state.customWords)) state.customWords = [];
+  const coll = activeColl();
+  enriched.forEach(w => {
+    if (!state.customWords.find(x => x.n === w.n)) state.customWords.push(w);
+    if (!coll.list.includes(w.n)) coll.list.push(w.n);
+  });
+  save();
+  renderAll();
+
+  btn.disabled = false;
+  const added = enriched.length;
+  btn.textContent = `✓ Добавлено ${added} ${pluralWords(added)}`;
+  if (hint) hint.textContent = `Добавлены в коллекцию`;
+  setTimeout(() => {
+    const b = document.getElementById('random-add-btn');
+    if (b) { b.textContent = '+ Добавить случайные слова'; b.disabled = false; }
+    updateRandomHint();
+  }, 2500);
+}
+
 let pendingRegionId = null;
 
 function onRegion(rid) {
   pendingRegionId = rid;
+  const ds = getDataset();
+  const regions = getRegions();
+  const labels = getModuleLabels();
   if (rid === 'world') {
-    const cnt = COUNTRIES.filter(c => !isBlocked(c.n)).length;
-    document.getElementById('region-sheet-title').textContent = '🌐 Весь мир';
-    document.getElementById('region-sheet-sub').textContent = cnt + ' стран';
+    const cnt = ds.filter(c => !isBlocked(c.n)).length;
+    const lbl = state.module === 'countries' ? '🌐 Весь мир' : '🌐 Все слова';
+    document.getElementById('region-sheet-title').textContent = lbl;
+    document.getElementById('region-sheet-sub').textContent = cnt + ' ' + labels.itemNounPlural;
   } else {
-    const r = REGIONS.find(x => x.id === rid);
-    const cnt = COUNTRIES.filter(c => c.r.includes(rid)).length;
+    const r = regions.find(x => x.id === rid);
+    const cnt = ds.filter(c => c.r.includes(rid)).length;
     document.getElementById('region-sheet-title').textContent = r.icon + ' ' + r.name;
-    document.getElementById('region-sheet-sub').textContent = cnt + ' стран';
+    document.getElementById('region-sheet-sub').textContent = cnt + ' ' + labels.itemNounPlural;
   }
   openModal('modal-region');
 }
 
 document.getElementById('region-opt-replace').addEventListener('click', async () => {
   const rid = pendingRegionId;
-  const isWorld = rid === 'world';
-  const r = isWorld ? {name:'Весь мир', icon:'🌐'} : REGIONS.find(x => x.id === rid);
-  const names = isWorld
-    ? COUNTRIES.filter(c => !isBlocked(c.n)).map(c => c.n)
-    : COUNTRIES.filter(c => c.r.includes(rid) && !isBlocked(c.n)).map(c => c.n);
+  const isAll = rid === 'world';
+  const ds = getDataset();
+  const regions = getRegions();
+  const fallbackName = state.module === 'countries' ? 'Весь мир' : 'Все слова';
+  const r = isAll ? {name: fallbackName, icon:'🌐'} : regions.find(x => x.id === rid);
+  const names = isAll
+    ? ds.filter(c => !isBlocked(c.n)).map(c => c.n)
+    : ds.filter(c => c.r.includes(rid) && !isBlocked(c.n)).map(c => c.n);
   const coll = activeColl();
   coll.list = names; coll.progress = {};
   coll.name = r.name; coll.icon = r.icon;
@@ -1140,10 +1757,11 @@ document.getElementById('region-opt-replace').addEventListener('click', async ()
 });
 document.getElementById('region-opt-add').addEventListener('click', () => {
   const rid = pendingRegionId;
-  const isWorld = rid === 'world';
-  const names = isWorld
-    ? COUNTRIES.filter(c => !isBlocked(c.n)).map(c => c.n)
-    : COUNTRIES.filter(c => c.r.includes(rid) && !isBlocked(c.n)).map(c => c.n);
+  const isAll = rid === 'world';
+  const ds = getDataset();
+  const names = isAll
+    ? ds.filter(c => !isBlocked(c.n)).map(c => c.n)
+    : ds.filter(c => c.r.includes(rid) && !isBlocked(c.n)).map(c => c.n);
   const coll = activeColl();
   const set = new Set(coll.list);
   names.forEach(n => set.add(n));
@@ -1152,69 +1770,383 @@ document.getElementById('region-opt-add').addEventListener('click', () => {
 });
 document.getElementById('region-opt-new').addEventListener('click', () => {
   const rid = pendingRegionId;
-  const isWorld = rid === 'world';
-  const r = isWorld ? {name:'Весь мир', icon:'🌐'} : REGIONS.find(x => x.id === rid);
-  const names = isWorld
-    ? COUNTRIES.filter(c => !isBlocked(c.n)).map(c => c.n)
-    : COUNTRIES.filter(c => c.r.includes(rid) && !isBlocked(c.n)).map(c => c.n);
+  const isAll = rid === 'world';
+  const ds = getDataset();
+  const regions = getRegions();
+  const fallbackName = state.module === 'countries' ? 'Весь мир' : 'Все слова';
+  const r = isAll ? {name: fallbackName, icon:'🌐'} : regions.find(x => x.id === rid);
+  const names = isAll
+    ? ds.filter(c => !isBlocked(c.n)).map(c => c.n)
+    : ds.filter(c => c.r.includes(rid) && !isBlocked(c.n)).map(c => c.n);
   const id = uid();
-  state.collections.push({ id, name: r.name, icon: r.icon, list: names, progress: {} });
-  state.activeId = id;
+  const m = activeModule();
+  m.collections.push({ id, name: r.name, icon: r.icon, list: names, progress: {} });
+  m.activeId = id;
   save(); closeModal('modal-region'); renderAll();
 });
 document.getElementById('region-cancel').addEventListener('click', () => closeModal('modal-region'));
 
 // ==========================================================
-// SEARCH & LIST
+// SEARCH & LIST — поддерживает поиск по локальному датасету
+// и подгрузку слов через Datamuse API (для английского модуля)
 // ==========================================================
 const searchEl = document.getElementById('search');
 const sugsEl = document.getElementById('suggestions');
 
-function norm(s) { return s.toLowerCase().replace(/ё/g,'е').trim(); }
+function norm(s) { return (s||'').toLowerCase().replace(/ё/g,'е').trim(); }
+
+// ---- Кеш API-данных слов: ключ = lowercased word ----
+const wordCache = {};
+
+// Простое получение CEFR-уровня по частоте (per million words)
+function levelFromFreq(f) {
+  if (f == null) return null;
+  if (f >= 500) return 'A1';
+  if (f >= 150) return 'A2';
+  if (f >= 40)  return 'B1';
+  if (f >= 10)  return 'B2';
+  if (f >= 2)   return 'C1';
+  return 'C2';
+}
+
+// Datamuse: подсказки слов с метаданными частоты
+// Используем /words?sp=X*&md=f вместо /sug — он возвращает теги f:
+async function fetchSuggestions(prefix) {
+  try {
+    const url = `https://api.datamuse.com/words?sp=${encodeURIComponent(prefix)}*&md=f&max=15`;
+    const r = await fetch(url);
+    if (!r.ok) return [];
+    const data = await r.json();
+    return data
+      .filter(it => it.word && /^[a-z]{2,14}$/.test(it.word))
+      .map(it => {
+        const t = (it.tags || []).find(t => t.startsWith('f:'));
+        const freq = t ? parseFloat(t.slice(2)) : null;
+        // Если нет тега — оцениваем по score (>1000 = частое)
+        const level = freq != null
+          ? levelFromFreq(freq)
+          : (it.score > 1000 ? 'A2' : it.score > 200 ? 'B1' : it.score > 50 ? 'B2' : 'C1');
+        return { word: it.word, freq, level };
+      });
+  } catch(e) { return []; }
+}
+
+// Free Dictionary API: определение + IPA
+async function fetchDefinition(word) {
+  try {
+    const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+    if (!r.ok) return null;
+    const data = await r.json();
+    const entry = data[0];
+    const def = entry?.meanings?.[0]?.definitions?.[0]?.definition;
+    const example = entry?.meanings?.[0]?.definitions?.[0]?.example;
+    const ipa = (entry?.phonetics || []).find(p => p.text)?.text || '';
+    return { def, example, ipa };
+  } catch(e) { return null; }
+}
+
+// Google Translate (неофициальный endpoint, без ключа, лучшее качество)
+async function fetchTranslation(word) {
+  const w = word.toLowerCase().trim();
+
+  // --- 1. Google Translate unofficial ---
+  try {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ru&dt=t&dt=bd&q=${encodeURIComponent(w)}`;
+    const r = await fetch(url);
+    if (r.ok) {
+      const data = await r.json();
+      const results = [];
+
+      // data[1] = словарные статьи по частям речи
+      if (Array.isArray(data[1])) {
+        for (const group of data[1]) {
+          const words = Array.isArray(group[1]) ? group[1] : [];
+          for (const candidate of words.slice(0, 2)) {
+            if (candidate && isSaneTranslation(w, candidate) && !results.includes(candidate.toLowerCase())) {
+              results.push(candidate.toLowerCase());
+            }
+            if (results.length >= 3) break;
+          }
+          if (results.length >= 3) break;
+        }
+      }
+      if (results.length > 0) return results.join(' / ');
+
+      // Фоллбек на основной перевод (data[0][0][0])
+      const main = (data[0]?.[0]?.[0] || '').toLowerCase();
+      if (isSaneTranslation(w, main)) return main;
+    }
+  } catch(e) {}
+
+  // --- 2. Lingva (Google Translate обёртка) ---
+  try {
+    const r = await fetch(`https://lingva.ml/api/v1/en/ru/${encodeURIComponent(w)}`);
+    if (r.ok) {
+      const d = await r.json();
+      const extras = d?.info?.extraTranslations || [];
+      const results = [];
+      for (const group of extras) {
+        const best = (group?.list || [])
+          .filter(it => it?.word && isSaneTranslation(w, it.word))
+          .sort((a, b) => (b.frequency || 0) - (a.frequency || 0))[0];
+        if (best) {
+          const t = best.word.toLowerCase();
+          if (!results.includes(t)) results.push(t);
+        }
+        if (results.length >= 3) break;
+      }
+      if (results.length > 0) return results.join(' / ');
+      const main = (d?.translation || '').toLowerCase();
+      if (isSaneTranslation(w, main)) return main;
+    }
+  } catch(e) {}
+
+  return null;
+}
+
+// Проверка что перевод не мусор
+function isSaneTranslation(word, trans) {
+  if (!trans || trans.length < 2) return false;
+  const w = (typeof word === 'string' ? word : '').toLowerCase().trim();
+  // Нормализуем: убираем пунктуацию по краям, переводим в нижний регистр
+  const t = trans.trim().replace(/^[.!?,;«»"']+|[.!?,;«»"']+$/g, '').trim().toLowerCase();
+  if (!t || t.length < 2) return false;
+
+  // Совпадает с оригиналом
+  const tClean = t.replace(/[^а-яёa-z]/g, '');
+  const wClean = w.replace(/[^a-z]/g, '');
+  if (tClean === wClean) return false;
+  if (t.split(/\s+/).includes(w)) return false;
+
+  // Технические паттерны
+  if (/[a-z]-\d/.test(t)) return false;
+  if (/\(optional\)/i.test(t)) return false;
+  if (/^\d/.test(t)) return false;
+
+  // Слишком много латиницы — не русский
+  const latinChars = (t.match(/[a-zA-Z]/g) || []).length;
+  const totalChars = t.replace(/\s/g, '').length;
+  if (totalChars > 0 && latinChars / totalChars > 0.3) return false;
+
+  // Нет кириллицы
+  if (!/[а-яёА-ЯЁ]/.test(t)) return false;
+
+  // Слишком длинно (фраза, не перевод слова)
+  if (t.split(/\s+/).length > 6) return false;
+
+  return true;
+}
+
+// Получить полные данные о слове (с кешированием)
+async function getFullWordData(word, hintedLevel) {
+  const k = word.toLowerCase();
+  if (wordCache[k]) return wordCache[k];
+  const [defData, trans] = await Promise.all([fetchDefinition(word), fetchTranslation(word)]);
+  const result = {
+    n: word.toLowerCase(),
+    c: trans || '—',
+    f: '🇬🇧',
+    l: hintedLevel || '—',
+    ipa: defData?.ipa || '',
+    def: defData?.def || '',
+    example: defData?.example || '',
+    r: hintedLevel ? [hintedLevel.toLowerCase()] : []
+  };
+  wordCache[k] = result;
+  return result;
+}
+
+// ---- Debounce для поиска ----
+let searchTimer = null;
+let lastSearchQuery = '';
 
 function renderSugs(q) {
   if (!q) { sugsEl.classList.remove('show'); sugsEl.innerHTML=''; return; }
+  lastSearchQuery = q;
+  const isEnglish = state.module === 'english';
+
+  if (!isEnglish) {
+    renderSugsCountries(q);
+  } else {
+    renderSugsEnglish(q);
+  }
+}
+
+function renderSugsCountries(q) {
   const nq = norm(q);
   const list = activeList();
-  const hits = COUNTRIES
+  const ds = getDataset();
+  const customs = getModuleCustoms();
+  const hits = [...ds, ...customs]
     .filter(c => norm(c.n).startsWith(nq) || norm(c.n).includes(nq) || norm(c.c).startsWith(nq))
     .sort((a,b) => (norm(a.n).startsWith(nq)?0:1) - (norm(b.n).startsWith(nq)?0:1))
     .slice(0,8);
   if (!hits.length) {
     sugsEl.innerHTML = `<div class="suggestion" style="justify-content:center;color:var(--muted)">Ничего не найдено</div>`;
-    // Кнопка создания своей страны в поиске
-  const customOpt = document.createElement('div');
-  customOpt.className = 'suggestion';
-  customOpt.style.borderTop = '1px dashed var(--line)';
-  customOpt.innerHTML = `<span class="sug-flag">➕</span><div class="sug-info"><div class="sug-country">Добавить «${q}»</div><div class="sug-cap">Создать карточку вручную</div></div>`;
-  customOpt.onclick = () => {
-    document.getElementById('cust-name').value = q;
-    openModal('modal-add-custom');
-  };
-  sugsEl.appendChild(customOpt);
+    appendCustomAddOption(q);
     sugsEl.classList.add('show'); return;
   }
   sugsEl.innerHTML = hits.map(c => {
     const added = list.includes(c.n);
-    return `<div class="suggestion ${added?'added':''}" data-name="${c.n}">
+    return `<div class="suggestion ${added?'added':''}" data-name="${escapeAttr(c.n)}">
       <span class="sug-flag">${c.f}</span>
-      <div class="sug-info"><div class="sug-country">${c.n}</div><div class="sug-cap">${c.c}</div></div>
+      <div class="sug-info"><div class="sug-country">${escapeHtml(c.n)}</div><div class="sug-cap">${escapeHtml(c.c)}</div></div>
       <span class="sug-add">${added?'✓':'+'}</span>
     </div>`;
   }).join('');
   sugsEl.querySelectorAll('.suggestion').forEach(el => {
-    el.addEventListener('click', () => toggleCountry(el.dataset.name));
+    el.addEventListener('click', () => toggleItem(el.dataset.name));
   });
   sugsEl.classList.add('show');
 }
+
+function renderSugsEnglish(q) {
+  const nq = norm(q);
+  const list = activeList();
+  const ds = getDataset();
+  const customs = getModuleCustoms();
+
+  // 1) Сначала покажем локальные совпадения
+  const localHits = [...ds, ...customs]
+    .filter(c => norm(c.n).startsWith(nq) || norm(c.n).includes(nq))
+    .sort((a,b) => (norm(a.n).startsWith(nq)?0:1) - (norm(b.n).startsWith(nq)?0:1))
+    .slice(0,6);
+
+  const renderItems = (localItems, apiItems, loading) => {
+    if (q !== lastSearchQuery) return; // ответ устарел
+    const seen = new Set(localItems.map(c => norm(c.n)));
+    // Из API — слова, которых нет в локальных
+    const apiNew = apiItems.filter(it => !seen.has(norm(it.word))).slice(0, 8 - localItems.length);
+
+    const localHtml = localItems.map(c => {
+      const added = list.includes(c.n);
+      const cefr = c.l ? `<span class="cefr-badge cefr-${c.l} sug-cefr">${c.l}</span>` : '';
+      return `<div class="suggestion ${added?'added':''}" data-name="${escapeAttr(c.n)}" data-source="local">
+        <span class="sug-flag">${c.f||'🇬🇧'}</span>
+        <div class="sug-info"><div class="sug-country">${escapeHtml(c.n)}</div><div class="sug-cap">${escapeHtml(c.c||'—')}</div></div>
+        ${cefr}
+        <span class="sug-add">${added?'✓':'+'}</span>
+      </div>`;
+    }).join('');
+
+    const apiHtml = apiNew.map(it => {
+      const lv = it.level || '—';
+      const lvClass = it.level ? `cefr-${it.level}` : 'cefr-NA';
+      return `<div class="suggestion" data-name="${escapeAttr(it.word)}" data-source="api" data-level="${lv}">
+        <span class="sug-flag">🇬🇧</span>
+        <div class="sug-info"><div class="sug-country">${escapeHtml(it.word)}</div><div class="sug-cap">↓ загрузить перевод</div></div>
+        <span class="cefr-badge ${lvClass} sug-cefr">${lv}</span>
+        <span class="sug-add">+</span>
+      </div>`;
+    }).join('');
+
+    const loadingHtml = loading ? `<div class="suggestion" style="justify-content:center;color:var(--muted)"><span class="sug-loading"></span>&nbsp;Поиск...</div>` : '';
+    const emptyHtml = (!localHtml && !apiHtml && !loading) ? `<div class="suggestion" style="justify-content:center;color:var(--muted)">Не найдено</div>` : '';
+
+    sugsEl.innerHTML = localHtml + apiHtml + loadingHtml + emptyHtml;
+    appendCustomAddOption(q);
+
+    sugsEl.querySelectorAll('.suggestion').forEach(el => {
+      if (!el.dataset.name) return;
+      el.addEventListener('click', () => {
+        if (el.dataset.source === 'api') {
+          addWordFromApi(el.dataset.name, el.dataset.level);
+        } else {
+          toggleItem(el.dataset.name);
+        }
+      });
+    });
+    sugsEl.classList.add('show');
+  };
+
+  // Первый рендер — локальные + лоадер
+  renderItems(localHits, [], true);
+
+  // Дебаунс для API
+  if (searchTimer) clearTimeout(searchTimer);
+  if (/^[a-z][a-z'-]*$/i.test(q)) {
+    searchTimer = setTimeout(async () => {
+      const apiSugs = await fetchSuggestions(q);
+      renderItems(localHits, apiSugs, false);
+    }, 280);
+  } else {
+    // Только локально (запрос не латиницей)
+    renderItems(localHits, [], false);
+  }
+}
+
+function appendCustomAddOption(q) {
+  const labels = getModuleLabels();
+  const customOpt = document.createElement('div');
+  customOpt.className = 'suggestion';
+  customOpt.style.borderTop = '1px dashed var(--line)';
+  customOpt.innerHTML = `<span class="sug-flag">✏️</span><div class="sug-info"><div class="sug-country">Добавить «${escapeHtml(q)}» вручную</div><div class="sug-cap">${labels.addToList}</div></div>`;
+  customOpt.onclick = () => {
+    document.getElementById('cust-name').value = q;
+    openCustomModal();
+  };
+  sugsEl.appendChild(customOpt);
+}
+
+async function addWordFromApi(word, level) {
+  // Создаём временную запись с состоянием "загрузка"
+  const w = word.toLowerCase();
+  // Лёгкий ненавязчивый индикатор в строке поиска
+  if (searchEl) {
+    searchEl.disabled = true;
+    searchEl.dataset.prevPh = searchEl.placeholder;
+    searchEl.placeholder = `Загружаем «${word}»…`;
+  }
+  sugsEl.classList.remove('show');
+
+  let data;
+  try {
+    // Сначала Cambridge (даёт CEFR + перевод + IPA + определение)
+    const camb = await fetchCambridge(w);
+    const trans = (camb?.translation) || await fetchTranslation(w) || '';
+    let def = camb?.def || '';
+    let ipa = camb?.ipa || '';
+    if (!def || !ipa) {
+      const dict = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(w)}`).then(r=>r.ok?r.json():null).catch(()=>null);
+      if (dict?.[0]) {
+        if (!def) def = dict[0].meanings?.[0]?.definitions?.[0]?.definition || '';
+        if (!ipa) ipa = dict[0].phonetics?.find(p=>p.text)?.text || '';
+      }
+    }
+    data = { n: w, c: trans, f: '🇬🇧', l: camb?.cefr || level || '', r: ['user'], ipa, def, example: '' };
+  } catch (e) {
+    data = { n: w, c: '', f: '🇬🇧', l: level || '', r: ['user'], def: '', ipa: '', example: '' };
+  }
+
+  if (searchEl) {
+    searchEl.disabled = false;
+    searchEl.placeholder = searchEl.dataset.prevPh || '';
+    delete searchEl.dataset.prevPh;
+  }
+
+  // Добавим в customWords (если ещё нет)
+  if (!Array.isArray(state.customWords)) state.customWords = [];
+  if (!state.customWords.find(x => x.n === data.n)) {
+    state.customWords.push(data);
+  }
+  const coll = activeColl();
+  if (!coll.list.includes(data.n)) coll.list.push(data.n);
+  save();
+  searchEl.value = '';
+  renderAll();
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s) { return escapeHtml(s); }
 
 searchEl.addEventListener('input', e => renderSugs(e.target.value));
 searchEl.addEventListener('focus', e => { if(e.target.value) renderSugs(e.target.value); });
 document.addEventListener('click', e => { if(!e.target.closest('.search-wrap')) sugsEl.classList.remove('show'); });
 
-function toggleCountry(name) {
+function toggleItem(name) {
   if (isBlocked(name)) {
-    showAlert('Заблокировано', `«${name}» находится в чёрном списке. Убери её из чёрного списка в Настройках.`);
+    const what = state.module === 'countries' ? 'Страна' : 'Слово';
+    showAlert('Заблокировано', `«${name}» в чёрном списке. Убери его из чёрного списка в Настройках.`);
     return;
   }
   const coll = activeColl();
@@ -1226,31 +2158,44 @@ function toggleCountry(name) {
   }
   save(); renderList(); renderSugs(searchEl.value); updateStats();
 }
+// Алиас для обратной совместимости
+const toggleCountry = toggleItem;
 
 function renderList() {
   const el = document.getElementById('country-list');
   const cnt = document.getElementById('list-count');
   const list = activeList();
   const prog = activeProg();
+  const isEnglish = state.module === 'english';
   cnt.textContent = list.length ? `(${list.length})` : '';
   document.getElementById('start-btn').disabled = !list.length;
 
   if (!list.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-emoji">🌍</div><p class="empty-text">Список пока пуст</p><p style="font-size:13px;margin-top:8px;font-weight:600">Выбери регион или добавь страны через поиск</p></div>`;
+    const labels = getModuleLabels();
+    el.innerHTML = `<div class="empty-state"><div class="empty-emoji">${isEnglish ? '📖' : '🌍'}</div><p class="empty-text">${labels.emptyText}</p><p style="font-size:13px;margin-top:8px;font-weight:600">${labels.emptyHint}</p></div>`;
     return;
   }
   el.innerHTML = list.map(name => {
     const c = getC(name); if(!c) return '';
     const p = prog[name];
     const badge = p ? (p.known ? `<div class="c-badge known">✓ Запомнил</div>` : `<div class="c-badge repeat">↻ Повторить</div>`) : '';
+    const cefr = (isEnglish && c.l) ? `<span class="cefr-badge cefr-${c.l}" style="margin-right:6px">${c.l}</span>` : '';
+    const subLine = isEnglish 
+      ? `${escapeHtml(c.c||'—')}` 
+      : `${escapeHtml(c.c)} ${c.l||''}`;
+    const infoBtn = isEnglish ? `<button class="info-btn" data-info="${escapeAttr(c.n)}" title="Подробнее">ⓘ</button>` : '';
     return `<div class="country-item">
-      <div class="c-flag">${c.f}</div>
-      <div class="c-info"><div class="c-name">${c.n}</div><div class="c-cap">${c.c} ${c.l}</div>${badge}</div>
-      <button class="remove-btn" data-name="${c.n}">×</button>
+      <div class="c-flag">${cefr || c.f}</div>
+      <div class="c-info"><div class="c-name">${escapeHtml(c.n)}</div><div class="c-cap">${subLine}</div>${badge}</div>
+      ${infoBtn}
+      <button class="remove-btn" data-name="${escapeAttr(c.n)}">×</button>
     </div>`;
   }).join('');
   el.querySelectorAll('.remove-btn').forEach(btn => {
-    btn.addEventListener('click', e => { e.stopPropagation(); toggleCountry(btn.dataset.name); });
+    btn.addEventListener('click', e => { e.stopPropagation(); toggleItem(btn.dataset.name); });
+  });
+  el.querySelectorAll('.info-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); openDefinitionModal(btn.dataset.info); });
   });
 }
 
@@ -1261,7 +2206,168 @@ function updateStats() {
   document.getElementById('stat-streak').textContent = state.streak;
 }
 
-function renderAll() { renderBar(); renderList(); updateStats(); }
+function renderAll() { renderBar(); renderList(); renderRegions(); updateStats(); applyModuleLabels(); }
+
+// ==========================================================
+// MODULE LABELS — обновление UI текстов под текущий модуль
+// ==========================================================
+function applyModuleLabels() {
+  const L = getModuleLabels();
+  const m = getModule();
+  const isEnglish = state.module === 'english';
+
+  // Заголовки секций на главной
+  const rt = document.getElementById('regions-title');
+  if (rt) rt.textContent = L.regionsTitle;
+  const at = document.getElementById('add-title');
+  if (at) at.textContent = L.addTitle;
+
+  // Поиск
+  const search = document.getElementById('search');
+  if (search) search.placeholder = L.searchPlaceholder;
+
+  // Тоггл направления
+  const dl = document.getElementById('dir-label');
+  if (dl) dl.textContent = L.dirLabel;
+  const dd = document.getElementById('dir-desc');
+  if (dd) dd.textContent = L.dirDesc;
+
+  // Модалка добавления — заголовки, плейсхолдеры
+  const ct = document.getElementById('cust-title');
+  if (ct) ct.textContent = L.custTitle;
+  const cs = document.getElementById('cust-sub');
+  if (cs) cs.textContent = L.custSub;
+  const cn = document.getElementById('cust-name');
+  if (cn) cn.placeholder = L.custNamePh;
+  const cc = document.getElementById('cust-cap');
+  if (cc) cc.placeholder = L.custCapPh;
+
+  // CEFR-строка и определение — показываем только для английского
+  const cefrRow = document.getElementById('cust-cefr-row');
+  if (cefrRow) cefrRow.style.display = isEnglish ? 'block' : 'none';
+  const defField = document.getElementById('cust-def');
+  if (defField) defField.style.display = isEnglish ? 'block' : 'none';
+  // Иконки/флаг — скрываем для английского (для слов не нужны)
+  const iconsRow = document.getElementById('cust-icons-row');
+  if (iconsRow) iconsRow.style.display = isEnglish ? 'none' : 'flex';
+
+  // Активная кнопка модуля
+  document.querySelectorAll('.module-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.module === state.module);
+  });
+}
+
+function openCustomModal() {
+  // Сбросить значения
+  const cn = document.getElementById('cust-name');
+  const cc = document.getElementById('cust-cap');
+  const cd = document.getElementById('cust-def');
+  const cl = document.getElementById('cust-level');
+  const cf = document.getElementById('cust-flag');
+  const clm = document.getElementById('cust-landmark');
+  if (cn) cn.value = '';
+  if (cc) cc.value = '';
+  if (cd) cd.value = '';
+  if (cl) cl.value = '';
+  if (cf) cf.value = '🏳️';
+  if (clm) clm.value = '📍';
+  applyModuleLabels();
+  openModal('modal-add-custom');
+}
+
+// ==========================================================
+// DEFINITION MODAL — показ определения английского слова
+// ==========================================================
+async function openDefinitionModal(name) {
+  if (!name) return;
+  openModal('modal-def');
+  // Сбрасываем содержимое перед загрузкой
+  document.getElementById('def-word').textContent = name;
+  document.getElementById('def-ipa').textContent = '';
+  const cefrBadge = document.getElementById('def-cefr');
+  cefrBadge.textContent = '';
+  cefrBadge.className = 'cefr-badge';
+  document.getElementById('def-trans').textContent = '';
+  document.getElementById('def-en').textContent = '…загружаем';
+  document.getElementById('def-ru').textContent = '';
+  const exSection = document.getElementById('def-ex-section');
+  if (exSection) exSection.style.display = 'none';
+
+  // Сначала пытаемся взять из локального датасета/customs
+  let item = getC(name);
+  let needsFetch = !item || (!item.def && state.module === 'english');
+
+  if (state.module === 'english' && needsFetch) {
+    try {
+      const full = await getFullWordData(name);
+      if (full) {
+        // Дополняем item тем, что есть
+        if (!item) item = { n: name, c: full.trans || '', f: '🇬🇧', l: full.level || '', r: [], def: full.def || '', ipa: full.ipa || '', example: full.example || '' };
+        else {
+          item.def = item.def || full.def || '';
+          item.ipa = item.ipa || full.ipa || '';
+          item.example = item.example || full.example || '';
+          item.l = item.l || full.level || '';
+          if (!item.c) item.c = full.trans || '';
+        }
+      }
+    } catch (e) { /* игнорируем — покажем что есть */ }
+  }
+
+  // Заполняем поля
+  document.getElementById('def-word').textContent = item?.n || name;
+  document.getElementById('def-ipa').textContent = item?.ipa ? `/${item.ipa}/` : '';
+  if (item?.l) {
+    cefrBadge.textContent = item.l;
+    cefrBadge.className = `cefr-badge cefr-${item.l}`;
+  }
+  document.getElementById('def-trans').textContent = item?.c || '';
+  document.getElementById('def-en').textContent = item?.def || '— определение не найдено —';
+  document.getElementById('def-ru').textContent = item?.c || '—';
+  if (item?.example) {
+    exSection.style.display = 'block';
+    document.getElementById('def-ex').textContent = item.example;
+  }
+}
+
+// Озвучка слова через Web Speech API
+function speakWord(text, lang = 'en-US') {
+  if (!('speechSynthesis' in window) || !text) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+// Закрытие/озвучка модалки определения
+(function() {
+  const closeBtn = document.getElementById('def-close');
+  if (closeBtn) closeBtn.addEventListener('click', () => closeModal('modal-def'));
+  const speakBtn = document.getElementById('def-speak');
+  if (speakBtn) speakBtn.addEventListener('click', () => {
+    const w = document.getElementById('def-word').textContent;
+    speakWord(w, 'en-US');
+  });
+})();
+
+// Переключение модуля
+document.querySelectorAll('.module-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const mod = btn.dataset.module;
+    if (!mod || mod === state.module) return;
+    state.module = mod;
+    save();
+    // Возвращаемся на главный экран — иначе сессия квиза/карточек ссылается на старый модуль
+    showScreen('home');
+    // Очищаем поиск
+    const s = document.getElementById('search');
+    if (s) s.value = '';
+    document.getElementById('suggestions')?.classList.remove('show');
+    renderAll();
+  });
+});
 
 // ==========================================================
 // START SESSION
@@ -1304,22 +2410,67 @@ function renderCardContent() {
   document.getElementById('card-cur').textContent = cardIdx+1;
   document.getElementById('card-tot').textContent = tot;
   document.getElementById('cards-fill').style.width = `${(cardIdx/tot)*100}%`;
-  if (state.settings.dir) {
-    document.getElementById('cf-eyebrow').textContent = 'Страна';
-    document.getElementById('cf-emoji').textContent = c.f;
-    document.getElementById('cf-text').textContent = c.n;
-    document.getElementById('cb-eyebrow').textContent = 'Столица';
-    document.getElementById('cb-landmark').textContent = c.l;
-    document.getElementById('cb-text').textContent = c.c;
-    document.getElementById('cb-sub').textContent = `столица — ${c.n}`;
+  const M = getModule();
+  const labels = M.labels;
+  const dir = state.settings.dir;
+
+  // Frontside vs backside content depending on direction
+  const isEnglish = M.showCEFR;
+  const front = dir ? {
+    eyebrow: labels.cardEyebrowPrim,
+    emoji: isEnglish ? (c.l || '📖') : c.f,
+    text: c.n,
+    ipa: c.ipa || '',
+    cefr: null, // уровень уже показан в emoji-слоте
+  } : {
+    eyebrow: labels.cardEyebrowSec,
+    emoji: isEnglish ? '🇷🇺' : c.f,
+    text: c.c,
+    ipa: '',
+    cefr: null,
+  };
+  const back = dir ? {
+    eyebrow: labels.cardEyebrowSec,
+    icon: isEnglish ? '🇷🇺' : c.f,
+    text: c.c,
+    sub: isEnglish ? (c.ipa || '') : `столица — ${c.n}`,
+    def: isEnglish ? (c.def || '') : '',
+    cefr: isEnglish ? c.l : null,
+  } : {
+    eyebrow: labels.cardEyebrowPrim,
+    icon: isEnglish ? (c.l || '📖') : c.f,
+    text: c.n,
+    sub: isEnglish ? (c.ipa || '') : `столица: ${c.c}`,
+    def: isEnglish ? (c.def || '') : '',
+    cefr: isEnglish ? c.l : null,
+  };
+
+  document.getElementById('cf-eyebrow').textContent = front.eyebrow;
+  document.getElementById('cf-emoji').textContent = front.emoji;
+  document.getElementById('cf-text').textContent = front.text;
+  const cfIpa = document.getElementById('cf-ipa');
+  if (front.ipa) { cfIpa.textContent = front.ipa; cfIpa.style.display = ''; } else { cfIpa.style.display = 'none'; }
+  setCefrPill('cf-cefr', front.cefr);
+
+  document.getElementById('cb-eyebrow').textContent = back.eyebrow;
+  document.getElementById('cb-landmark').textContent = back.icon;
+  document.getElementById('cb-text').textContent = back.text;
+  document.getElementById('cb-sub').textContent = back.sub;
+  const cbDef = document.getElementById('cb-def');
+  if (back.def) { cbDef.textContent = back.def; cbDef.style.display = ''; } else { cbDef.style.display = 'none'; }
+  setCefrPill('cb-cefr', back.cefr);
+  document.getElementById('card-prompt').textContent = labels.cardPromptKnow;
+}
+
+function setCefrPill(elId, level) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (level) {
+    el.style.display = '';
+    el.textContent = level;
+    el.className = `cefr-badge lg card-cefr-pill cefr-${level}`;
   } else {
-    document.getElementById('cf-eyebrow').textContent = 'Столица';
-    document.getElementById('cf-emoji').textContent = c.l;
-    document.getElementById('cf-text').textContent = c.c;
-    document.getElementById('cb-eyebrow').textContent = 'Страна';
-    document.getElementById('cb-landmark').textContent = c.f;
-    document.getElementById('cb-text').textContent = c.n;
-    document.getElementById('cb-sub').textContent = `столица: ${c.c}`;
+    el.style.display = 'none';
   }
 }
 
@@ -1358,14 +2509,21 @@ function answerCard(known) {
     const n = cardDeck[cardIdx];
     const c = getC(n);
     if (c) {
+      const M = getModule();
+      const labels = M.labels;
       if (state.settings.dir) {
-        document.getElementById('cf-eyebrow').textContent = 'Страна';
+        document.getElementById('cf-eyebrow').textContent = labels.cardEyebrowPrim;
         document.getElementById('cf-emoji').textContent = c.f;
         document.getElementById('cf-text').textContent = c.n;
+        const cfIpa = document.getElementById('cf-ipa');
+        if (c.ipa && M.showCEFR) { cfIpa.textContent = c.ipa; cfIpa.style.display = ''; } else { cfIpa.style.display = 'none'; }
+        setCefrPill('cf-cefr', M.showCEFR ? c.l : null);
       } else {
-        document.getElementById('cf-eyebrow').textContent = 'Столица';
-        document.getElementById('cf-emoji').textContent = c.l;
+        document.getElementById('cf-eyebrow').textContent = labels.cardEyebrowSec;
+        document.getElementById('cf-emoji').textContent = M.showCEFR ? '🇷🇺' : c.l;
         document.getElementById('cf-text').textContent = c.c;
+        document.getElementById('cf-ipa').style.display = 'none';
+        setCefrPill('cf-cefr', null);
       }
     }
     document.getElementById('card-cur').textContent = cardIdx + 1;
@@ -1419,18 +2577,22 @@ function startQuiz() {
 
 function getQuizOptions(correctName) {
   const correct = getC(correctName);
+  if (!correct) return [correctName];
+  const ds = getDataset();
+  const customs = getModuleCustoms();
+  const all = [...ds, ...customs];
   // Prefer options from same regions
-  const sameRegion = COUNTRIES.filter(c => c.n !== correctName && c.r.some(r => correct.r.includes(r)));
-  const others = COUNTRIES.filter(c => c.n !== correctName && !c.r.some(r => correct.r.includes(r)));
+  const sameRegion = all.filter(c => c.n !== correctName && c.r && correct.r && c.r.some(r => correct.r.includes(r)));
+  const others = all.filter(c => c.n !== correctName && !(c.r && correct.r && c.r.some(r => correct.r.includes(r))));
   const pool = [...shuffle(sameRegion).slice(0,6), ...shuffle(others)];
   const picks = []; const seen = new Set([correctName]);
   for (const c of pool) {
     if (picks.length >= 3) break;
     if (!seen.has(c.n)) { seen.add(c.n); picks.push(c.n); }
   }
-  while (picks.length < 3) { picks.push(COUNTRIES.find(c => !seen.has(c.n))?.n || correctName); }
-  const all = [correctName, ...picks.slice(0,3)];
-  return shuffle(all);
+  while (picks.length < 3) { picks.push(all.find(c => !seen.has(c.n))?.n || correctName); seen.add(picks[picks.length-1]); }
+  const allOpts = [correctName, ...picks.slice(0,3)];
+  return shuffle(allOpts);
 }
 
 function shuffle(arr) { return [...arr].sort(() => Math.random()-0.5); }
@@ -1444,17 +2606,24 @@ function renderQuiz() {
   document.getElementById('quiz-tot').textContent = tot;
   document.getElementById('quiz-fill').style.width = `${(quizIdx/tot)*100}%`;
 
+  const M = getModule();
   const dir = state.settings.dir;
-  document.getElementById('quiz-flag').textContent = dir ? c.f : c.l;
+  const isEng = M.showCEFR;
+  document.getElementById('quiz-flag').textContent = dir
+    ? (isEng ? (c.l || '📖') : c.f)
+    : (isEng ? '🇷🇺' : c.f);
   document.getElementById('quiz-question').textContent = dir ? c.n : c.c;
-  document.getElementById('quiz-prompt').textContent = dir ? 'Какая столица у этой страны?' : 'Чья это столица?';
+  document.getElementById('quiz-prompt').textContent = dir ? M.labels.promptPrimToSec : M.labels.promptSecToPrim;
+  // CEFR badge на quiz — только на обратной стороне (ответ раскрыт)
+  setCefrPill('quiz-cefr', null);
 
   const options = getQuizOptions(name);
   const optsEl = document.getElementById('quiz-options');
   optsEl.innerHTML = options.map(optName => {
     const oc = getC(optName);
+    if (!oc) return '';
     const label = dir ? oc.c : oc.n;
-    return `<button class="quiz-opt" data-name="${optName}">${label}</button>`;
+    return `<button class="quiz-opt" data-name="${escapeAttr(optName)}">${escapeHtml(label)}</button>`;
   }).join('');
 
   optsEl.querySelectorAll('.quiz-opt').forEach(btn => {
@@ -1497,29 +2666,48 @@ document.getElementById('close-quiz').addEventListener('click', () => {
 });
 
 // ==========================================================
-// WRITE MODE (review mistakes after session)
+// WRITE MODE — закрепление ПРАВИЛЬНО отвеченных в тесте
+// Пишем целиком только те ответы, которые пользователь уже знает,
+// чтобы не заставлять его писать слово, которого он ещё не понимает.
 // ==========================================================
 let writeDeck = [], writeIdx = 0, writeSubmitted = false;
 
-function startWrite(mistakes) {
-  if (!mistakes.length) { showResultsFinal(); return; }
-  writeDeck = shuffle([...mistakes]);
+function startWrite(items) {
+  if (!items || !items.length) { showResultsFinal(); return; }
+  writeDeck = shuffle([...items]);
   writeIdx = 0;
   showScreen('write');
   renderWrite();
+}
+
+function getWriteTarget(c) {
+  // То, что пользователь должен напечатать
+  const dir = state.settings.dir;
+  return dir ? c.c : c.n;  // dir=true: показываем n, печатаем c
 }
 
 function renderWrite() {
   writeSubmitted = false;
   const name = writeDeck[writeIdx];
   const c = getC(name); if(!c) return;
+  const M = getModule();
+  const labels = M.labels;
+  const dir = state.settings.dir;
+
   document.getElementById('wr-cur').textContent = writeIdx+1;
   document.getElementById('wr-tot').textContent = writeDeck.length;
   document.getElementById('wr-fill').style.width = `${(writeIdx/writeDeck.length)*100}%`;
-  document.getElementById('wr-flag').textContent = c.f;
-  document.getElementById('wr-country').textContent = c.n;
+  // Показываем то, что НЕ нужно печатать (подсказка)
+  const isEng2 = M.showCEFR;
+  document.getElementById('wr-flag').textContent = dir
+    ? (isEng2 ? (c.l || '📖') : c.f)
+    : (isEng2 ? '🇷🇺' : c.f);
+  document.getElementById('wr-country').textContent = dir ? c.n : c.c;
+  document.getElementById('wr-prompt').textContent = dir ? labels.writePromptPrim : labels.writePromptSec;
+
   const inp = document.getElementById('wr-input');
   inp.value = ''; inp.className = 'write-input';
+  inp.placeholder = dir ? labels.writeInputPrim : labels.writeInputSec;
   document.getElementById('wr-feedback').innerHTML = '';
   document.getElementById('wr-submit').textContent = 'Проверить →';
   setTimeout(() => inp.focus(), 200);
@@ -1551,11 +2739,12 @@ document.getElementById('wr-submit').addEventListener('click', () => {
   }
   const name = writeDeck[writeIdx];
   const c = getC(name);
+  const target = getWriteTarget(c);
   const inp = document.getElementById('wr-input');
   const val = inp.value.trim();
   if (!val) return;
   writeSubmitted = true;
-  const result = fuzzyMatch(val, c.c);
+  const result = fuzzyMatch(val, target);
   const fb = document.getElementById('wr-feedback');
   if (result === 'exact') {
     inp.classList.add('ok');
@@ -1563,11 +2752,11 @@ document.getElementById('wr-submit').addEventListener('click', () => {
     awardXP(2); playSound('correct');
   } else if (result === 'close') {
     inp.classList.add('ok');
-    fb.innerHTML = `<span class="close">≈ Почти! Правильно: <b>${c.c}</b></span>`;
+    fb.innerHTML = `<span class="close">≈ Почти! Правильно: <b>${escapeHtml(target)}</b></span>`;
     awardXP(1); playSound('correct');
   } else {
     inp.classList.add('err');
-    fb.innerHTML = `<span class="wrong">✗ Нет. Правильный ответ: <b>${c.c}</b></span>`;
+    fb.innerHTML = `<span class="wrong">✗ Нет. Правильный ответ: <b>${escapeHtml(target)}</b></span>`;
     playSound('wrong');
   }
   document.getElementById('wr-submit').textContent = writeIdx < writeDeck.length-1 ? 'Следующий →' : 'К итогам →';
@@ -1587,13 +2776,13 @@ document.getElementById('close-write').addEventListener('click', () => {
 // ==========================================================
 // RESULTS
 // ==========================================================
-let pendingMistakes = [];
+let pendingCorrect = []; // тренируем письмо ТОЛЬКО на тех, что отвечены правильно
 
 function showResultsScreen(results) {
-  // collect mistakes for write session
+  // Собираем те, что были отвечены правильно в текущей сессии
   const prog = activeProg();
   const deck = cardDeck.length ? cardDeck : quizDeck;
-  pendingMistakes = deck.filter(n => !prog[n]?.known);
+  pendingCorrect = deck.filter(n => prog[n]?.known);
 
   // Сессия завершена — сбрасываем деки чтобы таб "Учить" не возвращал к ней
   cardDeck = []; cardIdx = 0;
@@ -1615,11 +2804,12 @@ function showResultsScreen(results) {
   document.getElementById('res-title').textContent = title;
   document.getElementById('res-sub').textContent = sub;
 
-  // Show "practice mistakes" button if any
+  // Кнопка предлагает закрепить ПИСЬМЕННО то, что уже знаешь
+  // Если ничего правильно не ответил — просто "Учить ещё раз"
   const againBtn = document.getElementById('study-again');
-  if (pendingMistakes.length > 0) {
-    againBtn.textContent = `✏️ Написать ${pendingMistakes.length} ошибочных →`;
-    againBtn.onclick = () => startWrite(pendingMistakes);
+  if (pendingCorrect.length > 0) {
+    againBtn.textContent = `✏️ Закрепить письмом (${pendingCorrect.length}) →`;
+    againBtn.onclick = () => startWrite(pendingCorrect);
   } else {
     againBtn.textContent = 'Учить ещё раз →';
     againBtn.onclick = () => startSession();
@@ -1658,10 +2848,14 @@ document.getElementById('reset-progress').addEventListener('click', () => {
   });
 });
 document.getElementById('reset-all').addEventListener('click', () => {
-  showConfirm('Удалить всё?', 'Все коллекции, страны и прогресс будут удалены безвозвратно.', () => {
+  const labels = getModuleLabels();
+  showConfirm('Удалить всё?', `Все коллекции и прогресс в модуле «${getModule().name}» будут удалены безвозвратно.`, () => {
     const id = uid();
-    state.collections = [{id, name:'Мой список', icon:'📚', list:[], progress:{}}];
-    state.activeId = id; state.streak = 0;
+    const defaultName = state.module === 'english' ? 'Мои слова' : 'Мой список';
+    const m = activeModule();
+    m.collections = [{id, name: defaultName, icon:'📚', list:[], progress:{}}];
+    m.activeId = id;
+    state.streak = 0;
     save(); renderAll(); showScreen('home');
   });
 });
@@ -1676,14 +2870,16 @@ function openCollsModal() {
 
 function renderCollsList() {
   const wrap = document.getElementById('colls-list');
-  wrap.innerHTML = state.collections.map(c => {
+  const m = activeModule();
+  const labels = getModuleLabels();
+  wrap.innerHTML = m.collections.map(c => {
     const known = c.list.filter(n => c.progress[n]?.known).length;
-    const active = c.id === state.activeId;
+    const active = c.id === m.activeId;
     return `<div class="coll-item ${active?'active-coll':''}" data-id="${c.id}">
       <div class="ci-icon">${c.icon||'📚'}</div>
       <div class="ci-info">
-        <div class="ci-name">${c.name}</div>
-        <div class="ci-meta">${c.list.length} стран · ${known} выучено${active?' · активна':''}</div>
+        <div class="ci-name">${escapeHtml(c.name)}</div>
+        <div class="ci-meta">${c.list.length} ${labels.itemNounPlural} · ${known} выучено${active?' · активна':''}</div>
       </div>
       <div class="ci-actions">
         <button class="icon-btn" data-action="edit" data-id="${c.id}">✎</button>
@@ -1695,7 +2891,7 @@ function renderCollsList() {
   wrap.querySelectorAll('.coll-item').forEach(el => {
     el.addEventListener('click', e => {
       if (e.target.closest('[data-action]')) return;
-      state.activeId = el.dataset.id;
+      activeModule().activeId = el.dataset.id;
       save(); renderAll(); closeModal('modal-colls');
     });
   });
@@ -1703,13 +2899,14 @@ function renderCollsList() {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       const id = btn.dataset.id;
-      const coll = state.collections.find(c => c.id === id);
+      const mm = activeModule();
+      const coll = mm.collections.find(c => c.id === id);
       if (btn.dataset.action === 'edit') { openEditModal(coll); }
       else {
-        if (state.collections.length === 1) { showAlert('Нельзя удалить', 'Это единственная коллекция. Создай другую сначала.'); return; }
-        showConfirm(`Удалить «${coll.name}»?`, 'Все страны и прогресс будут потеряны.', () => {
-          state.collections = state.collections.filter(c => c.id !== id);
-          if (state.activeId === id) state.activeId = state.collections[0].id;
+        if (mm.collections.length === 1) { showAlert('Нельзя удалить', 'Это единственная коллекция. Создай другую сначала.'); return; }
+        showConfirm(`Удалить «${coll.name}»?`, 'Все элементы и прогресс будут потеряны.', () => {
+          mm.collections = mm.collections.filter(c => c.id !== id);
+          if (mm.activeId === id) mm.activeId = mm.collections[0].id;
           save(); renderCollsList(); renderAll();
         });
       }
@@ -1977,28 +3174,30 @@ function renderAccentGrid() {
 }
 
 // ==========================================================
-// BLACKLIST
+// BLACKLIST — отдельный для каждого модуля
 // ==========================================================
-function isBlocked(name) { return state.blacklist.includes(name); }
+function moduleBlacklist() { return activeModule().blacklist; }
+function isBlocked(name) { return moduleBlacklist().includes(name); }
 
 function renderBlacklist() {
   const el = document.getElementById('bl-list');
   if (!el) return;
-  if (!state.blacklist.length) {
-    el.innerHTML = `<div class="bl-empty">Список пуст — все страны разрешены</div>`;
+  const bl = moduleBlacklist();
+  if (!bl.length) {
+    el.innerHTML = `<div class="bl-empty">Список пуст — всё разрешено</div>`;
     return;
   }
-  el.innerHTML = state.blacklist.map(name => {
+  el.innerHTML = bl.map(name => {
     const c = getC(name);
     return `<div class="bl-item">
       <span class="bl-flag">${c?.f||'🌍'}</span>
-      <span class="bl-name">${name}</span>
-      <button class="bl-remove" data-name="${name}">×</button>
+      <span class="bl-name">${escapeHtml(name)}</span>
+      <button class="bl-remove" data-name="${escapeAttr(name)}">×</button>
     </div>`;
   }).join('');
   el.querySelectorAll('.bl-remove').forEach(btn => {
     btn.addEventListener('click', () => {
-      state.blacklist = state.blacklist.filter(n => n !== btn.dataset.name);
+      activeModule().blacklist = activeModule().blacklist.filter(n => n !== btn.dataset.name);
       save(); renderBlacklist();
     });
   });
@@ -2012,7 +3211,9 @@ if (blSearchEl) {
   blSearchEl.addEventListener('input', e => {
     const q = norm(e.target.value);
     if (!q) { blSugsEl.classList.remove('show'); blSugsEl.innerHTML=''; return; }
-    const hits = COUNTRIES
+    const ds = getDataset();
+    const customs = getModuleCustoms();
+    const hits = [...ds, ...customs]
       .filter(c => (norm(c.n).startsWith(q)||norm(c.n).includes(q)) && !isBlocked(c.n))
       .sort((a,b)=>(norm(a.n).startsWith(q)?0:1)-(norm(b.n).startsWith(q)?0:1))
       .slice(0,7);
@@ -2021,17 +3222,18 @@ if (blSearchEl) {
       blSugsEl.classList.add('show'); return;
     }
     blSugsEl.innerHTML = hits.map(c=>`
-      <div class="suggestion" data-name="${c.n}">
+      <div class="suggestion" data-name="${escapeAttr(c.n)}">
         <span class="sug-flag">${c.f}</span>
-        <div class="sug-info"><div class="sug-country">${c.n}</div><div class="sug-cap">${c.c}</div></div>
+        <div class="sug-info"><div class="sug-country">${escapeHtml(c.n)}</div><div class="sug-cap">${escapeHtml(c.c||'')}</div></div>
         <span class="sug-add" style="color:var(--red)">🚫</span>
       </div>`).join('');
     blSugsEl.querySelectorAll('.suggestion').forEach(el => {
       el.addEventListener('click', () => {
         const name = el.dataset.name;
-        if (!state.blacklist.includes(name)) state.blacklist.push(name);
-        // Remove from all collections
-        state.collections.forEach(c => {
+        const m = activeModule();
+        if (!m.blacklist.includes(name)) m.blacklist.push(name);
+        // Remove from all collections within this module
+        m.collections.forEach(c => {
           c.list = c.list.filter(n => n !== name);
           delete c.progress[name];
         });
@@ -2166,7 +3368,7 @@ renderAll();
 // SERVICE WORKER — встроен через Blob, не нужен отдельный файл
 // Меняй CACHE_VERSION при каждом деплое на GitHub Pages
 // ==========================================================
-const CACHE_VERSION = 'atlas-v2.1';
+const CACHE_VERSION = 'atlas-v3.0';
 
 const SW_CODE = `
 const CACHE = '${CACHE_VERSION}';
@@ -2278,15 +3480,26 @@ function showUpdateBanner() {
 document.getElementById('cust-save').addEventListener('click', () => {
   const name = document.getElementById('cust-name').value.trim();
   const cap = document.getElementById('cust-cap').value.trim();
-  const flag = document.getElementById('cust-flag').value.trim() || "🏳️";
-  const landmark = document.getElementById('cust-landmark').value.trim() || "📍";
 
   if (!name || !cap) return;
   if (getC(name)) { alert("Уже есть!"); return; }
 
-  const newCountry = { n: name, c: cap, f: flag, l: landmark, r: ["user"] };
-  state.customCountries.push(newCountry);
-  
+  if (state.module === 'english') {
+    const level = document.getElementById('cust-level').value.trim();
+    const def = document.getElementById('cust-def').value.trim();
+    const newWord = {
+      n: name, c: cap, f: '🇬🇧', l: level || '', r: ['user'],
+      def: def, ipa: '', example: ''
+    };
+    if (!Array.isArray(state.customWords)) state.customWords = [];
+    state.customWords.push(newWord);
+  } else {
+    const flag = document.getElementById('cust-flag').value.trim() || "🏳️";
+    const landmark = document.getElementById('cust-landmark').value.trim() || "📍";
+    const newCountry = { n: name, c: cap, f: flag, l: landmark, r: ["user"] };
+    state.customCountries.push(newCountry);
+  }
+
   const coll = activeColl();
   if (!coll.list.includes(name)) coll.list.push(name);
 
