@@ -235,6 +235,18 @@ body {
 
 .card-eyebrow { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:14px; opacity:0.55; font-weight:800; position:relative; z-index:1; }
 .card-main-emoji { font-size:76px; line-height:1; margin-bottom:10px; position:relative; z-index:1; filter:drop-shadow(0 3px 8px rgba(0,0,0,0.2)); }
+.card-level-badge {
+  display:inline-flex; align-items:center; justify-content:center;
+  height:36px; min-width:64px; border-radius:10px;
+  font-size:18px; font-weight:900; font-family:'Nunito',sans-serif;
+  letter-spacing:0.02em; margin-bottom:10px; position:relative; z-index:1;
+}
+.card-level-badge.cefr-A1 { background:#4a8c5c; color:#fff; }
+.card-level-badge.cefr-A2 { background:#6ba33e; color:#fff; }
+.card-level-badge.cefr-B1 { background:#c8961a; color:#fff; }
+.card-level-badge.cefr-B2 { background:#d4781a; color:#fff; }
+.card-level-badge.cefr-C1 { background:#c44b3a; color:#fff; }
+.card-level-badge.cefr-C2 { background:#9b3faa; color:#fff; }
 .card-main-text { font-family:'Fraunces',serif; font-size:30px; font-weight:600; line-height:1.05; letter-spacing:-0.02em; position:relative; z-index:1; word-break:break-word; }
 .card-back .card-eyebrow { opacity:1; color:var(--accent-soft); }
 .card-back .card-main-text { font-size:38px; font-style:italic; color:var(--accent-soft); }
@@ -525,7 +537,7 @@ body {
 .def-speak-btn:active { background:var(--accent); color:var(--accent-text, #fff); }
 
 /* Card extras for English */
-.card-cefr-pill { position:absolute; top:14px; right:14px; z-index:2; }
+.card-cefr-pill { position:absolute; top:14px; right:14px; z-index:2; font-size:11px; min-width:32px; height:22px; border-radius:6px; padding:0 7px; }
 .card-ipa { font-family:'Fraunces',serif; font-size:14px; font-style:italic; opacity:0.6; margin-top:4px; position:relative; z-index:1; }
 .card-back-def { font-size:12px; line-height:1.45; color:var(--muted); margin-top:10px; position:relative; z-index:1; max-width:90%; max-height:64px; overflow:hidden; font-style:italic; }
 
@@ -559,7 +571,7 @@ body {
 <!-- Module switcher -->
 <div class="module-switcher">
   <button class="module-btn active" data-module="countries"><span class="module-ico">🌍</span>Страны</button>
-  <button class="module-btn" data-module="english"><span class="module-ico">🇬🇧</span>Английский</button>
+  <button class="module-btn" data-module="english"><span class="module-ico">🇺🇸</span>Английский</button>
 </div>
 
 <!-- ============ HOME ============ -->
@@ -616,17 +628,18 @@ body {
     <div class="card" id="card">
       <div class="card-inner">
         <div class="card-face card-front">
-          <span class="cefr-badge lg card-cefr-pill" id="cf-cefr" style="display:none">A1</span>
+          <span class="cefr-badge card-cefr-pill" id="cf-cefr" style="display:none">A1</span>
           <div class="card-eyebrow" id="cf-eyebrow">Страна</div>
+          <span class="card-level-badge" id="cf-level-badge" style="display:none">A1</span>
           <div class="card-main-emoji" id="cf-emoji">🌍</div>
           <div class="card-main-text" id="cf-text">—</div>
           <div class="card-ipa" id="cf-ipa" style="display:none"></div>
           <div class="card-hint">Нажми, чтобы перевернуть</div>
         </div>
         <div class="card-face card-back">
-          <span class="cefr-badge lg card-cefr-pill" id="cb-cefr" style="display:none">A1</span>
+          <span class="cefr-badge card-cefr-pill" id="cb-cefr" style="display:none">A1</span>
           <div class="card-eyebrow" id="cb-eyebrow">Столица</div>
-          <div class="card-landmark" id="cb-landmark" style="font-size:52px;margin-bottom:12px;position:relative;z-index:1">🏛️</div>
+          <div class="card-landmark" id="cb-landmark" style="font-size:68px;margin-bottom:12px;position:relative;z-index:1">🏛️</div>
           <div class="card-main-text" id="cb-text">—</div>
           <div class="card-sub" id="cb-sub">столица —</div>
           <div class="card-back-def" id="cb-def" style="display:none"></div>
@@ -650,7 +663,8 @@ body {
   </div>
   <div class="progress-bar"><div class="progress-fill" id="quiz-fill" style="width:0%"></div></div>
   <div class="quiz-question-card">
-    <span class="cefr-badge lg card-cefr-pill" id="quiz-cefr" style="display:none">A1</span>
+    <span class="cefr-badge card-cefr-pill" id="quiz-cefr" style="display:none">A1</span>
+    <span class="card-level-badge" id="quiz-level-badge" style="display:none">A1</span>
     <div class="quiz-flag" id="quiz-flag">🌍</div>
     <div class="quiz-question" id="quiz-question">—</div>
     <div class="quiz-prompt" id="quiz-prompt">Какая столица у этой страны?</div>
@@ -723,6 +737,12 @@ body {
     <div class="setting-row">
       <div><div class="s-label" id="dir-label">От страны к столице</div><div class="s-desc" id="dir-desc">Иначе: от столицы к стране</div></div>
       <div class="toggle on" id="toggle-dir"></div>
+    </div>
+  </div>
+  <div class="setting-card" id="setting-en-def" style="display:none">
+    <div class="setting-row">
+      <div><div class="s-label">Определение на английском</div><div class="s-desc">Вместо русского перевода показывать английское определение слова</div></div>
+      <div class="toggle" id="toggle-en-def"></div>
     </div>
   </div>
 
@@ -1164,7 +1184,7 @@ const MODULES = {
   english: {
     id: 'english',
     name: 'Английский',
-    icon: '🇬🇧',
+    icon: '🇺🇸',
     dataset: ENGLISH_WORDS,
     regions: [], // нет готовых уровней — слова черпаются из API
     customsKey: 'customWords',
@@ -1371,30 +1391,34 @@ function renderRegions() {
 
   // --- Английский: показываем рандом-пикер вместо чипов уровней ---
   if (state.module === 'english') {
+    // Запоминаем текущий выбор до перерисовки
+    const prevLevel = getSelectedRandomLevel();
+    const prevCount = getSelectedRandomCount();
+
     grid.style.display = 'block';
     grid.innerHTML = `
       <div class="random-panel">
         <div class="random-row">
           <span class="random-label">Уровень</span>
           <div class="random-chips" id="random-level-chips">
-            <button class="random-chip active" data-level="any">Любой</button>
-            <button class="random-chip" data-level="A1">A1</button>
-            <button class="random-chip" data-level="A2">A2</button>
-            <button class="random-chip" data-level="B1">B1</button>
-            <button class="random-chip" data-level="B2">B2</button>
-            <button class="random-chip" data-level="C1">C1</button>
-            <button class="random-chip" data-level="C2">C2</button>
+            <button class="random-chip${prevLevel==='any'?' active':''}" data-level="any">Любой</button>
+            <button class="random-chip${prevLevel==='A1'?' active':''}" data-level="A1">A1</button>
+            <button class="random-chip${prevLevel==='A2'?' active':''}" data-level="A2">A2</button>
+            <button class="random-chip${prevLevel==='B1'?' active':''}" data-level="B1">B1</button>
+            <button class="random-chip${prevLevel==='B2'?' active':''}" data-level="B2">B2</button>
+            <button class="random-chip${prevLevel==='C1'?' active':''}" data-level="C1">C1</button>
+            <button class="random-chip${prevLevel==='C2'?' active':''}" data-level="C2">C2</button>
           </div>
         </div>
         <div class="random-row">
           <span class="random-label">Сколько</span>
           <div class="random-chips" id="random-count-chips">
-            <button class="random-chip" data-count="5">5</button>
-            <button class="random-chip active" data-count="10">10</button>
-            <button class="random-chip" data-count="20">20</button>
-            <button class="random-chip" data-count="30">30</button>
-            <button class="random-chip" data-count="50">50</button>
-            <button class="random-chip" data-count="100">100</button>
+            <button class="random-chip${prevCount===5?' active':''}" data-count="5">5</button>
+            <button class="random-chip${prevCount===10?' active':''}" data-count="10">10</button>
+            <button class="random-chip${prevCount===20?' active':''}" data-count="20">20</button>
+            <button class="random-chip${prevCount===30?' active':''}" data-count="30">30</button>
+            <button class="random-chip${prevCount===50?' active':''}" data-count="50">50</button>
+            <button class="random-chip${prevCount===100?' active':''}" data-count="100">100</button>
           </div>
         </div>
         <button class="random-add-btn" id="random-add-btn">+ Добавить случайные слова</button>
@@ -1626,7 +1650,7 @@ async function enrichWords(wordItems) {
       } catch(e) {}
     }
 
-    return { n: w, c: trans, f: '🇬🇧', l: cefr, r: ['random'], ipa, def, example: '' };
+    return { n: w, c: trans, f: '🇺🇸', l: cefr, r: ['random'], ipa, def, example: '' };
   }));
 }
 
@@ -1694,7 +1718,7 @@ async function handleRandomAdd() {
   } catch (e) {
     // Добавим без переводов если API упал
     enriched = candidates.map(c => ({
-      n: c.word, c: '', f: '🇬🇧', l: c.level, r: ['random'],
+      n: c.word, c: '', f: '🇺🇸', l: c.level, r: ['random'],
       ipa: '', def: '', example: '',
     }));
   }
@@ -1945,7 +1969,7 @@ async function getFullWordData(word, hintedLevel) {
   const result = {
     n: word.toLowerCase(),
     c: trans || '—',
-    f: '🇬🇧',
+    f: '🇺🇸',
     l: hintedLevel || '—',
     ipa: defData?.ipa || '',
     def: defData?.def || '',
@@ -2022,7 +2046,7 @@ function renderSugsEnglish(q) {
       const added = list.includes(c.n);
       const cefr = c.l ? `<span class="cefr-badge cefr-${c.l} sug-cefr">${c.l}</span>` : '';
       return `<div class="suggestion ${added?'added':''}" data-name="${escapeAttr(c.n)}" data-source="local">
-        <span class="sug-flag">${c.f||'🇬🇧'}</span>
+        <span class="sug-flag">${c.f||'🇺🇸'}</span>
         <div class="sug-info"><div class="sug-country">${escapeHtml(c.n)}</div><div class="sug-cap">${escapeHtml(c.c||'—')}</div></div>
         ${cefr}
         <span class="sug-add">${added?'✓':'+'}</span>
@@ -2033,7 +2057,7 @@ function renderSugsEnglish(q) {
       const lv = it.level || '—';
       const lvClass = it.level ? `cefr-${it.level}` : 'cefr-NA';
       return `<div class="suggestion" data-name="${escapeAttr(it.word)}" data-source="api" data-level="${lv}">
-        <span class="sug-flag">🇬🇧</span>
+        <span class="sug-flag">🇺🇸</span>
         <div class="sug-info"><div class="sug-country">${escapeHtml(it.word)}</div><div class="sug-cap">↓ загрузить перевод</div></div>
         <span class="cefr-badge ${lvClass} sug-cefr">${lv}</span>
         <span class="sug-add">+</span>
@@ -2113,9 +2137,9 @@ async function addWordFromApi(word, level) {
         if (!ipa) ipa = dict[0].phonetics?.find(p=>p.text)?.text || '';
       }
     }
-    data = { n: w, c: trans, f: '🇬🇧', l: camb?.cefr || level || '', r: ['user'], ipa, def, example: '' };
+    data = { n: w, c: trans, f: '🇺🇸', l: camb?.cefr || level || '', r: ['user'], ipa, def, example: '' };
   } catch (e) {
-    data = { n: w, c: '', f: '🇬🇧', l: level || '', r: ['user'], def: '', ipa: '', example: '' };
+    data = { n: w, c: '', f: '🇺🇸', l: level || '', r: ['user'], def: '', ipa: '', example: '' };
   }
 
   if (searchEl) {
@@ -2197,6 +2221,17 @@ function renderList() {
   el.querySelectorAll('.info-btn').forEach(btn => {
     btn.addEventListener('click', e => { e.stopPropagation(); openDefinitionModal(btn.dataset.info); });
   });
+  // Кнопка сброса прогресса в конце списка
+  const resetEl = document.createElement('div');
+  resetEl.style.cssText = 'margin-top:8px;text-align:center';
+  resetEl.innerHTML = `<button id="inline-reset-prog" style="background:none;border:none;color:var(--muted);font-size:12px;font-weight:700;font-family:Nunito,sans-serif;cursor:pointer;padding:10px;opacity:0.6">↺ Сбросить прогресс коллекции</button>`;
+  el.appendChild(resetEl);
+  resetEl.querySelector('#inline-reset-prog').addEventListener('click', () => {
+    const coll = activeColl();
+    showConfirm(`Сбросить прогресс?`, `Статистика коллекции «${coll.name}» будет обнулена, список останется.`, () => {
+      coll.progress = {}; save(); renderAll();
+    });
+  });
 }
 
 function updateStats() {
@@ -2252,8 +2287,10 @@ function applyModuleLabels() {
   if (iconsRow) iconsRow.style.display = isEnglish ? 'none' : 'flex';
 
   // Активная кнопка модуля
+  const enDefSetting = document.getElementById('setting-en-def');
+  if (enDefSetting) enDefSetting.style.display = isEnglish ? 'block' : 'none';
+
   document.querySelectorAll('.module-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.module === state.module);
   });
 }
 
@@ -2302,7 +2339,7 @@ async function openDefinitionModal(name) {
       const full = await getFullWordData(name);
       if (full) {
         // Дополняем item тем, что есть
-        if (!item) item = { n: name, c: full.trans || '', f: '🇬🇧', l: full.level || '', r: [], def: full.def || '', ipa: full.ipa || '', example: full.example || '' };
+        if (!item) item = { n: name, c: full.trans || '', f: '🇺🇸', l: full.level || '', r: [], def: full.def || '', ipa: full.ipa || '', example: full.example || '' };
         else {
           item.def = item.def || full.def || '';
           item.ipa = item.ipa || full.ipa || '';
@@ -2414,51 +2451,48 @@ function renderCardContent() {
   const labels = M.labels;
   const dir = state.settings.dir;
 
-  // Frontside vs backside content depending on direction
   const isEnglish = M.showCEFR;
-  const front = dir ? {
-    eyebrow: labels.cardEyebrowPrim,
-    emoji: isEnglish ? (c.l || '📖') : c.f,
-    text: c.n,
-    ipa: c.ipa || '',
-    cefr: null, // уровень уже показан в emoji-слоте
-  } : {
-    eyebrow: labels.cardEyebrowSec,
-    emoji: isEnglish ? '🇷🇺' : c.f,
-    text: c.c,
-    ipa: '',
-    cefr: null,
-  };
-  const back = dir ? {
-    eyebrow: labels.cardEyebrowSec,
-    icon: isEnglish ? '🇷🇺' : c.f,
-    text: c.c,
-    sub: isEnglish ? (c.ipa || '') : `столица — ${c.n}`,
-    def: isEnglish ? (c.def || '') : '',
-    cefr: isEnglish ? c.l : null,
-  } : {
-    eyebrow: labels.cardEyebrowPrim,
-    icon: isEnglish ? (c.l || '📖') : c.f,
-    text: c.n,
-    sub: isEnglish ? (c.ipa || '') : `столица: ${c.c}`,
-    def: isEnglish ? (c.def || '') : '',
-    cefr: isEnglish ? c.l : null,
-  };
+  const useEnDef = isEnglish && !!state.settings.enDef;
+  const meaning = useEnDef ? (c.def || c.c || '') : (c.c || '');
 
-  document.getElementById('cf-eyebrow').textContent = front.eyebrow;
-  document.getElementById('cf-emoji').textContent = front.emoji;
-  document.getElementById('cf-text').textContent = front.text;
+  // Лицевая сторона
+  const cfLvl = document.getElementById('cf-level-badge');
+  const cfEmoji = document.getElementById('cf-emoji');
+  if (isEnglish && dir) {
+    cfEmoji.style.display = 'none';
+    if (cfLvl && c.l) { cfLvl.textContent = c.l; cfLvl.className = `card-level-badge cefr-${c.l}`; cfLvl.style.display = ''; }
+    else if (cfLvl) cfLvl.style.display = 'none';
+  } else {
+    if (cfLvl) cfLvl.style.display = 'none';
+    cfEmoji.style.display = '';
+    cfEmoji.className = 'card-main-emoji';
+    cfEmoji.textContent = isEnglish ? (useEnDef ? '📖' : '🇷🇺') : c.f;
+  }
+  document.getElementById('cf-eyebrow').textContent = dir ? labels.cardEyebrowPrim : (useEnDef ? 'значение' : labels.cardEyebrowSec);
+  document.getElementById('cf-text').textContent = dir ? c.n : meaning;
   const cfIpa = document.getElementById('cf-ipa');
-  if (front.ipa) { cfIpa.textContent = front.ipa; cfIpa.style.display = ''; } else { cfIpa.style.display = 'none'; }
-  setCefrPill('cf-cefr', front.cefr);
+  if (isEnglish && dir && c.ipa) { cfIpa.textContent = c.ipa; cfIpa.style.display = ''; } else { cfIpa.style.display = 'none'; }
+  setCefrPill('cf-cefr', null);
 
-  document.getElementById('cb-eyebrow').textContent = back.eyebrow;
-  document.getElementById('cb-landmark').textContent = back.icon;
-  document.getElementById('cb-text').textContent = back.text;
-  document.getElementById('cb-sub').textContent = back.sub;
+  // Обратная сторона
+  const cbLandmark = document.getElementById('cb-landmark');
+  cbLandmark.style.cssText = '';
+  if (isEnglish && dir) {
+    cbLandmark.textContent = useEnDef ? '📖' : '🇷🇺';
+  } else if (isEnglish && !dir) {
+    cbLandmark.textContent = c.l || '';
+    cbLandmark.style.cssText = 'font-size:20px;font-weight:900;font-family:Nunito,sans-serif';
+  } else {
+    cbLandmark.textContent = c.f;
+  }
+  document.getElementById('cb-eyebrow').textContent = dir ? (useEnDef ? 'значение' : labels.cardEyebrowSec) : labels.cardEyebrowPrim;
+  document.getElementById('cb-text').textContent = dir ? meaning : c.n;
+  document.getElementById('cb-sub').textContent = isEnglish
+    ? (c.ipa || '')
+    : (dir ? `столица — ${c.n}` : `столица: ${c.c}`);
   const cbDef = document.getElementById('cb-def');
-  if (back.def) { cbDef.textContent = back.def; cbDef.style.display = ''; } else { cbDef.style.display = 'none'; }
-  setCefrPill('cb-cefr', back.cefr);
+  if (isEnglish && !useEnDef && c.def) { cbDef.textContent = c.def; cbDef.style.display = ''; } else { cbDef.style.display = 'none'; }
+  setCefrPill('cb-cefr', null);
   document.getElementById('card-prompt').textContent = labels.cardPromptKnow;
 }
 
@@ -2468,7 +2502,7 @@ function setCefrPill(elId, level) {
   if (level) {
     el.style.display = '';
     el.textContent = level;
-    el.className = `cefr-badge lg card-cefr-pill cefr-${level}`;
+    el.className = `cefr-badge card-cefr-pill cefr-${level}`;
   } else {
     el.style.display = 'none';
   }
@@ -2511,20 +2545,32 @@ function answerCard(known) {
     if (c) {
       const M = getModule();
       const labels = M.labels;
+      const isEng = M.showCEFR;
+      const useEnDef2 = isEng && !!state.settings.enDef;
+      const cfLvl2 = document.getElementById('cf-level-badge');
+      const cfEmoji2 = document.getElementById('cf-emoji');
       if (state.settings.dir) {
         document.getElementById('cf-eyebrow').textContent = labels.cardEyebrowPrim;
-        document.getElementById('cf-emoji').textContent = c.f;
+        if (isEng) {
+          cfEmoji2.style.display = 'none';
+          if (cfLvl2 && c.l) { cfLvl2.textContent = c.l; cfLvl2.className = `card-level-badge cefr-${c.l}`; cfLvl2.style.display = ''; }
+          else if (cfLvl2) cfLvl2.style.display = 'none';
+        } else {
+          if (cfLvl2) cfLvl2.style.display = 'none';
+          cfEmoji2.style.display = ''; cfEmoji2.className = 'card-main-emoji'; cfEmoji2.textContent = c.f;
+        }
         document.getElementById('cf-text').textContent = c.n;
         const cfIpa = document.getElementById('cf-ipa');
-        if (c.ipa && M.showCEFR) { cfIpa.textContent = c.ipa; cfIpa.style.display = ''; } else { cfIpa.style.display = 'none'; }
-        setCefrPill('cf-cefr', M.showCEFR ? c.l : null);
+        if (isEng && c.ipa) { cfIpa.textContent = c.ipa; cfIpa.style.display = ''; } else { cfIpa.style.display = 'none'; }
       } else {
-        document.getElementById('cf-eyebrow').textContent = labels.cardEyebrowSec;
-        document.getElementById('cf-emoji').textContent = M.showCEFR ? '🇷🇺' : c.l;
-        document.getElementById('cf-text').textContent = c.c;
+        if (cfLvl2) cfLvl2.style.display = 'none';
+        cfEmoji2.style.display = ''; cfEmoji2.className = 'card-main-emoji';
+        cfEmoji2.textContent = isEng ? (useEnDef2 ? '📖' : '🇷🇺') : c.f;
+        document.getElementById('cf-eyebrow').textContent = useEnDef2 ? 'значение' : labels.cardEyebrowSec;
+        document.getElementById('cf-text').textContent = useEnDef2 ? (c.def || c.c || '') : c.c;
         document.getElementById('cf-ipa').style.display = 'none';
-        setCefrPill('cf-cefr', null);
       }
+      setCefrPill('cf-cefr', null);
     }
     document.getElementById('card-cur').textContent = cardIdx + 1;
     document.getElementById('cards-fill').style.width = `${(cardIdx / cardDeck.length) * 100}%`;
@@ -2609,12 +2655,22 @@ function renderQuiz() {
   const M = getModule();
   const dir = state.settings.dir;
   const isEng = M.showCEFR;
-  document.getElementById('quiz-flag').textContent = dir
-    ? (isEng ? (c.l || '📖') : c.f)
-    : (isEng ? '🇷🇺' : c.f);
-  document.getElementById('quiz-question').textContent = dir ? c.n : c.c;
-  document.getElementById('quiz-prompt').textContent = dir ? M.labels.promptPrimToSec : M.labels.promptSecToPrim;
-  // CEFR badge на quiz — только на обратной стороне (ответ раскрыт)
+  const useEnDef = isEng && !!state.settings.enDef;
+
+  // Бейдж уровня в квизе
+  const qzLvl = document.getElementById('quiz-level-badge');
+  const qzFlag = document.getElementById('quiz-flag');
+  if (isEng && dir) {
+    qzFlag.style.display = 'none';
+    if (qzLvl && c.l) { qzLvl.textContent = c.l; qzLvl.className = `card-level-badge cefr-${c.l}`; qzLvl.style.display = ''; }
+    else if (qzLvl) qzLvl.style.display = 'none';
+  } else {
+    if (qzLvl) qzLvl.style.display = 'none';
+    qzFlag.style.display = '';
+    qzFlag.textContent = isEng ? (useEnDef ? '📖' : '🇷🇺') : c.f;
+  }
+  document.getElementById('quiz-question').textContent = dir ? c.n : (useEnDef ? (c.def || c.c) : c.c);
+  document.getElementById('quiz-prompt').textContent = dir ? M.labels.promptPrimToSec : (useEnDef ? 'Выбери слово по определению' : M.labels.promptSecToPrim);
   setCefrPill('quiz-cefr', null);
 
   const options = getQuizOptions(name);
@@ -2622,7 +2678,7 @@ function renderQuiz() {
   optsEl.innerHTML = options.map(optName => {
     const oc = getC(optName);
     if (!oc) return '';
-    const label = dir ? oc.c : oc.n;
+    const label = dir ? (useEnDef ? (oc.def || oc.c) : oc.c) : oc.n;
     return `<button class="quiz-opt" data-name="${escapeAttr(optName)}">${escapeHtml(label)}</button>`;
   }).join('');
 
@@ -3352,12 +3408,14 @@ setupToggle('toggle-sound','sound');
 setupToggle('toggle-shuffle','shuffle');
 setupToggle('toggle-unknown','onlyUnknown');
 setupToggle('toggle-dir','dir');
+setupToggle('toggle-en-def','enDef');
 
 document.getElementById('toggle-theme').classList.toggle('on', state.settings.dark);
 document.getElementById('toggle-sound').classList.toggle('on', state.settings.sound);
 document.getElementById('toggle-shuffle').classList.toggle('on', state.settings.shuffle);
 document.getElementById('toggle-unknown').classList.toggle('on', state.settings.onlyUnknown);
 document.getElementById('toggle-dir').classList.toggle('on', state.settings.dir);
+document.getElementById('toggle-en-def').classList.toggle('on', !!state.settings.enDef);
 
 renderAccentGrid();
 renderBlacklist();
@@ -3488,7 +3546,7 @@ document.getElementById('cust-save').addEventListener('click', () => {
     const level = document.getElementById('cust-level').value.trim();
     const def = document.getElementById('cust-def').value.trim();
     const newWord = {
-      n: name, c: cap, f: '🇬🇧', l: level || '', r: ['user'],
+      n: name, c: cap, f: '🇺🇸', l: level || '', r: ['user'],
       def: def, ipa: '', example: ''
     };
     if (!Array.isArray(state.customWords)) state.customWords = [];
