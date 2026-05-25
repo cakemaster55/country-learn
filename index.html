@@ -2924,6 +2924,25 @@ function levenshtein(a, b) {
 function fuzzyMatch(input, target) {
   const a = norm(input), b = norm(target);
   if (a === b) return 'exact';
+
+  // Для ответов с вариантами (через / или ,) — засчитываем если совпадает любой вариант
+  const variants = b.split(/[\/,]/).map(v => v.trim()).filter(Boolean);
+  if (variants.length > 1) {
+    for (const v of variants) {
+      if (a === v) return 'exact';
+      const maxErrV = v.length >= 6 ? 2 : v.length >= 4 ? 1 : 0;
+      if (levenshtein(a, v) <= maxErrV) return 'close';
+      // Введённое содержится в варианте или вариант содержится в введённом
+      if (v.includes(a) && a.length >= 4) return 'close';
+      if (a.includes(v) && v.length >= 4) return 'close';
+    }
+  }
+
+  // Частичное совпадение: введённое входит в правильный ответ (для длинных фраз)
+  if (a.length >= 5 && b.includes(a)) return 'close';
+  // Правильный ответ входит во введённое (написал больше чем нужно)
+  if (b.length >= 5 && a.includes(b)) return 'close';
+
   const maxErr = b.length >= 6 ? 2 : b.length >= 4 ? 1 : 0;
   return levenshtein(a, b) <= maxErr ? 'close' : 'wrong';
 }
