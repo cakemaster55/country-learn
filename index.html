@@ -1218,8 +1218,8 @@ const MODULES = {
       promptPrimToSec: 'Как перевести на русский?',
       promptSecToPrim: 'Как это по-английски?',
       cardPromptKnow: 'Знаешь перевод?',
-      writePromptPrim: 'Напиши слово по-английски',
-      writePromptSec: 'Напиши перевод',
+      writePromptPrim: 'Напиши перевод на русском',
+      writePromptSec: 'Напиши слово по-английски',
       writeInputPrim: 'Введи слово...',
       writeInputSec: 'Введи перевод...',
       dirLabel: 'От слова к переводу',
@@ -2420,18 +2420,28 @@ function parseBulkText(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
   const result = [];
   for (const line of lines) {
-    // Разделитель: — – - (но не внутри слов вроде US-led)
     const m = line.match(/^(.+?)\s+[—–]\s+(.+)$/) || line.match(/^(.+?)\s+-\s+(.+)$/);
     let word, hintTrans = '';
     if (m) {
-      word = m[1].trim();
-      hintTrans = m[2].trim();
+      const left = m[1].trim();
+      const right = m[2].trim();
+      // Определяем порядок: если левая часть начинается с кириллицы — формат RU—EN
+      if (/^[а-яёА-ЯЁ]/.test(left)) {
+        // Русское — английское: правая часть = слово (со слэшами)
+        word = right.toLowerCase().trim();
+        hintTrans = left;
+      } else {
+        // Обычный порядок EN—RU
+        word = left.toLowerCase().trim();
+        hintTrans = right;
+      }
     } else {
       word = line;
+      // Если строка начинается с кириллицы — пропускаем (не можем извлечь EN)
+      if (/^[а-яёА-ЯЁ]/.test(word)) continue;
+      word = word.toLowerCase().trim();
     }
-    // Только если начинается с латиницы
     if (!/^[a-zA-Z]/.test(word)) continue;
-    word = word.toLowerCase().trim();
     if (word.length > 0 && word.length <= 60) result.push({ word, hintTrans });
   }
   return result;
