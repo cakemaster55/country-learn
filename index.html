@@ -462,7 +462,14 @@ body {
 }
 
 /* ============ RANDOM WORDS PANEL (English module) ============ */
-.random-panel {
+.bulk-import-btn {
+  width:100%; margin-top:8px; padding:11px;
+  background:transparent; border:1.5px dashed var(--line);
+  color:var(--muted); border-radius:12px;
+  font-size:13px; font-weight:700; cursor:pointer;
+  font-family:'Nunito',sans-serif; transition:all 0.15s;
+}
+.bulk-import-btn:active { background:var(--bg-elev); }
   background:var(--bg-elev); border:1px solid var(--line);
   border-radius:18px; padding:16px;
 }
@@ -570,7 +577,7 @@ body {
 
 <!-- Module switcher -->
 <div class="module-switcher">
-  <button class="module-btn active" data-module="countries"><span class="module-ico">🌍</span>Страны</button>
+  <button class="module-btn" data-module="countries"><span class="module-ico">🌍</span>Страны</button>
   <button class="module-btn" data-module="english"><span class="module-ico">🇺🇸</span>Английский</button>
 </div>
 
@@ -611,13 +618,26 @@ body {
     <input class="search-input" id="search" type="text" placeholder="Начни печатать, например: домин..." autocomplete="off">
     <div class="suggestions" id="suggestions"></div>
   </div>
+  <button class="bulk-import-btn" id="bulk-import-btn" style="display:none">📋 Вставить список слов</button>
 
   <div class="ornament">· · ·</div>
   <h2 class="section-title">Мой список <span style="color:var(--muted);font-size:14px;font-weight:600;margin-left:auto" id="list-count"></span></h2>
   <div class="country-list" id="country-list"></div>
 </main>
 
-<!-- ============ STUDY: CARDS ============ -->
+<!-- ============ BULK IMPORT MODAL ============ -->
+<div class="modal-overlay" id="modal-bulk">
+  <div class="bottom-sheet">
+    <h3 class="sheet-title">📋 Вставить список</h3>
+    <p class="sheet-sub" style="margin-bottom:12px">Вставь слова — каждое с новой строки. Переводы через тире (— или -) подтянутся автоматически или распознаются из текста.</p>
+    <textarea id="bulk-text" rows="8" style="width:100%;box-sizing:border-box;background:var(--bg-elev);border:1.5px solid var(--line);border-radius:12px;padding:12px;color:var(--paper);font-size:14px;font-family:'Nunito',sans-serif;resize:vertical;outline:none" placeholder="bilateral — двусторонний&#10;mutual — взаимный&#10;terror attacks&#10;to facilitate"></textarea>
+    <div id="bulk-preview" style="margin-top:10px;font-size:12px;color:var(--muted);font-weight:600;min-height:18px"></div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="sheet-btn" id="bulk-cancel">Отмена</button>
+      <button class="sheet-btn primary" id="bulk-import-go">Добавить</button>
+    </div>
+  </div>
+</div>
 <main id="screen-cards" class="screen">
   <div class="study-header">
     <div class="progress-text">Карточка <b id="card-cur">1</b> из <b id="card-tot">10</b></div>
@@ -2287,10 +2307,14 @@ function applyModuleLabels() {
   if (iconsRow) iconsRow.style.display = isEnglish ? 'none' : 'flex';
 
   // Активная кнопка модуля
+  const bulkBtn = document.getElementById('bulk-import-btn');
+  if (bulkBtn) bulkBtn.style.display = isEnglish ? 'block' : 'none';
+
   const enDefSetting = document.getElementById('setting-en-def');
   if (enDefSetting) enDefSetting.style.display = isEnglish ? 'block' : 'none';
 
   document.querySelectorAll('.module-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.module === state.module);
   });
 }
 
@@ -2389,7 +2413,109 @@ function speakWord(text, lang = 'en-US') {
   });
 })();
 
-// Переключение модуля
+// ==========================================================
+// BULK IMPORT — вставить список слов
+// ==========================================================
+function parseBulkText(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const result = []; // {word, hintTrans}
+  for (const line of lines) {
+    // Разделитель: — (em-dash), – (en-dash), - (hyphen), : или /
+    const m = line.match(/^(.+?)[\s]*[—–\-][\s]*(.+)$/);
+    let word, hintTrans = '';
+    if (m) {
+      word = m[1].trim();
+      hintTrans = m[2].trim();
+    } else {
+      word = line;
+    }
+    // Убираем "to " в начале (инфинитив), артикли a/an/the
+    word = word.replace(/^(to |a |an |the )/i, '').trim();
+    // Только слова/фразы из латинских букв
+    if (!/^[a-zA-Z]/.test(word)) continue;
+    // Нормализуем к нижнему регистру
+    word = word.toLowerCase();
+    if (word.length > 0) result.push({ word, hintTrans });
+  }
+  return result;
+}
+
+function updateBulkPreview() {
+  const text = document.getElementById('bulk-text').value;
+  const parsed = parseBulkText(text);
+  const prev = document.getElementById('bulk-preview');
+  if (!text.trim()) { prev.textContent = ''; return; }
+  if (parsed.length === 0) { prev.textContent = 'Не удалось распознать слова'; return; }
+  const coll = activeColl();
+  const already = parsed.filter(p => coll.list.includes(p.word)).length;
+  const newCount = parsed.length - already;
+  prev.textContent = `Распознано: ${parsed.length} ${pluralWords(parsed.length)}${already ? `, из них ${already} уже в коллекции` : ''}${newCount ? ` · добавить: ${newCount}` : ''}`;
+}
+
+document.getElementById('bulk-import-btn').addEventListener('click', () => {
+  document.getElementById('bulk-text').value = '';
+  document.getElementById('bulk-preview').textContent = '';
+  openModal('modal-bulk');
+  setTimeout(() => document.getElementById('bulk-text').focus(), 300);
+});
+document.getElementById('bulk-cancel').addEventListener('click', () => closeModal('modal-bulk'));
+document.getElementById('bulk-text').addEventListener('input', updateBulkPreview);
+
+document.getElementById('bulk-import-go').addEventListener('click', async () => {
+  const text = document.getElementById('bulk-text').value;
+  const parsed = parseBulkText(text);
+  if (!parsed.length) return;
+
+  const btn = document.getElementById('bulk-import-go');
+  btn.disabled = true;
+  btn.textContent = '⏳ Добавляем…';
+
+  const coll = activeColl();
+  const isEng = state.module === 'english';
+  if (!Array.isArray(state.customWords)) state.customWords = [];
+
+  let added = 0;
+  for (let i = 0; i < parsed.length; i++) {
+    const { word, hintTrans } = parsed[i];
+    btn.textContent = `⏳ ${i+1}/${parsed.length}…`;
+
+    if (coll.list.includes(word)) continue; // уже есть
+
+    if (isEng) {
+      // Проверяем есть ли уже в customWords
+      let existing = state.customWords.find(x => x.n === word);
+      if (!existing) {
+        // Если пользователь дал перевод — используем его, иначе тянем из API
+        let trans = (hintTrans && isSaneTranslation(word, hintTrans)) ? hintTrans : '';
+        let ipa = '', def = '', cefr = '';
+        try {
+          const camb = await fetchCambridge(word);
+          if (camb) {
+            if (!trans && camb.translation) trans = camb.translation;
+            ipa = camb.ipa || ''; def = camb.def || ''; cefr = camb.cefr || '';
+          }
+        } catch(e) {}
+        if (!trans) {
+          try { trans = await fetchTranslation(word) || hintTrans || ''; } catch(e) {}
+        }
+        existing = { n: word, c: trans, f: '🇺🇸', l: cefr, r: ['import'], ipa, def, example: '' };
+        state.customWords.push(existing);
+      }
+      coll.list.push(word);
+    } else {
+      // Страны — просто добавляем если есть в датасете
+      const c = getC(word);
+      if (c) coll.list.push(word);
+    }
+    added++;
+  }
+
+  save(); renderAll();
+  closeModal('modal-bulk');
+  btn.disabled = false;
+  btn.textContent = 'Добавить';
+  if (added > 0) showAlert('Готово', `Добавлено ${added} ${pluralWords(added)} в коллекцию.`);
+});
 document.querySelectorAll('.module-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const mod = btn.dataset.module;
@@ -3003,8 +3129,9 @@ document.getElementById('edit-save').addEventListener('click', () => {
     editTarget.name = name; editTarget.icon = pickedIcon;
   } else {
     const id = uid();
-    state.collections.push({id, name, icon: pickedIcon, list:[], progress:{}});
-    state.activeId = id;
+    const m = activeModule();
+    m.collections.push({id, name, icon: pickedIcon, list:[], progress:{}});
+    m.activeId = id;
   }
   save(); closeModal('modal-edit'); closeModal('modal-colls'); renderAll();
 });
