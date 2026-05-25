@@ -1530,7 +1530,7 @@ async function fetchLetterPool(letter) {
     if (!r.ok) { wordPoolByLetter[letter] = []; return []; }
     const words = await r.json();
     const pool = words
-      .filter(w => w.word && /^[a-z]{3,14}$/.test(w.word))
+      .filter(w => w.word && /^[a-z][a-z '\-]{1,40}$/.test(w.word))
       .map(w => {
         const tags = w.tags || [];
         const freqTag = tags.find(t => t.startsWith('f:'));
@@ -1862,7 +1862,7 @@ async function fetchSuggestions(prefix) {
     if (!r.ok) return [];
     const data = await r.json();
     return data
-      .filter(it => it.word && /^[a-z]{2,14}$/.test(it.word))
+      .filter(it => it.word && /^[a-z][a-z '\-]{1,40}$/.test(it.word))
       .map(it => {
         const t = (it.tags || []).find(t => t.startsWith('f:'));
         const freq = t ? parseFloat(t.slice(2)) : null;
@@ -2383,7 +2383,7 @@ async function openDefinitionModal(name) {
     cefrBadge.className = `cefr-badge cefr-${item.l}`;
   }
   document.getElementById('def-trans').textContent = item?.c || '';
-  document.getElementById('def-en').textContent = item?.def || '— определение не найдено —';
+  document.getElementById('def-en').textContent = item?.def || (item?.n?.includes(' ') ? '— определения для фраз не предусмотрено —' : '— определение не найдено —');
   document.getElementById('def-ru').textContent = item?.c || '—';
   if (item?.example) {
     exSection.style.display = 'block';
@@ -2418,10 +2418,10 @@ function speakWord(text, lang = 'en-US') {
 // ==========================================================
 function parseBulkText(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-  const result = []; // {word, hintTrans}
+  const result = [];
   for (const line of lines) {
-    // Разделитель: — (em-dash), – (en-dash), - (hyphen), : или /
-    const m = line.match(/^(.+?)[\s]*[—–\-][\s]*(.+)$/);
+    // Разделитель: — – - (но не внутри слов вроде US-led)
+    const m = line.match(/^(.+?)\s+[—–]\s+(.+)$/) || line.match(/^(.+?)\s+-\s+(.+)$/);
     let word, hintTrans = '';
     if (m) {
       word = m[1].trim();
@@ -2429,13 +2429,10 @@ function parseBulkText(text) {
     } else {
       word = line;
     }
-    // Убираем "to " в начале (инфинитив), артикли a/an/the
-    word = word.replace(/^(to |a |an |the )/i, '').trim();
-    // Только слова/фразы из латинских букв
+    // Только если начинается с латиницы
     if (!/^[a-zA-Z]/.test(word)) continue;
-    // Нормализуем к нижнему регистру
-    word = word.toLowerCase();
-    if (word.length > 0) result.push({ word, hintTrans });
+    word = word.toLowerCase().trim();
+    if (word.length > 0 && word.length <= 60) result.push({ word, hintTrans });
   }
   return result;
 }
@@ -2479,31 +2476,40 @@ document.getElementById('bulk-import-go').addEventListener('click', async () => 
     const { word, hintTrans } = parsed[i];
     btn.textContent = `⏳ ${i+1}/${parsed.length}…`;
 
-    if (coll.list.includes(word)) continue; // уже есть
+    if (coll.list.includes(word)) continue;
 
     if (isEng) {
-      // Проверяем есть ли уже в customWords
       let existing = state.customWords.find(x => x.n === word);
       if (!existing) {
-        // Если пользователь дал перевод — используем его, иначе тянем из API
-        let trans = (hintTrans && isSaneTranslation(word, hintTrans)) ? hintTrans : '';
+        const isPhrase = word.includes(' ');
+        const hasHint = hintTrans && isSaneTranslation(word, hintTrans);
+
+        let trans = hasHint ? hintTrans : '';
         let ipa = '', def = '', cefr = '';
-        try {
-          const camb = await fetchCambridge(word);
-          if (camb) {
-            if (!trans && camb.translation) trans = camb.translation;
-            ipa = camb.ipa || ''; def = camb.def || ''; cefr = camb.cefr || '';
-          }
-        } catch(e) {}
-        if (!trans) {
-          try { trans = await fetchTranslation(word) || hintTrans || ''; } catch(e) {}
+
+        if (!isPhrase) {
+          // Одиночное слово — пробуем Cambridge
+          try {
+            const camb = await fetchCambridge(word);
+            if (camb) {
+              if (!trans && camb.translation) trans = camb.translation;
+              ipa = camb.ipa || '';
+              def = camb.def || '';
+              cefr = camb.cefr || '';
+            }
+          } catch(e) {}
         }
+
+        // Если перевода всё ещё нет — Google Translate
+        if (!trans) {
+          try { trans = await fetchTranslation(word) || ''; } catch(e) {}
+        }
+
         existing = { n: word, c: trans, f: '🇺🇸', l: cefr, r: ['import'], ipa, def, example: '' };
         state.customWords.push(existing);
       }
       coll.list.push(word);
     } else {
-      // Страны — просто добавляем если есть в датасете
       const c = getC(word);
       if (c) coll.list.push(word);
     }
